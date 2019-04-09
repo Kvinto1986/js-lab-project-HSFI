@@ -1,0 +1,30 @@
+{
+  "name": "js-lab-project-HSFI",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "concurrently \"cd backend && nodemon server.js --exec babel-node --presets babel-preset-env\" \"cd client && npm start\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Kvinto1986/js-lab-project-HSFI.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Kvinto1986/js-lab-project-HSFI/issues"
+  },
+  "homepage": "https://github.com/Kvinto1986/js-lab-project-HSFI#readme",
+  "dependencies": {
+    "concurrently": "^4.1.0",
+    "nodemon": "^1.18.11"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-core": "^6.26.3",
+    "babel-loader": "^8.0.5",
+    "babel-preset-env": "^1.7.0"
+  }
+}
