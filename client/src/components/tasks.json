@@ -1,6 +1,0 @@
-[
-  {"value": "createNewSeller", "label": "Create new seller"},
-  {"value": "createSellerCard", "label": "Create new seller card"},
-  {"value": "getCall", "label": "Receive calls"},
-  {"value": "inspection", "label": "Inspection"}
-]
