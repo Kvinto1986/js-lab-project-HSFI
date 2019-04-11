@@ -3,6 +3,7 @@ const isEmpty = require('./is-empty');
 
 module.exports = function validateRegisterInput(data) {
     let errors = {};
+    data.role = !isEmpty(data.role) ? data.role : '';
     data.country = !isEmpty(data.country) ? data.country : '';
     data.name = !isEmpty(data.name) ? data.name : '';
     data.organization = !isEmpty(data.organization) ? data.organization : '';
@@ -10,6 +11,10 @@ module.exports = function validateRegisterInput(data) {
     data.email = !isEmpty(data.email) ? data.email : '';
     data.password = !isEmpty(data.password) ? data.password : '';
     data.password_confirm = !isEmpty(data.password_confirm) ? data.password_confirm : '';
+
+    if(Validator.isEmpty(data.role)) {
+        errors.role = 'Role field is required';
+    }
 
     if(Validator.isEmpty(data.country)) {
         errors.country = 'Country field is required';
@@ -22,6 +27,7 @@ module.exports = function validateRegisterInput(data) {
     if(Validator.isEmpty(data.name)) {
         errors.name = 'Name field is required';
     }
+
 
     if(Validator.isEmpty(data.organization)) {
         errors.organization = 'Organization field is required';

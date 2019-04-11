@@ -44,7 +44,9 @@ class Register extends Component {
 
     handleSubmit(e) {
         e.preventDefault();
+
         const user = {
+            role: this.state.role,
             country: this.state.country,
             name: this.state.name,
             organization: this.state.organization,
@@ -72,10 +74,9 @@ class Register extends Component {
 
     };
 
-    handleChangeTask = (tasksSelect) => {
-        this.state.tasks.push(tasksSelect.value)};
-
-
+    handleChangeTask = (tasks) => {
+        this.setState({tasks});
+    }
 
     componentWillReceiveProps(nextProps) {
         if (nextProps.auth.isAuthenticated) {
@@ -99,26 +100,34 @@ class Register extends Component {
         const {countrySelect} = this.state.country;
         const {organizationSelect} = this.state.organization;
         const {roleSelect} = this.state.role;
-        const {tasksSelect} = this.state.tasks;
 
-        const Tasks = () => {
+        const Task = () => {
+            console.log(this.state)
+            if (this.state.role === 'operator') {
+                return (
+                    <div className="form-group">
+                        <Select
+                            isMulti
+                            joinValues
+                            options={tasks}
+                            placeholder={'Select tasks...'}
+                            value={this.state.tasks}
+                            onChange={this.handleChangeTask}
+                            className={classnames('form-control form-control-lg', {
+                                'is-invalid': errors.tasks
+                            })}
+                        />
+                        {errors.tasks && (<div className="invalid-feedback">{errors.tasks}</div>)}
 
-            return console.log(this.state)
-        };
-        Tasks()
+                    </div>
+                )
+            }
+            else return null
+        }
         return (
             <div className="container" style={{marginTop: '50px', width: '700px'}}>
                 <h2 style={{marginBottom: '40px'}}>Registration new user</h2>
                 <form onSubmit={this.handleSubmit}>
-                    <div className="form-group">
-                        <Select
-                            options={tasks}
-                            placeholder={'Select tasks...'}
-                            value={tasksSelect}
-                            onChange={this.handleChangeTask}
-                        />
-
-                    </div>
                     <div className="form-group">
                         <Select
                             options={roles}
@@ -144,7 +153,8 @@ class Register extends Component {
                         {errors.country && (<div className="invalid-feedback">{errors.country}</div>)}
                     </div>
 
-
+                    <Task
+                    />
 
                     <div className="form-group">
 

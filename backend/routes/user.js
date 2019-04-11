@@ -30,9 +30,24 @@ router.post('/register', function(req, res) {
                 r: 'pg',
                 d: 'mm'
             });
+
+            function getTasks() {
+                if(req.body.role==='operator'){
+                    const arr=req.body.tasks.map(function (elem) {
+                        return elem.value
+                    });
+                    return arr
+                }
+                else return ["createNewSeller","createSellerCard","getCall","inspection"]
+            }
+
+            const tasks=getTasks()
+
             const newUser = new User({
+                role:req.body.role,
                 country: req.body.country,
                 name: req.body.name,
+                tasks:tasks,
                 organization: req.body.organization,
                 phone: req.body.phone,
                 email: req.body.email,
