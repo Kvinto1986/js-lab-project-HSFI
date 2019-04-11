@@ -12,7 +12,7 @@ export const registerUser = (user, history) => dispatch => {
                     payload: err.response.data
                 });
             });
-}
+};
 
 export const loginUser = (user) => dispatch => {
     axios.post('/api/users/login', user)

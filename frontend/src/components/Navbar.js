@@ -23,7 +23,7 @@ class Navbar extends Component {
                             Logout
                 </a>
             </ul>
-        )
+        );
       const guestLinks = (
         <ul className="navbar-nav ml-auto">
             <li className="nav-item">
@@ -33,7 +33,7 @@ class Navbar extends Component {
                 <Link className="nav-link" to="/login">Login</Link>
             </li>
         </ul>
-      )
+      );
         return(
             <nav className="navbar navbar-expand-lg navbar-light bg-light">
                 <Link className="navbar-brand" to="/">Street Food Quality Supervision</Link>
