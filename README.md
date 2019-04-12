@@ -1,1 +1,1 @@
-# js-lab-project-HSFI
+JS-LAB-HSFI-PROJECT
