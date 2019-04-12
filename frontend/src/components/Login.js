@@ -12,7 +12,7 @@ class Login extends Component {
             email: '',
             password: '',
             errors: {}
-        }
+        };
         this.handleInputChange = this.handleInputChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
     }
@@ -28,7 +28,7 @@ class Login extends Component {
         const user = {
             email: this.state.email,
             password: this.state.password,
-        }
+        };
         this.props.loginUser(user);
     }
 

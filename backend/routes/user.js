@@ -98,8 +98,11 @@ router.post('/login', (req, res) => {
                             const payload = {
                                 id: user.id,
                                 name: user.name,
-                                avatar: user.avatar
-                            }
+                                role:user.role,
+                                tasks:user.tasks,
+                                avatar: user.avatar,
+
+                            };
                             jwt.sign(payload, 'secret', {
                                 expiresIn: 3600
                             }, (err, token) => {

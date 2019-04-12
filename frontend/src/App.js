@@ -10,6 +10,17 @@ import Navbar from './components/Navbar';
 import Register from './components/Register';
 import Login from './components/Login';
 import Home from './components/Home';
+import SellerCard from './components/tasksPages/createSellerCard';
+import NewSeller from './components/tasksPages/createNewSeller';
+import Call from './components/tasksPages/getCall';
+import Inspection from './components/tasksPages/inspection';
+import OperatorsProfiles from './components/tasksPages/operatorsProfiles';
+import CoordinatorsProfiles from './components/tasksPages/coordinatorsProfiles';
+import AdminPage from './components/tasksPages/adminPage';
+
+
+
+
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 
@@ -32,10 +43,17 @@ class App extends Component {
         <Router>
             <div>
               <Navbar />
-                <Route exact path="/" component={ Home } />
-                <div className="container">
-                  <Route exact path="/register" component={ Register } />
-                  <Route exact path="/login" component={ Login } />
+              <Route exact path="/" component={ Home } />
+              <div className="container">
+              <Route exact path="/sellerCards" component={ SellerCard } />
+              <Route exact path="/newSeller" component={ NewSeller } />
+              <Route exact path="/calls" component={ Call } />
+                <Route exact path="/inspection" component={ Inspection } />
+                <Route exact path="/operatorsProfiles" component={ OperatorsProfiles } />
+                <Route exact path="/coordinatorsProfiles" component={ CoordinatorsProfiles } />
+                <Route exact path="/admin" component={ AdminPage } />
+              <Route exact path="/register" component={ Register } />
+              <Route exact path="/login" component={ Login } />
                 </div>
             </div>
           </Router>
