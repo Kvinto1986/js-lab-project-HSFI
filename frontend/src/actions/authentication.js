@@ -14,6 +14,17 @@ export const registerUser = (user, history) => dispatch => {
             });
 };
 
+export const registerSeller = (user, history) => dispatch => {
+    axios.post('/api/sellers/registerSeller', user)
+        .then(res => history.push('/'))
+        .catch(err => {
+            dispatch({
+                type: GET_ERRORS,
+                payload: err.response.data
+            });
+        });
+};
+
 export const loginUser = (user) => dispatch => {
     axios.post('/api/users/login', user)
             .then(res => {

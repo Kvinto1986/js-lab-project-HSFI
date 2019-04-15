@@ -57,7 +57,9 @@ class Register extends Component {
             password_confirm: this.state.password_confirm
         };
         this.props.registerUser(user, this.props.history);
+        console.log(this.props)
     }
+
 
     handleChangeCountry = (countrySelect) => {
         this.setState({country: countrySelect.value});

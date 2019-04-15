@@ -14,6 +14,7 @@ class Navbar extends Component {
     onLogout(e) {
         e.preventDefault();
         this.props.logoutUser(this.props.history);
+        console.log(this.props)
     }
 
     render() {
@@ -43,13 +44,14 @@ class Navbar extends Component {
             if (user.role === 'coordinator') {
                 return (
                     <CoordinatorNav
-                        tasks={user.tasks}
                     />
+
                 )
             }
             if (user.role === 'operator') {
                 return (
                     <OperatorNav
+                        user={user}
                     />
                 )
             }

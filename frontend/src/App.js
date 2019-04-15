@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { BrowserRouter as Router, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Route} from 'react-router-dom';
 import { Provider } from 'react-redux';
 import store from './store';
 import jwt_decode from 'jwt-decode';
@@ -18,10 +18,6 @@ import OperatorsProfiles from './components/tasksPages/operatorsProfiles';
 import CoordinatorsProfiles from './components/tasksPages/coordinatorsProfiles';
 import AdminPage from './components/tasksPages/adminPage';
 
-
-
-
-
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 if(localStorage.jwtToken) {
@@ -37,6 +33,7 @@ if(localStorage.jwtToken) {
 }
 
 class App extends Component {
+
   render() {
     return (
       <Provider store = { store }>
@@ -45,8 +42,8 @@ class App extends Component {
               <Navbar />
               <Route exact path="/" component={ Home } />
               <div className="container">
-              <Route exact path="/sellerCards" component={ SellerCard } />
-              <Route exact path="/newSeller" component={ NewSeller } />
+                <Route exact path='/newSeller' component={NewSeller} />
+                <Route exact path='/sellerCards' component={SellerCard} />
               <Route exact path="/calls" component={ Call } />
                 <Route exact path="/inspection" component={ Inspection } />
                 <Route exact path="/operatorsProfiles" component={ OperatorsProfiles } />
