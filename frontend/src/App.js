@@ -16,6 +16,7 @@ import Call from './components/tasksPages/getCall';
 import Inspection from './components/tasksPages/inspection';
 import OperatorsProfiles from './components/tasksPages/operatorsProfiles';
 import CoordinatorsProfiles from './components/tasksPages/coordinatorsProfiles';
+import Success from './components/tasksPages/success';
 import AdminPage from './components/tasksPages/adminPage';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -43,6 +44,7 @@ class App extends Component {
               <Route exact path="/" component={ Home } />
               <div className="container">
                 <Route exact path='/newSeller' component={NewSeller} />
+                <Route exact path='/Success' component={Success} />
                 <Route exact path='/sellerCards' component={SellerCard} />
               <Route exact path="/calls" component={ Call } />
                 <Route exact path="/inspection" component={ Inspection } />

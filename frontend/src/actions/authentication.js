@@ -15,8 +15,8 @@ export const registerUser = (user, history) => dispatch => {
 };
 
 export const registerSeller = (user, history) => dispatch => {
-    axios.post('/api/sellers/registerSeller', user)
-        .then(res => history.push('/'))
+    axios.post('/api/sellers/sellerRegister', user)
+        .then(res => history.push('/success'))
         .catch(err => {
             dispatch({
                 type: GET_ERRORS,

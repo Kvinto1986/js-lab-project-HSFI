@@ -16,8 +16,8 @@ const SellerSchema = new Schema({
         required: true
     },
     photo:{
-        type: String,
-        required: true
+        data: Buffer,
+        contentType: String
     },
     license:{
         type: String,
@@ -40,10 +40,6 @@ const SellerSchema = new Schema({
         type: String,
     },
     email: {
-        type: String,
-        required: true
-    },
-    password: {
         type: String,
         required: true
     },

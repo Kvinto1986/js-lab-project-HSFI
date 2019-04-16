@@ -57,7 +57,7 @@ class Register extends Component {
             password_confirm: this.state.password_confirm
         };
         this.props.registerUser(user, this.props.history);
-        console.log(this.props)
+
     }
 
 
@@ -80,7 +80,7 @@ class Register extends Component {
         this.setState({tasks});
     }
 
-    componentWillReceiveProps(nextProps) {
+     componentWillReceiveProps(nextProps) {
         if (nextProps.auth.isAuthenticated) {
             this.props.history.push('/')
         }
@@ -102,9 +102,8 @@ class Register extends Component {
         const {countrySelect} = this.state.country;
         const {organizationSelect} = this.state.organization;
         const {roleSelect} = this.state.role;
-
+        console.log(errors)
         const Task = () => {
-            console.log(this.state)
             if (this.state.role === 'operator') {
                 return (
                     <div className="form-group">

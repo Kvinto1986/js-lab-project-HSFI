@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import { Redirect } from 'react-router-dom';
 import {connect} from 'react-redux';
 import {withRouter} from 'react-router-dom';
+import PropTypes from 'prop-types';
 import {registerSeller} from '../../actions/authentication';
 import Select from "react-select";
 import classnames from "classnames";
@@ -14,15 +15,19 @@ class NewSeller extends Component {
     constructor() {
         super();
         this.state = {
-            operatorName: '',
+            operatorName: "",
             country: '',
-            name: '',
-            organization: '',
-            tasks: [],
-            phone: '',
-            email: '',
-            password: '',
-            password_confirm: '',
+            name: "",
+            photo: "",
+            phone: "",
+            email: "",
+            license: "",
+            photoLicense:'',
+            location:'',
+            schedule: "",
+            ingredients: "",
+            foodGroup: "",
+            data: "",
             errors: {}
         };
 
@@ -43,18 +48,22 @@ class NewSeller extends Component {
         e.preventDefault();
 
         const user = {
-            role: this.state.role,
+            operatorName: this.props.auth.user.name,
             country: this.state.country,
             name: this.state.name,
-            organization: this.state.organization,
-            tasks: this.state.tasks,
+            photo: this.state.photo,
             phone: this.state.phone,
             email: this.state.email,
-            password: this.state.password,
-            password_confirm: this.state.password_confirm
+            license: this.state.license,
+            location:this.state.location,
+            schedule: this.state.schedule,
+            ingredients: this.state.ingredients,
+            foodGroup: this.state.foodGroup,
+            photoLicense:this.state.photoLicense,
+
         };
-        
-        console.log(this.props)
+        this.props.registerSeller(user, this.props.history);
+        console.log(user)
     }
 
     handleChangeCountry = (countrySelect) => {
@@ -62,11 +71,16 @@ class NewSeller extends Component {
 
     };
 
-
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.errors) {
+            this.setState({
+                errors: nextProps.errors
+            });
+        }
+    }
 
     render() {
         const {isAuthenticated, user} = this.props.auth;
-        console.log(this.props);
         const {errors} = this.state;
         const {countrySelect} = this.state.country;
 
@@ -75,6 +89,15 @@ class NewSeller extends Component {
             <div className="container" style={{marginTop: '50px', width: '700px'}}>
                 <h2 style={{marginBottom: '40px'}}>Registration new seller</h2>
                 <form onSubmit={this.handleSubmit}>
+                        <div className="form-group">
+                            <input
+                                type="text"
+                                placeholder={user.name}
+                                className={classnames('form-control form-control-lg')}
+                            disabled = 'disabled'
+                                value={user.name}
+                            />
+                        </div>
 
                     <div className="form-group">
                         <Select
@@ -90,10 +113,9 @@ class NewSeller extends Component {
                     </div>
 
                     <div className="form-group">
-
                         <input
                             type="text"
-                            placeholder={user.name}
+                            placeholder="Name"
                             className={classnames('form-control form-control-lg', {
                                 'is-invalid': errors.name
                             })}
@@ -106,8 +128,78 @@ class NewSeller extends Component {
 
                     <div className="form-group">
                         <input
+                            type="file"
+                            placeholder="Photo"
+                            className={classnames('form-control form-control-lg', {
+                                'is-invalid': errors.photo
+                            })}
+                            name="photo"
+                            onChange={this.handleInputChange}
+                            value={this.state.photo}
+                        />
+                        {errors.photo && (<div className="invalid-feedback">{errors.photo}</div>)}
+                    </div>
+
+                    <div className="form-group">
+                        <input
                             type="text"
-                            placeholder="Phone number"
+                            placeholder="License"
+                            className={classnames('form-control form-control-lg', {
+                                'is-invalid': errors.license
+                            })}
+                            name="license"
+                            onChange={this.handleInputChange}
+                            value={this.state.license}
+                        />
+                        {errors.license && (<div className="invalid-feedback">{errors.license}</div>)}
+                    </div>
+
+                    <div className="form-group">
+                        <input
+                            type="text"
+                            placeholder="License photo"
+                            className={classnames('form-control form-control-lg', {
+                                'is-invalid': errors.photoLicense
+                            })}
+                            name="photoLicense"
+                            onChange={this.handleInputChange}
+                            value={this.state.photoLicense}
+                        />
+                        {errors.photoLicense && (<div className="invalid-feedback">{errors.photoLicense}</div>)}
+                    </div>
+
+                    <div className="form-group">
+                        <input
+                            type="text"
+                            placeholder="location"
+                            className={classnames('form-control form-control-lg', {
+                                'is-invalid': errors.location
+                            })}
+                            name="location"
+                            onChange={this.handleInputChange}
+                            value={this.state.location}
+                        />
+                        {errors.location && (<div className="invalid-feedback">{errors.location}</div>)}
+                    </div>
+
+                    <div className="form-group">
+                        <input
+                            type="text"
+                            placeholder="schedule"
+                            className={classnames('form-control form-control-lg', {
+                                'is-invalid': errors.schedule
+                            })}
+                            name="schedule"
+                            onChange={this.handleInputChange}
+                            value={this.state.schedule}
+                        />
+                        {errors.schedule && (<div className="invalid-feedback">{errors.schedule}</div>)}
+                    </div>
+
+                    <div className="form-group">
+                        <input
+                            type="text"
+                            placeholder="phone"
                             className={classnames('form-control form-control-lg', {
                                 'is-invalid': errors.phone
                             })}
@@ -117,6 +209,7 @@ class NewSeller extends Component {
                         />
                         {errors.phone && (<div className="invalid-feedback">{errors.phone}</div>)}
                     </div>
+
                     <div className="form-group">
                         <input
                             type="email"
@@ -130,6 +223,36 @@ class NewSeller extends Component {
                         />
                         {errors.email && (<div className="invalid-feedback">{errors.email}</div>)}
                     </div>
+
+                    <div className="form-group">
+                        <input
+                            type="text"
+                            placeholder="ingredients"
+                            className={classnames('form-control form-control-lg', {
+                                'is-invalid': errors.ingredients
+                            })}
+                            name="ingredients"
+                            onChange={this.handleInputChange}
+                            value={this.state.ingredients}
+                        />
+                        {errors.ingredients && (<div className="invalid-feedback">{errors.ingredients}</div>)}
+                    </div>
+
+                    <div className="form-group">
+                        <input
+                            type="text"
+                            placeholder="foodGroup"
+                            className={classnames('form-control form-control-lg', {
+                                'is-invalid': errors.foodGroup
+                            })}
+                            name="foodGroup"
+                            onChange={this.handleInputChange}
+                            value={this.state.foodGroup}
+                        />
+                        {errors.foodGroup && (<div className="invalid-feedback">{errors.foodGroup}</div>)}
+                    </div>
+
+
                     <div className="form-group">
                         <button type="submit" className="btn btn-primary">
                             Register Seller
@@ -137,16 +260,20 @@ class NewSeller extends Component {
                     </div>
                 </form>
             </div>
+
         )}
         else return(<Redirect to={{
             pathname: '/login',
         }} />)
     }
 }
-
+NewSeller.propTypes = {
+    registerSeller: PropTypes.func.isRequired,
+    auth: PropTypes.object.isRequired
+};
 const mapStateToProps = state => ({
     auth: state.auth,
     errors: state.errors
 });
 
-export default connect(mapStateToProps)(withRouter(NewSeller));
+export default connect(mapStateToProps, {registerSeller})(withRouter(NewSeller))
