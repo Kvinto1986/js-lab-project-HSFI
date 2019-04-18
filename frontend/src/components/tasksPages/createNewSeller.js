@@ -33,7 +33,7 @@ class NewSeller extends Component {
 
         this.handleInputChange = this.handleInputChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
-
+        this.handleInputFileChange = this.handleInputFileChange.bind(this);
         this.handleChangeCountry = this.handleChangeCountry.bind(this);
 
     }
@@ -41,6 +41,14 @@ class NewSeller extends Component {
     handleInputChange(e) {
         this.setState({
             [e.target.name]: e.target.value
+        })
+    }
+
+    handleInputFileChange(e) {
+        const formData = new FormData();
+        formData.append('file',e.target.files[0]);
+        this.setState({
+            [e.target.name]: formData
         })
     }
 
@@ -134,8 +142,8 @@ class NewSeller extends Component {
                                 'is-invalid': errors.photo
                             })}
                             name="photo"
-                            onChange={this.handleInputChange}
-                            value={this.state.photo}
+                            onChange={this.handleInputFileChange}
+
                         />
                         {errors.photo && (<div className="invalid-feedback">{errors.photo}</div>)}
                     </div>

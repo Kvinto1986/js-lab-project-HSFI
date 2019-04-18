@@ -6,7 +6,6 @@ module.exports = function validateRegisterInput(data) {
     data.operatorName = !isEmpty(data.operatorName) ? data.operatorName : '';
     data.name = !isEmpty(data.name) ? data.name : '';
     data.country = !isEmpty(data.country) ? data.country : '';
-    data.photo = !isEmpty(data.photo) ? data.photo : '';
     data.license = !isEmpty(data.license) ? data.license : '';
     data.photoLicense = !isEmpty(data.photoLicense) ? data.photoLicense : '';
     data.location = !isEmpty(data.location) ? data.location : '';
@@ -34,9 +33,6 @@ module.exports = function validateRegisterInput(data) {
     }
 
 
-    if(Validator.isEmpty(data.photo)) {
-        errors.photo = 'photo field is required';
-    }
 
     if(Validator.isEmpty(data.phone)) {
         errors.phone = 'Phone is required';

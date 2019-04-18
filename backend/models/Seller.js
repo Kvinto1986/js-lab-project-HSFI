@@ -16,8 +16,7 @@ const SellerSchema = new Schema({
         required: true
     },
     photo:{
-        data: Buffer,
-        contentType: String
+        type: String,
     },
     license:{
         type: String,

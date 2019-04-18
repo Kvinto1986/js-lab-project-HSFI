@@ -3,6 +3,7 @@ const router = express.Router();
 const validateRegisterInput = require('../validation/sellerRegister');
 const Seller = require('../models/Seller');
 
+
 router.post('/sellerRegister', function(req, res) {
 
     const {errors, isValid} = validateRegisterInput(req.body);
@@ -23,12 +24,22 @@ router.post('/sellerRegister', function(req, res) {
             if (!isValid) {
                 return res.status(400).json(errors);
             }
+            
+            let sampleFile = req.file.photo;
 
-            const newUser = new Seller({
+            sampleFile.mv(__dirname+'files/filename.jpg', function(err) {
+                if (err)
+                    return res.status(500).send(err);
+
+                res.send('File uploaded!');
+            });
+
+            const newSeller = new Seller({
+
                 operatorName: req.body.operatorName,
                 name: req.body.name,
                 country: req.body.country,
-                photo: req.body.photo,
+                photo: req.body.name,
                 license: req.body.license,
                 photoLicense: req.body.photoLicense,
                 location: req.body.location,
@@ -39,10 +50,10 @@ router.post('/sellerRegister', function(req, res) {
                 foodGroup: req.body.foodGroup,
 
             });
-            newUser
+            newSeller
                 .save()
-                .then(user => {
-                    res.json(user)
+                .then(seller => {
+                    res.json(seller)
                 });
 
         }
