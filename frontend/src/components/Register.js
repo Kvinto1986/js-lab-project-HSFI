@@ -11,6 +11,9 @@ import roles from '../resourses/roles'
 import tasks from "../resourses/tasks";
 
 
+
+
+
 class Register extends Component {
 
     constructor() {
@@ -68,7 +71,6 @@ class Register extends Component {
 
     handleChangeOrganization = (organizationSelect) => {
         this.setState({organization: organizationSelect.value});
-
     };
 
     handleChangeRole = (roleSelect) => {

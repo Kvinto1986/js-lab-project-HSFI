@@ -7,6 +7,8 @@ const fileUpload = require('express-fileupload');
 
 const users = require('./routes/user');
 const sellers = require('./routes/seller');
+const organizations = require('./routes/organization');
+
 
 mongoose.connect(config.DB, { useNewUrlParser: true }).then(
     () => {console.log('Database is connected') },
@@ -21,6 +23,7 @@ app.use(fileUpload());
 
 app.use('/api/users', users);
 app.use('/api/sellers', sellers);
+app.use('/api/organizations', organizations);
 
 const PORT = process.env.PORT || 5000;
 

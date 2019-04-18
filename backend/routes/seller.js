@@ -24,7 +24,7 @@ router.post('/sellerRegister', function(req, res) {
             if (!isValid) {
                 return res.status(400).json(errors);
             }
-            
+
             let sampleFile = req.file.photo;
 
             sampleFile.mv(__dirname+'files/filename.jpg', function(err) {

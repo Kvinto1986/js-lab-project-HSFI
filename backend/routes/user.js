@@ -52,6 +52,7 @@ router.post('/register', function(req, res) {
                 phone: req.body.phone,
                 email: req.body.email,
                 password: req.body.password,
+                confirmation:false,
                 avatar
             });
             
