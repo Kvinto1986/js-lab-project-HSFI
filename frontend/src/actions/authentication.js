@@ -62,3 +62,14 @@ export const getOrganizations = () => {
     axios.post('/api/organizations/getOrganizations')
         .then(res => res);
 };
+
+export const registerOrganizations = (organization) => dispatch => {
+    axios.post('/api/organizations/registration',organization)
+        .then(res => res)
+        .catch(err => {
+            dispatch({
+                type: GET_ERRORS,
+                payload: err.response.data
+            });
+        });
+};

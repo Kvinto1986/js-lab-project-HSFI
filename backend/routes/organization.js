@@ -4,7 +4,7 @@ const validateRegisterInput = require('../validation/organization');
 const fs=require('file-system')
 const Organization = require('../models/Organization');
 
-router.post('/organization', function(req, res) {
+router.post('/registration', function(req, res) {
 
     const { errors, isValid } = validateRegisterInput(req.body);
 
@@ -12,16 +12,17 @@ router.post('/organization', function(req, res) {
         return res.status(400).json(errors);
     }
     Organization.findOne({
-        name: req.body.name
+        organization: req.body.organizationNew
     }).then(organization => {
         if(organization) {
             return res.status(400).json({
-                organization: 'Email already exists'
+                organization: 'Organization already exists'
             });
         }
         else {
             const newOrganization = new Organization({
-                organization: req.body.organization,
+                organization: req.body.organizationNew,
+                address: req.body.organizationAddress,
             });
             newOrganization
                 .save()
@@ -34,7 +35,7 @@ router.post('/organization', function(req, res) {
 
 router.post('/getOrganizations', function(req, res) {
     Organization.find({}, function(err, organizations) {
-        fs.writeFileSync('../frontend/src/resourses/organizations.json', JSON.stringify(organizations));
+        fs.writeFileSync('../frontend/src/resourses/organizationsList/organizations.json', JSON.stringify(organizations));
         res.send(organizations);
     });
 });

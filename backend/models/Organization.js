@@ -7,6 +7,10 @@ const OrganizationSchema = new Schema({
     organization: {
         type: String,
         required: true
+    },
+    address: {
+        type: String,
+        required: true
     }
 });
 
