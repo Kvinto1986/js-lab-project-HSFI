@@ -1,28 +1,37 @@
 import Select from "react-select";
 import tasks from "../../resourses/tasks";
 import classnames from "classnames";
-import React from "react";
+import React, {Component} from 'react';
 
-const Task = ({...props}) => {
-    console.log(props)
+class TaskSelect extends Component {
+    constructor() {
+        super();
 
-        return (
-            <div className="form-group">
-                <Select
-                    isMulti
-                    joinValues
-                    options={tasks}
-                    placeholder={'Select tasks...'}
-                    value={props.role}
-                    onChange={props.handleChangeTask}
-                    className={classnames('form-control form-control-lg', {
-                        'is-invalid': props.errors.tasks
-                    })}
-                />
-                {props.errors.tasks && (<div className="invalid-feedback">{props.errors.tasks}</div>)}
+    }
+    render() {
 
-            </div>
-        )
-};
+        if (this.props.role==='operator') {
+            return (
+                <div className="form-group">
+                    <Select
+                        isMulti
+                        joinValues
+                        options={tasks}
+                        placeholder={'Select tasks...'}
+                        value={this.props.tasks}
+                        onChange={this.props.handleChangeTask}
+                        className={classnames('form-control form-control-lg', {
+                            'is-invalid': this.props.errors.tasks
+                        })}
+                    />
+                    {this.props.errors.tasks && (<div className="invalid-feedback">{this.props.errors.tasks}</div>)}
 
-export default Task
+                </div>
+            )
+        }
+        else return null
+
+    };
+}
+
+export default TaskSelect

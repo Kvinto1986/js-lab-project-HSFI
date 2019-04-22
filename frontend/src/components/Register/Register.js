@@ -19,21 +19,17 @@ class Register extends Component {
     constructor() {
         super();
         this.state = {
-            registerForm: {
-                role: '',
-                country: '',
-                name: '',
-                organization: '',
-                tasks: [],
-                phone: '',
-                email: '',
-                password: '',
-                password_confirm: '',
-            },
-            organizationForm: {
-                organizationNew: '',
-                organizationAddress: ''
-            },
+            role: '',
+            country: '',
+            name: '',
+            organization: '',
+            tasks: [],
+            phone: '',
+            email: '',
+            password: '',
+            password_confirm: '',
+            organizationNew: '',
+            organizationAddress: '',
             errors: {},
             showOrganizationInput: false,
 
@@ -45,50 +41,42 @@ class Register extends Component {
         this.handleChangeCountry = this.handleChangeCountry.bind(this);
         this.handleChangeOrganization = this.handleChangeOrganization.bind(this);
         this.handleChangeRole = this.handleChangeRole.bind(this);
-        this.handleNewOrganization = this.handleNewOrganization.bind(this);
     }
 
     handleInputChange(e) {
         this.setState({
-            registerForm: {
                 [e.target.name]: e.target.value
-            }
+
         })
     }
 
     handleChangeCountry = (countrySelect) => {
         this.setState({
-            registerForm: {
-                ...this.state.registerForm,
                 country: countrySelect.value
-            }
         });
 
     };
 
     handleChangeOrganization = (organizationSelect) => {
         this.setState({
-            registerForm: {
                 organization: organizationSelect.value
-            }
         });
 
     };
 
     handleChangeRole = (roleSelect) => {
         this.setState({
-            registerForm: {
                 role: roleSelect.value
-            }
         });
 
     };
 
     handleChangeTask = (tasks) => {
         this.setState({tasks});
-    }
+    };
 
-    handleChangeShowInputs = () => {
+    handleChangeShowInputs = (e) => {
+        e.preventDefault();
         if (this.state.showOrganizationInput === true) {
             this.setState({
                 showOrganizationInput: false
@@ -96,38 +84,35 @@ class Register extends Component {
         } else this.setState({
             showOrganizationInput: true
         })
-    }
+    };
 
     handleSubmit(e) {
         e.preventDefault();
 
         const user = {
-            role: this.state.registerForm.role,
-            country: this.state.registerForm.country,
-            name: this.state.registerForm.name,
-            organization: this.state.registerForm.organization,
-            tasks: this.state.registerForm.tasks,
-            phone: this.state.registerForm.phone,
-            email: this.state.registerForm.email,
-            password: this.state.registerForm.password,
-            password_confirm: this.state.registerForm.password_confirm,
+            role: this.state.role,
+            country: this.state.country,
+            name: this.state.name,
+            organization: this.state.organization,
+            tasks: this.state.tasks,
+            phone: this.state.phone,
+            email: this.state.email,
+            password: this.state.password,
+            password_confirm: this.state.password_confirm,
         };
         this.props.registerUser(user, this.props.history);
-        console.log(this.state.registerForm.role)
-    }
 
-    handleNewOrganization(e) {
-        e.preventDefault();
+        if(this.state.showOrganizationInput===false) {
+            this.setState({
+                organization: this.state.organizationNew
+            });
+            const organization = {
+                organizationNew: this.state.organizationNew,
+                organizationAddress: this.state.organizationAddress
+            };
+            this.props.registerOrganizations(organization);
+        }
 
-        const organization = {
-            organizationNew: this.state.organizationForm.organizationNew,
-            organizationAddress: this.state.organizationForm.organizationAddress
-        };
-        this.setState({
-            showOrganizationInput: false
-        })
-        this.props.registerOrganizations(organization);
-        getOrganizations();
     }
 
     componentWillReceiveProps(nextProps) {
@@ -151,23 +136,22 @@ class Register extends Component {
 
     render() {
         const {errors} = this.state;
-        const {countrySelect} = this.state.registerForm.country;
-        const {organizationSelect} = this.state.registerForm.organization;
-        const {roleSelect} = this.state.registerForm.role;
+        const {countrySelect} = this.state.country;
+        const {organizationSelect} = this.state.organization;
+        const {roleSelect} = this.state.role;
 
         const Organization = () => {
-            if (this.state.registerForm.role === 'coordinator') {
+            if (this.state.role === 'coordinator') {
 
                 return (
                     <div className="form-group mt-3" style={{border: '2px solid black'}}>
                         <button className="btn btn-primary" onClick={this.handleChangeShowInputs}>
                             Create New Organization
                         </button>
-                        <OrgInputs/>
                     </div>
                 )
             } else return null
-        }
+        };
 
         return (
             <div className="container" style={{marginTop: '50px', width: '700px'}}>
@@ -201,7 +185,7 @@ class Register extends Component {
                     <TaskSelect
                         errors={errors}
                         handleChangeTask={this.handleChangeTask}
-                        role={this.state.registerForm.role}
+                        role={this.state.role}
                     />
 
                     <div className="form-group">
@@ -214,7 +198,7 @@ class Register extends Component {
                             })}
                             name="name"
                             onChange={this.handleInputChange}
-                            value={this.state.registerForm.name}
+                            value={this.state.name}
                         />
                         {errors.name && (<div className="invalid-feedback">{errors.name}</div>)}
                     </div>
@@ -230,16 +214,16 @@ class Register extends Component {
                             })}
                         />
                         {errors.organization && (<div className="invalid-feedback">{errors.organization}</div>)}
-
-                        <Organization
-                            showOrganizationInput={this.state.showOrganizationInput}
-                            errors={errors}
-                            handleInputChange={this.handleInputChange}
-                            organizationNew={this.state.organizationForm.organizationNew}
-                            organizationAddress={this.state.organizationForm.organizationAddress}
-                            handleNewOrganization={this.handleNewOrganization}
-                        />
                     </div>
+                    <Organization />
+                    <OrgInputs
+                        role={this.state.role}
+                        showOrganizationInput={this.state.showOrganizationInput}
+                        errors={errors}
+                        handleInputChange={this.handleInputChange}
+                        organizationNew={this.state.organizationNew}
+                        organizationAddress={this.state.organizationAddress}
+                    />
                     <div className="form-group">
                         <input
                             type="text"
@@ -249,7 +233,7 @@ class Register extends Component {
                             })}
                             name="phone"
                             onChange={this.handleInputChange}
-                            value={this.state.registerForm.phone}
+                            value={this.state.phone}
                         />
                         {errors.phone && (<div className="invalid-feedback">{errors.phone}</div>)}
                     </div>
@@ -263,7 +247,7 @@ class Register extends Component {
                             })}
                             name="email"
                             onChange={this.handleInputChange}
-                            value={this.state.registerForm.email}
+                            value={this.state.email}
                         />
                         {errors.email && (<div className="invalid-feedback">{errors.email}</div>)}
                     </div>
@@ -276,7 +260,7 @@ class Register extends Component {
                             })}
                             name="password"
                             onChange={this.handleInputChange}
-                            value={this.state.registerForm.password}
+                            value={this.state.password}
                         />
                         {errors.password && (<div className="invalid-feedback">{errors.password}</div>)}
                     </div>
@@ -289,7 +273,7 @@ class Register extends Component {
                             })}
                             name="password_confirm"
                             onChange={this.handleInputChange}
-                            value={this.state.registerForm.password_confirm}
+                            value={this.state.password_confirm}
                         />
                         {errors.password_confirm && (<div className="invalid-feedback">{errors.password_confirm}</div>)}
                     </div>

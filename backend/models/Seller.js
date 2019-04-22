@@ -16,6 +16,7 @@ const SellerSchema = new Schema({
         required: true
     },
     photo:{
+        default:'none',
         type: String,
     },
     license:{

@@ -4,6 +4,9 @@ import setAuthToken from '../setAuthToken';
 import jwt_decode from 'jwt-decode';
 
 
+
+
+
 export const registerUser = (user, history) => dispatch => {
     axios.post('/api/users/register', user)
             .then(res => history.push('/login'))
@@ -17,7 +20,9 @@ export const registerUser = (user, history) => dispatch => {
 
 export const registerSeller = (user, history) => dispatch => {
     axios.post('/api/sellers/sellerRegister', user)
-        .then(res => history.push('/success'))
+        .then(res => {
+            console.log(res.statusText)
+            history.push('/success')})
         .catch(err => {
             dispatch({
                 type: GET_ERRORS,
@@ -25,7 +30,6 @@ export const registerSeller = (user, history) => dispatch => {
             });
         });
 };
-
 
 export const loginUser = (user) => dispatch => {
     axios.post('/api/users/login', user)

@@ -6,6 +6,7 @@ import PropTypes from 'prop-types';
 import {registerSeller} from '../../actions/authentication';
 import Select from "react-select";
 import classnames from "classnames";
+import axios from 'axios';
 
 import countries from "../../resourses/countries";
 
@@ -38,6 +39,20 @@ class NewSeller extends Component {
 
     }
 
+    onClickHandler = () => {
+        const data = new FormData()
+        data.append('file', this.state.selectedFile)
+        axios.post("/upload", data, {headers: {
+                'content-type': 'multipart/form-data'
+            }
+        })
+            .then(res => { // then print response status
+                console.log(res.statusText)
+            })
+    }
+
+
+
     handleInputChange(e) {
         this.setState({
             [e.target.name]: e.target.value
@@ -45,10 +60,9 @@ class NewSeller extends Component {
     }
 
     handleInputFileChange(e) {
-        const formData = new FormData();
-        formData.append('file',e.target.files[0]);
+        console.log(e.target.files[0])
         this.setState({
-            [e.target.name]: formData
+            [e.target.name]: e.target.files[0]
         })
     }
 
@@ -71,7 +85,7 @@ class NewSeller extends Component {
 
         };
         this.props.registerSeller(user, this.props.history);
-        console.log(user)
+
     }
 
     handleChangeCountry = (countrySelect) => {
@@ -146,11 +160,14 @@ class NewSeller extends Component {
 
                         />
                         {errors.photo && (<div className="invalid-feedback">{errors.photo}</div>)}
+                        <button type="button" className="btn btn-success btn-block"
+                                onClick={this.onClickHandler}>Upload
+                        </button>
                     </div>
 
                     <div className="form-group">
                         <input
-                            type="text"
+                            type="file"
                             placeholder="License"
                             className={classnames('form-control form-control-lg', {
                                 'is-invalid': errors.license
