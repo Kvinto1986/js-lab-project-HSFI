@@ -11,7 +11,7 @@ import Register from './components/Register/Register';
 import Login from './components/Login';
 import Home from './components/Home';
 import SellerCard from './components/tasksPages/createSellerCard';
-import NewSeller from './components/tasksPages/createNewSeller';
+import NewSeller from './components/CreateSeller/createNewSeller';
 import Call from './components/tasksPages/getCall';
 import Inspection from './components/tasksPages/inspection';
 import OperatorsProfiles from './components/tasksPages/operatorsProfiles';

@@ -3,10 +3,10 @@ import { Redirect } from 'react-router-dom';
 import {connect} from 'react-redux';
 import {withRouter} from 'react-router-dom';
 import PropTypes from 'prop-types';
-import {registerSeller} from '../../actions/authentication';
+import {registerSeller,uploadImage} from '../../actions/authentication';
 import Select from "react-select";
 import classnames from "classnames";
-import axios from 'axios';
+import Map from './Map'
 
 import countries from "../../resourses/countries";
 
@@ -39,20 +39,6 @@ class NewSeller extends Component {
 
     }
 
-    onClickHandler = () => {
-        const data = new FormData()
-        data.append('file', this.state.selectedFile)
-        axios.post("/upload", data, {headers: {
-                'content-type': 'multipart/form-data'
-            }
-        })
-            .then(res => { // then print response status
-                console.log(res.statusText)
-            })
-    }
-
-
-
     handleInputChange(e) {
         this.setState({
             [e.target.name]: e.target.value
@@ -69,11 +55,17 @@ class NewSeller extends Component {
     handleSubmit(e) {
         e.preventDefault();
 
+        const photoImg = new FormData()
+        photoImg.append('file', this.state.photo)
+
+        const licenseImg = new FormData()
+        photoImg.append('file', this.state.photoLicense)
+
         const user = {
             operatorName: this.props.auth.user.name,
             country: this.state.country,
             name: this.state.name,
-            photo: this.state.photo,
+            photo: this.state.email+'-'+this.state.photo.name,
             phone: this.state.phone,
             email: this.state.email,
             license: this.state.license,
@@ -81,11 +73,12 @@ class NewSeller extends Component {
             schedule: this.state.schedule,
             ingredients: this.state.ingredients,
             foodGroup: this.state.foodGroup,
-            photoLicense:this.state.photoLicense,
+            photoLicense:this.state.email+'-'+this.state.photoLicense.name,
 
         };
         this.props.registerSeller(user, this.props.history);
-
+        this.props.uploadImage(photoImg,this.state.email);
+        this.props.uploadImage(licenseImg,this.state.email);
     }
 
     handleChangeCountry = (countrySelect) => {
@@ -160,14 +153,11 @@ class NewSeller extends Component {
 
                         />
                         {errors.photo && (<div className="invalid-feedback">{errors.photo}</div>)}
-                        <button type="button" className="btn btn-success btn-block"
-                                onClick={this.onClickHandler}>Upload
-                        </button>
                     </div>
 
                     <div className="form-group">
                         <input
-                            type="file"
+                            type="text"
                             placeholder="License"
                             className={classnames('form-control form-control-lg', {
                                 'is-invalid': errors.license
@@ -181,14 +171,13 @@ class NewSeller extends Component {
 
                     <div className="form-group">
                         <input
-                            type="text"
+                            type="file"
                             placeholder="License photo"
                             className={classnames('form-control form-control-lg', {
                                 'is-invalid': errors.photoLicense
                             })}
                             name="photoLicense"
-                            onChange={this.handleInputChange}
-                            value={this.state.photoLicense}
+                            onChange={this.handleInputFileChange}
                         />
                         {errors.photoLicense && (<div className="invalid-feedback">{errors.photoLicense}</div>)}
                     </div>
@@ -206,8 +195,12 @@ class NewSeller extends Component {
                         />
                         {errors.location && (<div className="invalid-feedback">{errors.location}</div>)}
                     </div>
-
                     <div className="form-group">
+                    <Map
+                    />
+                    </div>
+
+                    <div className="form-group" >
                         <input
                             type="text"
                             placeholder="schedule"
@@ -301,4 +294,4 @@ const mapStateToProps = state => ({
     errors: state.errors
 });
 
-export default connect(mapStateToProps, {registerSeller})(withRouter(NewSeller))
+export default connect(mapStateToProps, {registerSeller,uploadImage})(withRouter(NewSeller))

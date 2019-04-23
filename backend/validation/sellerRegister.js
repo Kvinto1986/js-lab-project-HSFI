@@ -10,7 +10,6 @@ module.exports = function validateRegisterInput(data) {
     data.photoLicense = !isEmpty(data.photoLicense) ? data.photoLicense : '';
     data.location = !isEmpty(data.location) ? data.location : '';
     data.schedule = !isEmpty(data.schedule) ? data.schedule : '';
-    data.phone = !isEmpty(data.phone) ? data.phone : '';
     data.email = !isEmpty(data.email) ? data.email : '';
     data.ingredients = !isEmpty(data.ingredients) ? data.ingredients : '';
     data.foodGroup = !isEmpty(data.foodGroup) ? data.foodGroup : '';
@@ -32,11 +31,6 @@ module.exports = function validateRegisterInput(data) {
         errors.name = 'Name field is required';
     }
 
-
-
-    if(Validator.isEmpty(data.phone)) {
-        errors.phone = 'Phone is required';
-    }
 
     if(!Validator.isEmail(data.email)) {
         errors.email = 'Email is invalid';

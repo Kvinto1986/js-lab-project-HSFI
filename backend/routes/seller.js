@@ -3,7 +3,6 @@ const router = express.Router();
 const validateRegisterInput = require('../validation/sellerRegister');
 const Seller = require('../models/Seller');
 
-
 router.post('/sellerRegister', function(req, res) {
 
     const {errors, isValid} = validateRegisterInput(req.body);
@@ -26,21 +25,12 @@ router.post('/sellerRegister', function(req, res) {
             }
 
 
-            let sampleFile = req.file.photo;
-
-            sampleFile.mv(__dirname+'files/filename.jpg', function(err) {
-                if (err)
-                    return res.status(500).send(err);
-
-                res.send('File uploaded!');
-            });
-
             const newSeller = new Seller({
 
                 operatorName: req.body.operatorName,
                 name: req.body.name,
                 country: req.body.country,
-                photo: req.body.name,
+                photo: req.body.photo,
                 license: req.body.license,
                 photoLicense: req.body.photoLicense,
                 location: req.body.location,

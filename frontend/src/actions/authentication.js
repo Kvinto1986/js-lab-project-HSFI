@@ -1,28 +1,26 @@
 import axios from 'axios';
-import { GET_ERRORS, SET_CURRENT_USER } from './types';
+import {GET_ERRORS, SET_CURRENT_USER} from './types';
 import setAuthToken from '../setAuthToken';
 import jwt_decode from 'jwt-decode';
 
 
-
-
-
 export const registerUser = (user, history) => dispatch => {
     axios.post('/api/users/register', user)
-            .then(res => history.push('/login'))
-            .catch(err => {
-                dispatch({
-                    type: GET_ERRORS,
-                    payload: err.response.data
-                });
+        .then(res => history.push('/login'))
+        .catch(err => {
+            dispatch({
+                type: GET_ERRORS,
+                payload: err.response.data
             });
+        });
 };
 
 export const registerSeller = (user, history) => dispatch => {
     axios.post('/api/sellers/sellerRegister', user)
         .then(res => {
-            console.log(res.statusText)
-            history.push('/success')})
+            console.log(res)
+            history.push('/success')
+        })
         .catch(err => {
             dispatch({
                 type: GET_ERRORS,
@@ -33,19 +31,19 @@ export const registerSeller = (user, history) => dispatch => {
 
 export const loginUser = (user) => dispatch => {
     axios.post('/api/users/login', user)
-            .then(res => {
-                const { token } = res.data;
-                localStorage.setItem('jwtToken', token);
-                setAuthToken(token);
-                const decoded = jwt_decode(token);
-                dispatch(setCurrentUser(decoded));
-            })
-            .catch(err => {
-                dispatch({
-                    type: GET_ERRORS,
-                    payload: err.response.data
-                });
+        .then(res => {
+            const {token} = res.data;
+            localStorage.setItem('jwtToken', token);
+            setAuthToken(token);
+            const decoded = jwt_decode(token);
+            dispatch(setCurrentUser(decoded));
+        })
+        .catch(err => {
+            dispatch({
+                type: GET_ERRORS,
+                payload: err.response.data
             });
+        });
 }
 
 export const setCurrentUser = decoded => {
@@ -68,7 +66,7 @@ export const getOrganizations = () => {
 };
 
 export const registerOrganizations = (organization) => dispatch => {
-    axios.post('/api/organizations/registration',organization)
+    axios.post('/api/organizations/registration', organization)
         .then(res => res)
         .catch(err => {
             dispatch({
@@ -77,3 +75,17 @@ export const registerOrganizations = (organization) => dispatch => {
             });
         });
 };
+
+export const uploadImage = (photoImg,email) => dispatch => {
+    console.log(email)
+    axios.post("/api/uploads/upload",photoImg,{headers: {
+        'email': email
+    }})
+        .then(res => res)
+        .catch(err => {
+            dispatch({
+                type: GET_ERRORS,
+                payload: err.response.data
+            });
+        });
+}
