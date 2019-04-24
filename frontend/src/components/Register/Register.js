@@ -11,6 +11,7 @@ import roles from '../../resourses/roles'
 import TaskSelect from './TaskSelect'
 import OrgInputs from './OrganizationInputs'
 import getOrganizationsList from '../../resourses/organizationsList/organaizationsList'
+import './registerStyle.css'
 
 const organizationsArray = getOrganizationsList(organizations);
 
@@ -154,21 +155,19 @@ class Register extends Component {
         };
 
         return (
-            <div className="container" style={{marginTop: '50px', width: '700px'}}>
-                <h2 style={{marginBottom: '40px'}}>Registration new user</h2>
-                <form onSubmit={this.handleSubmit}>
-                    <div className="form-group">
+            <div className="registerMainContainer">
+                <div className={'registerFormContainer'}>
+                <h2>Registration new user</h2>
+                <form onSubmit={this.handleSubmit} >
                         <Select
                             options={roles}
                             placeholder={'Select role...'}
                             value={roleSelect}
                             onChange={this.handleChangeRole}
-                            className={classnames('form-control form-control-lg', {
-                                'is-invalid': errors.role
-                            })}
+                            className={'registerFormSelect'}
                         />
                         {errors.role && (<div className="invalid-feedback">{errors.role}</div>)}
-                    </div>
+
                     <div className="form-group">
                         <Select
                             options={countries}
@@ -284,6 +283,7 @@ class Register extends Component {
                         </button>
                     </div>
                 </form>
+                </div>
             </div>
         )
     }

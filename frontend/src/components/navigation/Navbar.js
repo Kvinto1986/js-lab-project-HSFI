@@ -2,8 +2,12 @@ import React, {Component} from 'react';
 import {Link} from 'react-router-dom';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
-import {logoutUser} from '../actions/authentication';
+import {logoutUser} from '../../actions/authentication';
 import {withRouter} from 'react-router-dom';
+import './navigationStyles.css'
+import './usersNav/usersNavStyles.css'
+
+import logo from '../../resourses/images/unlogo.png'
 
 import OperatorNav from './usersNav/operatorNav';
 import CoordinatorNav from './usersNav/coordinatorNav';
@@ -20,24 +24,18 @@ class Navbar extends Component {
     render() {
         const {isAuthenticated, user} = this.props.auth;
         const authLinks = (
-            <ul className="navbar-nav ml-auto">
-                <a href="" className="nav-link" onClick={this.onLogout.bind(this)}>
-                    <img src={user.avatar} alt={user.name} title={user.name}
-                         className="rounded-circle"
-                         style={{width: '25px', marginRight: '5px'}}/>
+            <div className="authContainer" >
+                <Link className="authContainerLink" to="" onClick={this.onLogout.bind(this)}>
+                    <img src={user.avatar} alt={user.name} title={user.name}/>
                     Logout
-                </a>
-            </ul>
+                </Link>
+            </div>
         );
         const guestLinks = (
-            <ul className="navbar-nav ml-auto">
-                <li className="nav-item">
-                    <Link className="nav-link" to="/register">Registration</Link>
-                </li>
-                <li className="nav-item">
-                    <Link className="nav-link" to="/login">Login</Link>
-                </li>
-            </ul>
+            <div className="authContainer" >
+                    <Link className="authContainerLink" to="/register">Registration</Link>
+                    <Link className="authContainerLink" to="/login">Login</Link>
+            </div>
         );
 
         const Coord = () => {
@@ -60,19 +58,19 @@ class Navbar extends Component {
                     <ManagerNav
                     />
                 )
-            }
-            else return null
+            } else return null
         };
 
         return (
-            <nav className="navbar navbar-expand-lg navbar-light bg-light">
-                <Link className="navbar-brand" to="/">Street Food Quality Supervision</Link>
+            <header className="headerContainer">
+                <div className="headerLogo">
+                    <Link to="/"><img src={logo}/></Link>
+                    <h1>Street Food Quality Supervision</h1>
+                </div>
                 <Coord
                 />
-                <div className="collapse navbar-collapse" id="navbarSupportedContent">
                     {isAuthenticated ? authLinks : guestLinks}
-                </div>
-            </nav>
+            </header>
         )
     }
 }
