@@ -3,7 +3,6 @@ import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
 import {withRouter} from 'react-router-dom';
 import {registerUser, getOrganizations, registerOrganizations} from '../../actions/authentication';
-import classnames from 'classnames';
 import Select from 'react-select'
 import countries from '../../resourses/countries'
 import organizations from '../../resourses/organizationsList/organizations'
@@ -32,7 +31,7 @@ class Register extends Component {
             organizationNew: '',
             organizationAddress: '',
             errors: {},
-            showOrganizationInput: false,
+            showOrganizationInput: true,
 
         };
 
@@ -101,19 +100,17 @@ class Register extends Component {
             password: this.state.password,
             password_confirm: this.state.password_confirm,
         };
-        this.props.registerUser(user, this.props.history);
 
-        if(this.state.showOrganizationInput===false) {
-            this.setState({
-                organization: this.state.organizationNew
-            });
+
+        if(this.state.showOrganizationInput===false&&this.state.role!=='operator') {
+            user.organization= this.state.organizationNew;
             const organization = {
                 organizationNew: this.state.organizationNew,
                 organizationAddress: this.state.organizationAddress
             };
-            this.props.registerOrganizations(organization);
+                this.props.registerOrganizations(organization);
         }
-
+        this.props.registerUser(user, this.props.history);
     }
 
     componentWillReceiveProps(nextProps) {
@@ -138,27 +135,26 @@ class Register extends Component {
     render() {
         const {errors} = this.state;
         const {countrySelect} = this.state.country;
-        const {organizationSelect} = this.state.organization;
+        const {organizationSelect} = this.state.organization
         const {roleSelect} = this.state.role;
 
         const Organization = () => {
             if (this.state.role === 'coordinator') {
 
                 return (
-                    <div className="form-group mt-3" style={{border: '2px solid black'}}>
-                        <button className="btn btn-primary" onClick={this.handleChangeShowInputs}>
+                        <button className="btnNewOrganization" onClick={this.handleChangeShowInputs}>
                             Create New Organization
                         </button>
-                    </div>
                 )
             } else return null
         };
 
         return (
             <div className="registerMainContainer">
-                <div className={'registerFormContainer'}>
+                <div className='registerFormContainer'>
                 <h2>Registration new user</h2>
                 <form onSubmit={this.handleSubmit} >
+
                         <Select
                             options={roles}
                             placeholder={'Select role...'}
@@ -166,54 +162,43 @@ class Register extends Component {
                             onChange={this.handleChangeRole}
                             className={'registerFormSelect'}
                         />
-                        {errors.role && (<div className="invalid-feedback">{errors.role}</div>)}
+                        {errors.role && (<div className="invalidFeedback">{errors.role}</div>)}
 
-                    <div className="form-group">
                         <Select
                             options={countries}
                             placeholder={'Select country...'}
                             value={countrySelect}
                             onChange={this.handleChangeCountry}
-                            className={classnames('form-control form-control-lg', {
-                                'is-invalid': errors.country
-                            })}
+                            className={'registerFormSelect'}
                         />
-                        {errors.country && (<div className="invalid-feedback">{errors.country}</div>)}
-                    </div>
+                        {errors.country && (<div className="invalidFeedback">{errors.country}</div>)}
+
 
                     <TaskSelect
                         errors={errors}
                         handleChangeTask={this.handleChangeTask}
                         role={this.state.role}
                     />
-
-                    <div className="form-group">
-
                         <input
                             type="text"
                             placeholder="Name"
-                            className={classnames('form-control form-control-lg', {
-                                'is-invalid': errors.name
-                            })}
                             name="name"
                             onChange={this.handleInputChange}
                             value={this.state.name}
+                            className={'registerFormInput'}
                         />
-                        {errors.name && (<div className="invalid-feedback">{errors.name}</div>)}
-                    </div>
-                    <div className="form-group">
+                        {errors.name && (<div className="invalidFeedback">{errors.name}</div>)}
+
                         <Select
                             options={organizationsArray}
                             value={organizationSelect}
-                            isDisabled={this.state.showOrganizationInput}
+                            isDisabled={!this.state.showOrganizationInput}
                             placeholder={'Select organization...'}
                             onChange={this.handleChangeOrganization}
-                            className={classnames('form-control form-control-lg', {
-                                'is-invalid': errors.organization
-                            })}
+                            className={'registerFormSelect'}
                         />
-                        {errors.organization && (<div className="invalid-feedback">{errors.organization}</div>)}
-                    </div>
+                        {errors.organization && (<div className="invalidFeedback">{errors.organization}</div>)}
+
                     <Organization />
                     <OrgInputs
                         role={this.state.role}
@@ -221,67 +206,52 @@ class Register extends Component {
                         errors={errors}
                         handleInputChange={this.handleInputChange}
                         organizationNew={this.state.organizationNew}
+                        organization={this.state.organization}
                         organizationAddress={this.state.organizationAddress}
                     />
-                    <div className="form-group">
                         <input
                             type="text"
                             placeholder="Phone number"
-                            className={classnames('form-control form-control-lg', {
-                                'is-invalid': errors.phone
-                            })}
                             name="phone"
                             onChange={this.handleInputChange}
                             value={this.state.phone}
+                            className={'registerFormInput'}
                         />
-                        {errors.phone && (<div className="invalid-feedback">{errors.phone}</div>)}
-                    </div>
+                        {errors.phone && (<div className="invalidFeedback">{errors.phone}</div>)}
 
-                    <div className="form-group">
                         <input
                             type="email"
                             placeholder="Email"
-                            className={classnames('form-control form-control-lg', {
-                                'is-invalid': errors.email
-                            })}
                             name="email"
                             onChange={this.handleInputChange}
                             value={this.state.email}
+                            className={'registerFormInput'}
                         />
-                        {errors.email && (<div className="invalid-feedback">{errors.email}</div>)}
-                    </div>
-                    <div className="form-group">
+                        {errors.email && (<div className="invalidFeedback">{errors.email}</div>)}
+
                         <input
                             type="password"
                             placeholder="Password"
-                            className={classnames('form-control form-control-lg', {
-                                'is-invalid': errors.password
-                            })}
                             name="password"
                             onChange={this.handleInputChange}
                             value={this.state.password}
+                            className={'registerFormInput'}
                         />
-                        {errors.password && (<div className="invalid-feedback">{errors.password}</div>)}
-                    </div>
-                    <div className="form-group">
+                        {errors.password && (<div className="invalidFeedback">{errors.password}</div>)}
+
                         <input
                             type="password"
                             placeholder="Confirm Password"
-                            className={classnames('form-control form-control-lg', {
-                                'is-invalid': errors.password_confirm
-                            })}
                             name="password_confirm"
                             onChange={this.handleInputChange}
                             value={this.state.password_confirm}
+                            className={'registerFormInput'}
                         />
-                        {errors.password_confirm && (<div className="invalid-feedback">{errors.password_confirm}</div>)}
-                    </div>
+                        {errors.password_confirm && (<div className="invalidFeedback">{errors.password_confirm}</div>)}
 
-                    <div className="form-group">
-                        <button type="submit" className="btn btn-primary">
-                            Register User
+                        <button type="submit" className="btnFormSubmit">
+                            Submit
                         </button>
-                    </div>
                 </form>
                 </div>
             </div>

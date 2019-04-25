@@ -7,7 +7,6 @@ const getOrganizationsList=function (organizations) {
         newElem.label=elem.organization;
         return newElem
     });
-    console.log(arr);
     return arr
 }
 

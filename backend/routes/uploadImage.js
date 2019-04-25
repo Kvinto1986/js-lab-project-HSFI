@@ -7,11 +7,12 @@ const storage = multer.diskStorage({
         cb(null, 'public')
     },
     filename: function (req, file, cb) {
+        console.log(req)
         cb(null,req.headers.email+'-'+file.originalname )
     }
 })
 
-const upload = multer({ storage: storage }).single('file')
+const upload = multer({ storage: storage }).array('file')
 
 router.post('/upload',function(req, res) {
 

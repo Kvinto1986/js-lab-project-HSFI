@@ -8,11 +8,11 @@ import { setCurrentUser, logoutUser } from './actions/authentication';
 import './App.css'
 
 import Navbar from './components/navigation/Navbar';
-import Register from './components/Register/Register';
-import Login from './components/Login';
+import Register from './components/register/Register';
+import Login from './components/login/Login';
 import Home from './components/homePage/Home';
-import SellerCard from './components/tasksPages/createSellerCard';
-import NewSeller from './components/CreateSeller/createNewSeller';
+import SellerCard from './components/sellerCards/createSellerCard';
+import NewSeller from './components/createSeller/createNewSeller';
 import Call from './components/tasksPages/getCall';
 import Inspection from './components/tasksPages/inspection';
 import OperatorsProfiles from './components/tasksPages/operatorsProfiles';
@@ -42,7 +42,7 @@ class App extends Component {
               <Navbar />
               <Route exact path="/" component={ Home } />
                 <Route exact path='/newSeller' component={NewSeller} />
-                <Route exact path='/Success' component={Success} />
+                <Route exact path='/success' component={Success} />
                 <Route exact path='/sellerCards' component={SellerCard} />
               <Route exact path="/calls" component={ Call } />
                 <Route exact path="/inspection" component={ Inspection } />

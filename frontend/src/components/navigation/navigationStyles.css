@@ -12,6 +12,8 @@
     opacity: 0.8;
 
     border-bottom: black 3px solid;
+
+    z-index: 5;
 }
 
 .headerLogo{
@@ -35,7 +37,7 @@
 }
 
 .headerLogo img{
-    width: 65%;
+    width: 5vw;
 
     margin-left: 30%;
 }
@@ -71,6 +73,7 @@
 }
 
 .authContainerLink img{
-    width: 15%;
+    width: 2vw;
     margin-left: 45%;
+    margin-right: 15%;
 }

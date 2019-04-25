@@ -5,8 +5,8 @@ import {withRouter} from 'react-router-dom';
 import PropTypes from 'prop-types';
 import {registerSeller,uploadImage} from '../../actions/authentication';
 import Select from "react-select";
-import classnames from "classnames";
-import Map from './Map'
+import food from "../../resourses/food";
+import './createSellerStyles.css'
 
 import countries from "../../resourses/countries";
 
@@ -46,7 +46,6 @@ class NewSeller extends Component {
     }
 
     handleInputFileChange(e) {
-        console.log(e.target.files[0])
         this.setState({
             [e.target.name]: e.target.files[0]
         })
@@ -55,17 +54,15 @@ class NewSeller extends Component {
     handleSubmit(e) {
         e.preventDefault();
 
-        const photoImg = new FormData()
-        photoImg.append('file', this.state.photo)
-
-        const licenseImg = new FormData()
-        photoImg.append('file', this.state.photoLicense)
+        const images = new FormData();
+        images.append('file', this.state.photo);
+        images.append('file', this.state.photoLicense);
 
         const user = {
             operatorName: this.props.auth.user.name,
             country: this.state.country,
             name: this.state.name,
-            photo: this.state.email+'-'+this.state.photo.name,
+            photo:'',
             phone: this.state.phone,
             email: this.state.email,
             license: this.state.license,
@@ -73,16 +70,28 @@ class NewSeller extends Component {
             schedule: this.state.schedule,
             ingredients: this.state.ingredients,
             foodGroup: this.state.foodGroup,
-            photoLicense:this.state.email+'-'+this.state.photoLicense.name,
+            photoLicense:''
 
         };
+
+        if(this.state.photo.name){
+            user.photo=this.state.email+'-'+this.state.photo.name
+        }
+        if(this.state.photoLicense.name){
+            user.photoLicense=this.state.email+'-'+this.state.photoLicense.name
+        }
+
         this.props.registerSeller(user, this.props.history);
-        this.props.uploadImage(photoImg,this.state.email);
-        this.props.uploadImage(licenseImg,this.state.email);
+        this.props.uploadImage(images,this.state.email);
+        console.log(user)
     }
 
     handleChangeCountry = (countrySelect) => {
         this.setState({country: countrySelect.value});
+
+    };
+    handleChangeFood = (foodSelect) => {
+        this.setState({foodGroup: foodSelect.value});
 
     };
 
@@ -98,185 +107,135 @@ class NewSeller extends Component {
         const {isAuthenticated, user} = this.props.auth;
         const {errors} = this.state;
         const {countrySelect} = this.state.country;
+        const {foodSelect} = this.state.country;
 
         if(isAuthenticated){
         return (
-            <div className="container" style={{marginTop: '50px', width: '700px'}}>
-                <h2 style={{marginBottom: '40px'}}>Registration new seller</h2>
+
+            <div className="newSellerMainContainer" >
+                <div className='newSellerFormContainer'>
+                <h3 >Registration new seller</h3>
                 <form onSubmit={this.handleSubmit}>
-                        <div className="form-group">
                             <input
                                 type="text"
                                 placeholder={user.name}
-                                className={classnames('form-control form-control-lg')}
-                            disabled = 'disabled'
+                                className={'sellerFormInput'}
+                                 disabled = 'disabled'
                                 value={user.name}
                             />
-                        </div>
 
-                    <div className="form-group">
                         <Select
                             options={countries}
                             placeholder={'Select country...'}
                             value={countrySelect}
                             onChange={this.handleChangeCountry}
-                            className={classnames('form-control form-control-lg', {
-                                'is-invalid': errors.country
-                            })}
+                            className={'sellerFormSelect'}
                         />
-                        {errors.country && (<div className="invalid-feedback">{errors.country}</div>)}
-                    </div>
+                        {errors.country && (<div className="invalidFeedback">{errors.country}</div>)}
 
-                    <div className="form-group">
                         <input
                             type="text"
                             placeholder="Name"
-                            className={classnames('form-control form-control-lg', {
-                                'is-invalid': errors.name
-                            })}
+                            className={'sellerFormInput'}
                             name="name"
                             onChange={this.handleInputChange}
                             value={this.state.name}
                         />
-                        {errors.name && (<div className="invalid-feedback">{errors.name}</div>)}
-                    </div>
-
-                    <div className="form-group">
+                        {errors.name && (<div className="invalidFeedback">{errors.name}</div>)}
+                    <label>Download Photo: </label>
                         <input
                             type="file"
                             placeholder="Photo"
-                            className={classnames('form-control form-control-lg', {
-                                'is-invalid': errors.photo
-                            })}
+                            className={'sellerFormInputFile'}
                             name="photo"
                             onChange={this.handleInputFileChange}
 
                         />
-                        {errors.photo && (<div className="invalid-feedback">{errors.photo}</div>)}
-                    </div>
+                        {errors.photo && (<div className="invalidFeedback">{errors.photo}</div>)}
 
-                    <div className="form-group">
                         <input
                             type="text"
                             placeholder="License"
-                            className={classnames('form-control form-control-lg', {
-                                'is-invalid': errors.license
-                            })}
+                            className={'sellerFormInput'}
                             name="license"
                             onChange={this.handleInputChange}
                             value={this.state.license}
                         />
-                        {errors.license && (<div className="invalid-feedback">{errors.license}</div>)}
-                    </div>
-
-                    <div className="form-group">
+                        {errors.license && (<div className="invalidFeedback">{errors.license}</div>)}
+                    <label>Download License: </label>
                         <input
                             type="file"
                             placeholder="License photo"
-                            className={classnames('form-control form-control-lg', {
-                                'is-invalid': errors.photoLicense
-                            })}
+                            className={'sellerFormInputFile'}
                             name="photoLicense"
                             onChange={this.handleInputFileChange}
                         />
-                        {errors.photoLicense && (<div className="invalid-feedback">{errors.photoLicense}</div>)}
-                    </div>
+                        {errors.photoLicense && (<div className="invalidFeedback">{errors.photoLicense}</div>)}
 
-                    <div className="form-group">
                         <input
                             type="text"
                             placeholder="location"
-                            className={classnames('form-control form-control-lg', {
-                                'is-invalid': errors.location
-                            })}
+                            className={'sellerFormInput'}
                             name="location"
                             onChange={this.handleInputChange}
                             value={this.state.location}
                         />
-                        {errors.location && (<div className="invalid-feedback">{errors.location}</div>)}
-                    </div>
-                    <div className="form-group">
-                    <Map
-                    />
-                    </div>
-
-                    <div className="form-group" >
+                        {errors.location && (<div className="invalidFeedback">{errors.location}</div>)}
                         <input
                             type="text"
                             placeholder="schedule"
-                            className={classnames('form-control form-control-lg', {
-                                'is-invalid': errors.schedule
-                            })}
+                            className={'sellerFormInput'}
                             name="schedule"
                             onChange={this.handleInputChange}
                             value={this.state.schedule}
                         />
-                        {errors.schedule && (<div className="invalid-feedback">{errors.schedule}</div>)}
-                    </div>
+                        {errors.schedule && (<div className="invalidFeedback">{errors.schedule}</div>)}
 
-                    <div className="form-group">
+
                         <input
                             type="text"
                             placeholder="phone"
-                            className={classnames('form-control form-control-lg', {
-                                'is-invalid': errors.phone
-                            })}
+                            className={'sellerFormInput'}
                             name="phone"
                             onChange={this.handleInputChange}
                             value={this.state.phone}
                         />
-                        {errors.phone && (<div className="invalid-feedback">{errors.phone}</div>)}
-                    </div>
+                        {errors.phone && (<div className="invalidFeedback">{errors.phone}</div>)}
 
-                    <div className="form-group">
                         <input
                             type="email"
                             placeholder="Email"
-                            className={classnames('form-control form-control-lg', {
-                                'is-invalid': errors.email
-                            })}
+                            className={'sellerFormInput'}
                             name="email"
                             onChange={this.handleInputChange}
                             value={this.state.email}
                         />
-                        {errors.email && (<div className="invalid-feedback">{errors.email}</div>)}
-                    </div>
+                        {errors.email && (<div className="invalidFeedback">{errors.email}</div>)}
 
-                    <div className="form-group">
                         <input
                             type="text"
                             placeholder="ingredients"
-                            className={classnames('form-control form-control-lg', {
-                                'is-invalid': errors.ingredients
-                            })}
+                            className={'sellerFormInput'}
                             name="ingredients"
                             onChange={this.handleInputChange}
                             value={this.state.ingredients}
                         />
-                        {errors.ingredients && (<div className="invalid-feedback">{errors.ingredients}</div>)}
-                    </div>
+                        {errors.ingredients && (<div className="invalidFeedback">{errors.ingredients}</div>)}
 
-                    <div className="form-group">
-                        <input
-                            type="text"
-                            placeholder="foodGroup"
-                            className={classnames('form-control form-control-lg', {
-                                'is-invalid': errors.foodGroup
-                            })}
-                            name="foodGroup"
-                            onChange={this.handleInputChange}
-                            value={this.state.foodGroup}
-                        />
-                        {errors.foodGroup && (<div className="invalid-feedback">{errors.foodGroup}</div>)}
-                    </div>
+                    <Select
+                        options={food}
+                        placeholder={'Select food group...'}
+                        value={foodSelect}
+                        onChange={this.handleChangeFood}
+                        className={'sellerFormSelect'}
+                    />
+                        {errors.foodGroup && (<div className="invalidFeedback">{errors.foodGroup}</div>)}
 
-
-                    <div className="form-group">
-                        <button type="submit" className="btn btn-primary">
+                        <button type="submit" className="btnFormSubmit">
                             Register Seller
                         </button>
-                    </div>
                 </form>
+                </div>
             </div>
 
         )}

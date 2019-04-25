@@ -1,0 +1,97 @@
+.newSellerMainContainer{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    justify-items: center;
+    align-content: center;
+    align-items: center;
+
+    width: 100%;
+    height: 88%;
+
+    background-image: url('../../resourses/images/vendor.jpg');
+    background-repeat: no-repeat;
+    background-size: 100%, 100%, contain;
+    z-index: 1;
+}
+
+.newSellerFormContainer{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    justify-items: center;
+    align-content: center;
+    align-items: center;
+
+    width: 40%;
+
+    font-family: Georgia;
+    background-color: rgba(255,255,255,0.7);
+    border: black 2px double;
+    border-radius: 10px
+}
+
+.newSellerFormContainer h3{
+    font-size: 1.5vw;
+    width: 100%;
+    text-align: center;
+    margin-top: 1%;
+}
+
+.newSellerFormContainer form{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    justify-items: center;
+    align-content: space-between;
+    align-items: center;
+
+    width: 50%;
+
+    margin-bottom: 5%;
+
+}
+.sellerFormInput{
+    width: 100%;
+
+    margin-top: 1%;
+
+    padding: 1.2% 1.2%;
+
+    font-size: 0.9vw;
+    border-radius: 5px  ;
+}
+
+.sellerFormInputFile{
+    width: 60%;
+
+    font-size: 0.9vw;
+    border-radius: 5px  ;
+}
+
+.sellerFormSelect{
+    width: 100%;
+
+    margin-bottom: 1.2%;
+    margin-top: 1.2%;
+
+    font-size: 0.9vw;
+}
+.btnFormSubmit{
+    width: 40%;
+
+    margin-top: 2%;
+
+    padding: 1.3% 1.3%;
+
+    font-size: 0.9vw;
+    border-radius: 5px;
+    background-color: aquamarine;
+}
+
+.invalidFeedback{
+    width: 100%;
+ margin-bottom: 1%;
+    font-size: 0.7vw;
+    color: brown;
+}

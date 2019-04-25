@@ -1,46 +1,32 @@
-import classnames from "classnames";
 import React, {Component} from 'react';
 
 class OrgInputs extends Component {
-    constructor() {
-        super();
-
-    }
 
     render() {
-            if (this.props.showOrganizationInput === true) {
+            if (this.props.showOrganizationInput === false) {
                 return (
-                    <div className="form-group">
-                        <div className="form-group">
-
+                    <div className="organizationInputContainer">
                             <input
                                 type="text"
                                 placeholder="Organization Name"
-                                className={classnames('form-control form-control-lg', {
-                                    'is-invalid': this.props.errors.organizationNew
-                                })}
+                                className={'registerFormInput'}
                                 name="organizationNew"
                                 onChange={this.props.handleInputChange}
                                 value={this.props.organizationNew}
                             />
                             {this.props.errors.organizationNew && (
-                                <div className="invalid-feedback">{this.props.errors.organizationNew}</div>)}
-                        </div>
-                        <div className="form-group">
+                                <div className="invalidFeedback">{this.props.errors.organizationNew}</div>)}
 
                             <input
                                 type="text"
                                 placeholder="Organization Address"
-                                className={classnames('form-control form-control-lg', {
-                                    'is-invalid': this.props.errors.organizationAddress
-                                })}
+                                className={'registerFormInput'}
                                 name="organizationAddress"
                                 onChange={this.props.handleInputChange}
                                 value={this.props.organizationAddress}
                             />
                             {this.props.errors.organizationAddress && (
-                                <div className="invalid-feedback">{this.props.errors.organizationAddress}</div>)}
-                        </div>
+                                <div className="invalidFeedback">{this.props.errors.organizationAddress}</div>)}
                     </div>)
             } else return null
         }

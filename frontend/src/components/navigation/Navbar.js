@@ -64,7 +64,7 @@ class Navbar extends Component {
         return (
             <header className="headerContainer">
                 <div className="headerLogo">
-                    <Link to="/"><img src={logo}/></Link>
+                    <Link to="/"><img src={logo} alt={'logo'}/></Link>
                     <h1>Street Food Quality Supervision</h1>
                 </div>
                 <Coord

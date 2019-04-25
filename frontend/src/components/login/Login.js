@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { loginUser } from '../actions/authentication';
-import classnames from 'classnames';
+import { loginUser } from '../../actions/authentication';
+import './loginStyle.css'
 
 class Login extends Component {
 
@@ -52,41 +52,36 @@ class Login extends Component {
     render() {
         const {errors} = this.state;
         return(
-        <div className="container" style={{ marginTop: '50px', width: '700px'}}>
-            <h2 style={{marginBottom: '40px'}}>Login</h2>
+        <div className="containerLogin" >
+            <div className='LoginFormContainer'>
+            <h2>Login</h2>
             <form onSubmit={ this.handleSubmit }>
-                <div className="form-group">
                     <input
                     type="email"
                     placeholder="Email"
-                    className={classnames('form-control form-control-lg', {
-                        'is-invalid': errors.email
-                    })}
+
                     name="email"
                     onChange={ this.handleInputChange }
                     value={ this.state.email }
                     />
-                    {errors.email && (<div className="invalid-feedback">{errors.email}</div>)}
-                </div>
-                <div className="form-group">
+                    {errors.email && (<div className="invalidFeedback">{errors.email}</div>)}
+
                     <input
                     type="password"
                     placeholder="Password"
-                    className={classnames('form-control form-control-lg', {
-                        'is-invalid': errors.password
-                    })} 
+
                     name="password"
                     onChange={ this.handleInputChange }
                     value={ this.state.password }
                     />
-                    {errors.password && (<div className="invalid-feedback">{errors.password}</div>)}
-                </div>
-                <div className="form-group">
-                    <button type="submit" className="btn btn-primary">
-                        Login User
+                    {errors.password && (<div className="invalidFeedback">{errors.password}</div>)}
+
+                    <button type="submit" className="btnLoginSubmit">
+                        Login
                     </button>
-                </div>
+
             </form>
+            </div>
         </div>
         )
     }

@@ -1,0 +1,103 @@
+.registerMainContainer{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    justify-items: center;
+    align-content: center;
+    align-items: center;
+
+    width: 100%;
+    height: 88%;
+
+    background-image: url('../../resourses/images/notebook.png');
+    background-repeat: no-repeat;
+    background-size: 100%, 100%, contain;
+    z-index: 1;
+}
+.registerFormContainer{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    justify-items: center;
+    align-content: center;
+    align-items: center;
+
+    width: 50%;
+
+    font-family: Georgia;
+    background-color: rgba(255,255,255,0.7);
+    border: black 2px double;
+    border-radius: 10px
+}
+
+.registerFormContainer h2{
+    font-size: 1.7vw;
+    width: 100%;
+    text-align: center;
+
+}
+
+.registerFormContainer form{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    justify-items: center;
+    align-content: space-between;
+    align-items: center;
+
+    width: 50%;
+
+    margin-bottom: 5%;
+
+}
+.registerFormInput{
+    width: 97%;
+
+    margin-bottom: 1.5%;
+    margin-top: 1.5%;
+
+    padding: 1.3% 1.3%;
+
+    font-size: 0.9vw;
+    border-radius: 5px  ;
+}
+
+.registerFormSelect{
+    width: 100%;
+
+    margin-top: 2%;
+    margin-bottom: 2%;
+
+    font-size: 0.9vw;
+}
+.invalidFeedback{
+    width: 100%;
+
+    font-size: 0.7vw;
+    color: brown;
+}
+
+.btnFormSubmit{
+    width: 40%;
+
+    margin-top: 3%;
+
+    padding: 1.3% 1.3%;
+
+    font-size: 0.9vw;
+    border-radius: 5px;
+    background-color: aquamarine;
+}
+.btnNewOrganization{
+    width: 50%;
+
+
+    padding: 1.3% 1.3%;
+
+    font-size: 0.8vw;
+    border-radius: 5px;
+    background-color: cornflowerblue;
+}
+.organizationInputContainer{
+    width: 100%;
+}

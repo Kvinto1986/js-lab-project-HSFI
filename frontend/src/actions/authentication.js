@@ -76,9 +76,8 @@ export const registerOrganizations = (organization) => dispatch => {
         });
 };
 
-export const uploadImage = (photoImg,email) => dispatch => {
-    console.log(email)
-    axios.post("/api/uploads/upload",photoImg,{headers: {
+export const uploadImage = (image,email) => dispatch => {
+    axios.post("/api/uploads/upload",image,{headers: {
         'email': email
     }})
         .then(res => res)

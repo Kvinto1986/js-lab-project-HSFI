@@ -8,6 +8,8 @@ module.exports = function validateRegisterInput(data) {
     data.country = !isEmpty(data.country) ? data.country : '';
     data.license = !isEmpty(data.license) ? data.license : '';
     data.photoLicense = !isEmpty(data.photoLicense) ? data.photoLicense : '';
+    data.photo = !isEmpty(data.photo) ? data.photo : '';
+    data.phone = !isEmpty(data.phone) ? data.phone : '';
     data.location = !isEmpty(data.location) ? data.location : '';
     data.schedule = !isEmpty(data.schedule) ? data.schedule : '';
     data.email = !isEmpty(data.email) ? data.email : '';
@@ -30,7 +32,9 @@ module.exports = function validateRegisterInput(data) {
     if(Validator.isEmpty(data.name)) {
         errors.name = 'Name field is required';
     }
-
+    if(Validator.isEmpty(data.phone)) {
+        errors.phone = 'Phone is required';
+    }
 
     if(!Validator.isEmail(data.email)) {
         errors.email = 'Email is invalid';
@@ -45,6 +49,10 @@ module.exports = function validateRegisterInput(data) {
     }
     if(Validator.isEmpty(data.photoLicense)) {
         errors.photoLicense = 'photoLicense is required';
+    }
+
+    if(Validator.isEmpty(data.photo)) {
+        errors.photo = 'Photo is required';
     }
 
     if(Validator.isEmpty(data.schedule)) {
