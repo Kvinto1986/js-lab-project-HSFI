@@ -3,7 +3,8 @@ import { Redirect } from 'react-router-dom';
 import {connect} from 'react-redux';
 import {withRouter} from 'react-router-dom';
 import PropTypes from 'prop-types';
-import {registerSeller,uploadImage} from '../../actions/authentication';
+import {registerSeller} from '../../actions/sellers';
+import {uploadImage} from '../../actions/uploads';
 import Select from "react-select";
 import food from "../../resourses/food";
 import './createSellerStyles.css'

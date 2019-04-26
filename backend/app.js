@@ -10,6 +10,8 @@ const users = require('./routes/user');
 const sellers = require('./routes/seller');
 const organizations = require('./routes/organization');
 const uploads = require('./routes/uploadImage');
+const country = require('./routes/country');
+
 
 mongoose.connect(config.DB, { useNewUrlParser: true }).then(
     () => {console.log('Database is connected') },
@@ -20,13 +22,15 @@ const app = express();
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
-app.use(cors())
+app.use(cors());
+app.use(express.static('public'));
 
+app.use('/static', express.static('public'));
 app.use('/api/users', users);
 app.use('/api/sellers', sellers);
 app.use('/api/organizations', organizations);
-app.use('/api/organizations', organizations);
 app.use('/api/uploads', uploads);
+app.use('/api/country', country);
 
 
 const PORT = process.env.PORT || 5000;

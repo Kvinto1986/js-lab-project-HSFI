@@ -6,6 +6,7 @@ import PropTypes from 'prop-types';
 import Select from "react-select";
 import food from "../../resourses/food";
 import './sellerCardsStyles.css'
+import {getSellers} from "../../actions/sellers";
 
 class NewCard extends Component {
 
@@ -26,20 +27,27 @@ class NewCard extends Component {
         };
     }
 
+    componentWillMount() {
+        getSellers()
+    }
+
     render() {
         const {isAuthenticated, user} = this.props.auth;
         const {errors} = this.state;
+
 
         if(isAuthenticated){
             return (
 
                 <div className="cardMainContainer" >
+                    <img src={'../../../static/Krabs@krabs.com-crabs.jpg'}/>
                             <Select
                                 options={food}
                                 placeholder={'Select seller license...'}
                                 className={'licenseSelect'}
                             />
                 </div>
+
 
             )}
         else return(<Redirect to={{
@@ -55,4 +63,4 @@ const mapStateToProps = state => ({
     errors: state.errors
 });
 
-export default connect(mapStateToProps, {})(withRouter(NewCard))
+export default connect(mapStateToProps, {getSellers})(withRouter(NewCard))

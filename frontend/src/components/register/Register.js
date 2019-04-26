@@ -2,17 +2,15 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
 import {withRouter} from 'react-router-dom';
-import {registerUser, getOrganizations, registerOrganizations} from '../../actions/authentication';
+import {registerUser} from '../../actions/users';
+import {getOrganizations, registerOrganizations} from '../../actions/organizations';
+import {getCountry} from '../../actions/country';
 import Select from 'react-select'
 import countries from '../../resourses/countries'
-import organizations from '../../resourses/organizationsList/organizations'
 import roles from '../../resourses/roles'
 import TaskSelect from './TaskSelect'
 import OrgInputs from './OrganizationInputs'
-import getOrganizationsList from '../../resourses/organizationsList/organaizationsList'
 import './registerStyle.css'
-
-const organizationsArray = getOrganizationsList(organizations);
 
 class Register extends Component {
 
@@ -32,7 +30,6 @@ class Register extends Component {
             organizationAddress: '',
             errors: {},
             showOrganizationInput: true,
-
         };
 
         this.handleInputChange = this.handleInputChange.bind(this);
@@ -128,16 +125,17 @@ class Register extends Component {
         if (this.props.auth.isAuthenticated) {
             this.props.history.push('/');
         }
-        getOrganizations()
+        this.props.getOrganizations();
+        this.props.getCountry();
     }
 
-
     render() {
+
         const {errors} = this.state;
         const {countrySelect} = this.state.country;
-        const {organizationSelect} = this.state.organization
+        const {organizationSelect} = this.state.organization;
         const {roleSelect} = this.state.role;
-
+        const countryArr = this.props.country;
         const Organization = () => {
             if (this.state.role === 'coordinator') {
 
@@ -165,7 +163,7 @@ class Register extends Component {
                         {errors.role && (<div className="invalidFeedback">{errors.role}</div>)}
 
                         <Select
-                            options={countries}
+                            options={countryArr}
                             placeholder={'Select country...'}
                             value={countrySelect}
                             onChange={this.handleChangeCountry}
@@ -190,7 +188,7 @@ class Register extends Component {
                         {errors.name && (<div className="invalidFeedback">{errors.name}</div>)}
 
                         <Select
-                            options={organizationsArray}
+                            options={this.props.organizations}
                             value={organizationSelect}
                             isDisabled={!this.state.showOrganizationInput}
                             placeholder={'Select organization...'}
@@ -261,12 +259,16 @@ class Register extends Component {
 
 Register.propTypes = {
     registerUser: PropTypes.func.isRequired,
-    auth: PropTypes.object.isRequired
+    auth: PropTypes.object.isRequired,
+    organizations: PropTypes.array.isRequired,
+    country: PropTypes.array.isRequired
 };
 
 const mapStateToProps = state => ({
     auth: state.auth,
-    errors: state.errors
+    errors: state.errors,
+    organizations: state.organizations,
+    country: state.country
 });
 
-export default connect(mapStateToProps, {registerUser, registerOrganizations})(withRouter(Register))
+export default connect(mapStateToProps, {registerUser, registerOrganizations,getOrganizations,getCountry})(withRouter(Register))

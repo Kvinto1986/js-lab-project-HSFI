@@ -51,4 +51,11 @@ router.post('/sellerRegister', function(req, res) {
 
     })
 });
+
+router.post('/getSellers', function(req, res) {
+    Seller.find({}, function(err, sellers) {
+        res.send(sellers);
+    });
+});
+
 module.exports = router;

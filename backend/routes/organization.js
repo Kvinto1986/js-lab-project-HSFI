@@ -1,7 +1,6 @@
 const express = require('express');
 const router = express.Router();
 const validateRegisterInput = require('../validation/organization');
-const fs=require('file-system')
 const Organization = require('../models/Organization');
 
 router.post('/registration', function(req, res) {
@@ -35,10 +34,14 @@ router.post('/registration', function(req, res) {
 
 router.post('/getOrganizations', function(req, res) {
     Organization.find({}, function(err, organizations) {
-        fs.writeFileSync('../frontend/src/resourses/organizationsList/organizations.json', JSON.stringify(organizations));
-        res.send(organizations);
+        const arr=organizations.map(function (elem) {
+            const newElem={}
+            newElem.value=elem.organization;
+            newElem.label=elem.organization;
+            return newElem
+        });
+        res.send(arr);
     });
 });
-
 
 module.exports = router;

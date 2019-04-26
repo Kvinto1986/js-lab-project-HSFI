@@ -65,6 +65,8 @@
 .sellerFormInputFile{
     width: 60%;
 
+    margin-top: 1%;
+
     font-size: 0.9vw;
     border-radius: 5px  ;
 }
