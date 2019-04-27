@@ -4,7 +4,7 @@ const Schema = mongoose.Schema;
 
 const CountrySchema = new Schema({
 
-    type: {
+    country: {
         type: String,
         required: true
     }

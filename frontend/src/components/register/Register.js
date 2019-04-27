@@ -6,7 +6,6 @@ import {registerUser} from '../../actions/users';
 import {getOrganizations, registerOrganizations} from '../../actions/organizations';
 import {getCountry} from '../../actions/country';
 import Select from 'react-select'
-import countries from '../../resourses/countries'
 import roles from '../../resourses/roles'
 import TaskSelect from './TaskSelect'
 import OrgInputs from './OrganizationInputs'
@@ -125,8 +124,11 @@ class Register extends Component {
         if (this.props.auth.isAuthenticated) {
             this.props.history.push('/');
         }
-        this.props.getOrganizations();
-        this.props.getCountry();
+
+        else {
+            this.props.getOrganizations();
+            this.props.getCountry();
+        }
     }
 
     render() {
@@ -135,7 +137,6 @@ class Register extends Component {
         const {countrySelect} = this.state.country;
         const {organizationSelect} = this.state.organization;
         const {roleSelect} = this.state.role;
-        const countryArr = this.props.country;
         const Organization = () => {
             if (this.state.role === 'coordinator') {
 
@@ -163,7 +164,7 @@ class Register extends Component {
                         {errors.role && (<div className="invalidFeedback">{errors.role}</div>)}
 
                         <Select
-                            options={countryArr}
+                            options={this.props.countries}
                             placeholder={'Select country...'}
                             value={countrySelect}
                             onChange={this.handleChangeCountry}
@@ -261,14 +262,14 @@ Register.propTypes = {
     registerUser: PropTypes.func.isRequired,
     auth: PropTypes.object.isRequired,
     organizations: PropTypes.array.isRequired,
-    country: PropTypes.array.isRequired
+    countries: PropTypes.array.isRequired
 };
 
 const mapStateToProps = state => ({
     auth: state.auth,
     errors: state.errors,
     organizations: state.organizations,
-    country: state.country
+    countries: state.countries
 });
 
 export default connect(mapStateToProps, {registerUser, registerOrganizations,getOrganizations,getCountry})(withRouter(Register))

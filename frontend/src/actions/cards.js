@@ -1,10 +1,11 @@
 import axios from 'axios';
-import {GET_ERRORS, SET_CURRENT_SELLERS} from './types';
+import {GET_ERRORS, SET_CURRENT_CARDS} from './types';
 
-export const registerSeller = (user, history) => dispatch => {
-    axios.post('/api/sellers/sellerRegister', user)
+
+export const registerCard = (card, history) => dispatch => {
+    axios.post('/api/sellerCard/registration', card)
         .then(res => {
-            console.log(res)
+            console.log(res);
             history.push('/success')
         })
         .catch(err => {
@@ -15,11 +16,11 @@ export const registerSeller = (user, history) => dispatch => {
         });
 };
 
-export const getSellers = () => dispatch =>{
-    axios.post('/api/sellers/getSellers')
+export const getCards = () => dispatch =>{
+    axios.post('/api/sellerCard/getCards')
         .then(res => {
             dispatch({
-                type: SET_CURRENT_SELLERS,
+                type: SET_CURRENT_CARDS,
                 payload: res.data
             });
         });

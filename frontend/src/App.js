@@ -18,7 +18,7 @@ import Inspection from './components/tasksPages/inspection';
 import OperatorsProfiles from './components/tasksPages/operatorsProfiles';
 import CoordinatorsProfiles from './components/tasksPages/coordinatorsProfiles';
 import Success from './components/tasksPages/success';
-import AdminPage from './components/tasksPages/adminPage';
+import AdminPage from './components/admin/adminPage';
 
 if(localStorage.jwtToken) {
   setAuthToken(localStorage.jwtToken);
@@ -38,7 +38,7 @@ class App extends Component {
     return (
       <Provider store = { store }>
         <Router>
-            <div className={'mainContainer'}>
+            <div className={'mainContainer'} >
               <Navbar />
               <Route exact path="/" component={ Home } />
                 <Route exact path='/newSeller' component={NewSeller} />

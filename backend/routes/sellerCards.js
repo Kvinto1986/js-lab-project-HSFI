@@ -1,11 +1,56 @@
 const express = require('express');
 const router = express.Router();
-const fs = require('file-system')
+const validateRegisterInput = require('../validation/sellerCards');
+const Card = require('../models/Card');
+
+router.post('/registration', function(req, res) {
+
+    const {errors, isValid} = validateRegisterInput(req.body);
+
+    if (!isValid) {
+        return res.status(400).json(errors);
+    }
+
+    Card.findOne({
+        cardSerial: req.body.cardSerial
+    }).then(card => {
+        if (card) {
+            return res.status(400).json({
+                cardSerial: 'cardSerial already exists'
+            });
+        } else {
+
+            if (!isValid) {
+                return res.status(400).json(errors);
+            }
 
 
-router.post('/getSellersCards', function (req, res) {
-    Organization.find({}, function (err, organizations) {
-        fs.writeFileSync('../frontend/src/resourses/organizationsList/organizations.json', JSON.stringify(organizations));
-        res.send(organizations);
+            const newCard = new Card({
+                operatorName: req.body.operatorName,
+                sellerName: req.body.sellerName,
+                sellerPhoto: req.body.sellerPhoto,
+                license: req.body.license,
+                cardsCount: req.body.cardsCount,
+                cardSerial: req.body.cardSerial,
+                cost: req.body.cost,
+                currency: req.body.currency,
+                foodGroup: req.body.foodGroup
+            });
+            newCard
+                .save()
+                .then(card => {
+                    res.json(card)
+                });
+
+        }
+
+    })
+});
+
+router.post('/getCards', function(req, res) {
+    Card.find({}, function(err, cards) {
+        res.send(cards);
     });
 });
+
+module.exports = router;

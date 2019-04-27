@@ -1,8 +1,8 @@
 import axios from 'axios';
-import {GET_ERRORS, SET_CURRENT_COUNTRY} from './types';
+import {GET_ERRORS, SET_CURRENT_FOOD} from './types';
 
-export const registerCountry = (country) => dispatch => {
-    axios.post('/api/countries/registration', country)
+export const registerFood = (food) => dispatch => {
+    axios.post('/api/foodGroup/registration', food)
         .then(res => res)
         .catch(err => {
             dispatch({
@@ -12,11 +12,11 @@ export const registerCountry = (country) => dispatch => {
         });
 };
 
-export const getCountry = () => dispatch => {
-    axios.post('/api/countries/getCountry')
+export const getFood = () => dispatch => {
+    axios.post('/api/foodGroup/getFood')
         .then(res => {
             dispatch({
-                type: SET_CURRENT_COUNTRY,
+                type: SET_CURRENT_FOOD,
                 payload: res.data
             });
         });

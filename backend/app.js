@@ -10,7 +10,9 @@ const users = require('./routes/user');
 const sellers = require('./routes/seller');
 const organizations = require('./routes/organization');
 const uploads = require('./routes/uploadImage');
-const country = require('./routes/country');
+const countries = require('./routes/country');
+const food = require('./routes/food');
+const cards = require('./routes/sellerCards');
 
 
 mongoose.connect(config.DB, { useNewUrlParser: true }).then(
@@ -30,8 +32,9 @@ app.use('/api/users', users);
 app.use('/api/sellers', sellers);
 app.use('/api/organizations', organizations);
 app.use('/api/uploads', uploads);
-app.use('/api/country', country);
-
+app.use('/api/countries', countries);
+app.use('/api/foodGroup', food);
+app.use('/api/sellerCard', cards);
 
 const PORT = process.env.PORT || 5000;
 

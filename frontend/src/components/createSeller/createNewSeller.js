@@ -4,9 +4,10 @@ import {connect} from 'react-redux';
 import {withRouter} from 'react-router-dom';
 import PropTypes from 'prop-types';
 import {registerSeller} from '../../actions/sellers';
+import {getCountry} from '../../actions/country';
 import {uploadImage} from '../../actions/uploads';
 import Select from "react-select";
-import food from "../../resourses/food";
+import {getFood} from '../../actions/food';
 import './createSellerStyles.css'
 
 import countries from "../../resourses/countries";
@@ -104,6 +105,12 @@ class NewSeller extends Component {
         }
     }
 
+    componentDidMount() {
+            this.props.getCountry();
+        this.props.getFood();
+        }
+
+
     render() {
         const {isAuthenticated, user} = this.props.auth;
         const {errors} = this.state;
@@ -126,7 +133,7 @@ class NewSeller extends Component {
                             />
 
                         <Select
-                            options={countries}
+                            options={this.props.countries}
                             placeholder={'Select country...'}
                             value={countrySelect}
                             onChange={this.handleChangeCountry}
@@ -224,7 +231,7 @@ class NewSeller extends Component {
                         {errors.ingredients && (<div className="invalidFeedback">{errors.ingredients}</div>)}
 
                     <Select
-                        options={food}
+                        options={this.props.food}
                         placeholder={'Select food group...'}
                         value={foodSelect}
                         onChange={this.handleChangeFood}
@@ -247,11 +254,15 @@ class NewSeller extends Component {
 }
 NewSeller.propTypes = {
     registerSeller: PropTypes.func.isRequired,
-    auth: PropTypes.object.isRequired
+    auth: PropTypes.object.isRequired,
+    countries: PropTypes.array.isRequired,
+    food: PropTypes.array.isRequired
 };
 const mapStateToProps = state => ({
     auth: state.auth,
-    errors: state.errors
+    errors: state.errors,
+    countries: state.countries,
+    food:  state.food
 });
 
-export default connect(mapStateToProps, {registerSeller,uploadImage})(withRouter(NewSeller))
+export default connect(mapStateToProps, {registerSeller,uploadImage,getCountry,getFood})(withRouter(NewSeller))
