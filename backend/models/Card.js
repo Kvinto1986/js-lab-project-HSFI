@@ -24,7 +24,7 @@ const CardSchema = new Schema({
         required: true
     },
     cardSerial: {
-        type: String,
+        type:  Number,
         required: true
     },
     cost: {

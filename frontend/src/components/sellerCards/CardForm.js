@@ -18,16 +18,14 @@ class CardForm extends Component {
                             disabled = 'disabled'
                             value={this.props.user.name}
                         />
-
                         <input
                             type="text"
                             placeholder="Card Serial"
                             name="cardSerial"
-                            onChange={this.props.handleInputChange}
                             value={this.props.cardSerial}
+                            disabled = 'disabled'
                         />
                         {this.props.errors.cardSerial && (<div className="invalidFeedbackCard">{this.props.errors.cardSerial}</div>)}
-
                         <input
                             type="number"
                             placeholder="Cards Count"
@@ -55,7 +53,7 @@ class CardForm extends Component {
                         />
 
                         {this.props.errors.currency && (<div className="invalidFeedbackCard">{this.props.errors.currency}</div>)}
-                        <button type="submit">
+                        <button type="submit" className={'btnSubmit'} onClick={this.props.handleSubmit}>
                             Submit
                         </button>
                     </form>

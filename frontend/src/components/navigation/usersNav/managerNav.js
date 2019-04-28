@@ -15,11 +15,7 @@ const ManagerNav = () => {
                     <li >
                         <Link className="usersNavigationContainerLink" to="/inspection">Inspection</Link></li>
                     <li >
-                        <Link className="usersNavigationContainerLink" to="/operatorsProfiles">Operators profile</Link></li>
-                        <li >
-                            <Link className="usersNavigationContainerLink" to="/coordinatorsProfiles">Coordinators profile</Link></li>
-                            <li >
-                                <Link className="usersNavigationContainerLink" to="/admin">Admin page</Link>
+                                                       <Link className="usersNavigationContainerLink" to="/admin">Admin page</Link>
                     </li>
                 </ul>
             </div>

@@ -7,7 +7,6 @@ module.exports = function validateRegisterInput(data) {
     data.sellerName = !isEmpty(data.sellerName) ? data.sellerName : '';
     data.cardsCount = !isEmpty(data.cardsCount) ? data.cardsCount : '';
     data.license = !isEmpty(data.license) ? data.license : '';
-    data.cardSerial = !isEmpty(data.cardSerial) ? data.cardSerial : '';
     data.sellerPhoto = !isEmpty(data.sellerPhoto) ? data.sellerPhoto : '';
     data.cost = !isEmpty(data.cost) ? data.cost : '';
     data.currency = !isEmpty(data.currency) ? data.currency : '';
@@ -27,9 +26,6 @@ module.exports = function validateRegisterInput(data) {
 
     if(Validator.isEmpty(data.license)) {
         errors.license = 'license is required';
-    }
-    if(Validator.isEmpty(data.cardSerial)) {
-        errors.cardSerial = 'cardSerial is required';
     }
 
     if(Validator.isEmpty(data.sellerPhoto)) {

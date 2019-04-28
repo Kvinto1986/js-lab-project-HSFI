@@ -77,9 +77,8 @@
     padding: 1% 1%;
 
     margin-top: 1%;
-    margin-bottom: 1%;
 }
-.cardFormContainer button{
+.btnSubmit{
     width: 70%;
 
     font-size: 0.8vw;
@@ -95,7 +94,10 @@
 .invalidFeedbackCard{
     color: brown;
     width: 72.5%;
+    margin-bottom: 1%;
 }
 .currencySelect{
     width: 72%;
+
+     margin-top: 1%;
 }

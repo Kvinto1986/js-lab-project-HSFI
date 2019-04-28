@@ -32,6 +32,12 @@ const getSeller=function (obj,license) {
     return seller;
 };
 
+const getRandomSerial=function () {
+    let serial=Math.floor(Math.random() * 10000000000001)
+
+    return serial;
+};
+
 
 class NewCard extends Component {
 
@@ -41,7 +47,7 @@ class NewCard extends Component {
             license: "",
             seller:null,
             cardsCount: '',
-            cardSerial: '',
+            cardSerial: getRandomSerial(),
             cost: '',
             currency: '',
             errors: {}

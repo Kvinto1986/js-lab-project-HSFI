@@ -13,10 +13,8 @@ import Login from './components/login/Login';
 import Home from './components/homePage/Home';
 import SellerCard from './components/sellerCards/createSellerCard';
 import NewSeller from './components/createSeller/createNewSeller';
-import Call from './components/tasksPages/getCall';
+import Call from './components/calls/calls';
 import Inspection from './components/tasksPages/inspection';
-import OperatorsProfiles from './components/tasksPages/operatorsProfiles';
-import CoordinatorsProfiles from './components/tasksPages/coordinatorsProfiles';
 import Success from './components/tasksPages/success';
 import AdminPage from './components/admin/adminPage';
 
@@ -46,8 +44,6 @@ class App extends Component {
                 <Route exact path='/sellerCards' component={SellerCard} />
               <Route exact path="/calls" component={ Call } />
                 <Route exact path="/inspection" component={ Inspection } />
-                <Route exact path="/operatorsProfiles" component={ OperatorsProfiles } />
-                <Route exact path="/coordinatorsProfiles" component={ CoordinatorsProfiles } />
                 <Route exact path="/admin" component={ AdminPage } />
               <Route exact path="/register" component={ Register } />
               <Route exact path="/login" component={ Login } />
