@@ -14,8 +14,7 @@ import Home from './components/homePage/Home';
 import SellerCard from './components/sellerCards/createSellerCard';
 import NewSeller from './components/createSeller/createNewSeller';
 import Call from './components/calls/calls';
-import Inspection from './components/tasksPages/inspection';
-import Success from './components/tasksPages/success';
+import Inspection from './components/inspection/inspection';
 import AdminPage from './components/admin/adminPage';
 
 if(localStorage.jwtToken) {
@@ -40,7 +39,6 @@ class App extends Component {
               <Navbar />
               <Route exact path="/" component={ Home } />
                 <Route exact path='/newSeller' component={NewSeller} />
-                <Route exact path='/success' component={Success} />
                 <Route exact path='/sellerCards' component={SellerCard} />
               <Route exact path="/calls" component={ Call } />
                 <Route exact path="/inspection" component={ Inspection } />
