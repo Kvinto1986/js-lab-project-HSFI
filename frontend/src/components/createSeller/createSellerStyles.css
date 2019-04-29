@@ -99,4 +99,19 @@
     font-size: 0.7vw;
     color: brown;
 }
+.successContainer{
+    width: 100%;
 
+    margin-top: 2%;
+
+    background-color: white;
+
+    border-radius: 15px;
+
+}
+
+.successContainer h1{
+    color:lightgreen;
+    text-align: center;
+
+}

@@ -1,10 +1,10 @@
-import { SET_CURRENT_COUNTRY } from '../actions/types';
+import { GET_CURRENT_COUNTRY } from '../actions/types';
 
 const initialState = [];
 
 export default function(state = initialState, action ) {
     switch(action.type) {
-        case SET_CURRENT_COUNTRY:
+        case GET_CURRENT_COUNTRY:
             return action.payload;
         default:
             return state;

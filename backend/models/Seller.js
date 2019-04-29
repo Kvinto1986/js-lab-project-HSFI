@@ -51,6 +51,16 @@ const SellerSchema = new Schema({
         type: String,
         required: true
     },
+    flag: {
+        type: String,
+    },
+    flagCount: {
+        type: Number,
+    },
+    cards: {
+        type: Array,
+    },
+
     date: {
         type: Date,
         default: Date.now

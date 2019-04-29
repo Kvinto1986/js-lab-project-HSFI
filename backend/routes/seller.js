@@ -39,6 +39,9 @@ router.post('/sellerRegister', function(req, res) {
                 email: req.body.email,
                 ingredients: req.body.ingredients,
                 foodGroup: req.body.foodGroup,
+                flag:req.body.flag,
+                flagCount:req.body.flagCount,
+                cards:req.body.cards
 
             });
             newSeller

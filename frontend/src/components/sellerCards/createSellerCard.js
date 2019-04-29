@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { Redirect } from 'react-router-dom';
+import {Redirect} from 'react-router-dom';
 import {connect} from 'react-redux';
 import {withRouter} from 'react-router-dom';
 import PropTypes from 'prop-types';
@@ -10,32 +10,32 @@ import './sellerCardsStyles.css';
 import {getSellers} from "../../actions/sellers";
 import {registerCard} from '../../actions/cards';
 
-const getLicenseSelect=function (obj) {
-    const licenseArr=obj.map(function (elem) {
-        const newElem={};
-        newElem.value=elem.license;
-        newElem.label=elem.license;
+const getLicenseSelect = function (obj) {
+    const licenseArr = obj.map(function (elem) {
+        const newElem = {};
+        newElem.value = elem.license;
+        newElem.label = elem.license;
         return newElem
     });
 
     return licenseArr;
 };
 
-const getSeller=function (obj,license) {
-    let seller={}
-        for(let i=0;i<obj.length;i++){
-            if(obj[i].license===license){
-                seller=obj[i]
-            }
+const getSeller = function (obj, license) {
+    let seller = {}
+    for (let i = 0; i < obj.length; i++) {
+        if (obj[i].license === license) {
+            seller = obj[i]
         }
+    }
 
     return seller;
 };
 
-const getRandomSerial=function () {
-    let serial=Math.floor(Math.random() * 10000000000001)
+const getRandomSerial = function () {
+    let serial = Math.floor(Math.random() * 10000000000001)
 
-    return serial;
+    return serial.toString();
 };
 
 
@@ -45,11 +45,12 @@ class NewCard extends Component {
         super();
         this.state = {
             license: "",
-            seller:null,
+            seller: null,
             cardsCount: '',
-            cardSerial: getRandomSerial(),
+            cardSerial: '',
             cost: '',
             currency: '',
+            success:false,
             errors: {}
         };
 
@@ -57,6 +58,8 @@ class NewCard extends Component {
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleInputChange = this.handleInputChange.bind(this);
         this.handleChangeCurrency = this.handleChangeCurrency.bind(this);
+        this.resetForm = this.resetForm.bind(this);
+
     }
 
     handleChangeLicense = (licenseSelect) => {
@@ -64,7 +67,7 @@ class NewCard extends Component {
             license: licenseSelect.value
         });
         this.setState({
-            seller: getSeller(this.props.sellers,licenseSelect.value)
+            seller: getSeller(this.props.sellers, licenseSelect.value)
         });
 
     };
@@ -83,6 +86,21 @@ class NewCard extends Component {
 
     };
 
+    resetForm = () => {
+        this.setState({
+            license: "",
+            cardsCount: '',
+            cardSerial: '',
+            cost: '',
+            currency: '',
+            seller: null,
+            success:true,
+    });
+        setTimeout(() => {
+            this.setState({ success:false})
+        }, 5000);
+    };
+
     handleSubmit(e) {
         e.preventDefault();
 
@@ -92,14 +110,14 @@ class NewCard extends Component {
             sellerPhoto: this.state.seller.photo,
             license: this.state.seller.license,
             cardsCount: this.state.cardsCount,
-            cardSerial: this.state.cardSerial,
+            cardSerial: getRandomSerial(),
             cost: this.state.cost,
             currency: this.state.currency,
             foodGroup: this.state.seller.foodGroup
 
         };
-        console.log(card)
-        this.props.registerCard(card,this.props.history);
+
+        this.props.registerCard(card,this.resetForm);
     }
 
     componentWillReceiveProps(nextProps) {
@@ -111,55 +129,67 @@ class NewCard extends Component {
     }
 
     componentDidMount() {
-            this.props.getSellers();
+        this.props.getSellers();
     }
 
     render() {
         const {isAuthenticated, user} = this.props.auth;
         const {errors} = this.state;
         const sellersArr = getLicenseSelect(this.props.sellers);
-        const {licenseSelect}=this.state.license;
+        const {licenseSelect} = this.state.license;
 
-        if(isAuthenticated){
+        const SendSuccess=()=>{
+            if(this.state.success===true){
+                return(
+                    <div className={'successContainer'}><h1>Card created successfully!</h1></div>
+                )
+            }
+            else return null
+        };
+
+        if (isAuthenticated) {
             return (
 
-                <div className="cardMainContainer" >
+                <div className="cardMainContainer">
 
-                            <Select
-                                options={sellersArr}
-                                value={licenseSelect}
-                                onChange={this.handleChangeLicense}
-                                placeholder={'Select seller license...'}
-                                className={'licenseSelectInput'}
-                            />
+                    <Select
+                        options={sellersArr}
+                        value={licenseSelect}
+                        onChange={this.handleChangeLicense}
+                        placeholder={'Select seller license...'}
+                        className={'licenseSelectInput'}
+                    />
                     <div className="cardContainer">
-                            <SellerInfo
+                        <SellerInfo
                             seller={this.state.seller}
-                            />
-                            <CardForm
-                                user={user}
-                                registerCard={this.props.registerCard}
-                                seller={this.state.seller}
-                                errors={errors}
-                                handleSubmit={this.handleSubmit}
-                                handleInputChange={this.handleInputChange}
-                                cardSerial={this.state.cardSerial}
-                                cardsCount={this.state.cardsCount}
-                                cost={this.state.cost}
-                                handleChangeCurrency={this.handleChangeCurrency}
-                                currency={this.state.currency}
-                            />
+                        />
+                        <CardForm
+                            user={user}
+                            registerCard={this.props.registerCard}
+                            seller={this.state.seller}
+                            errors={errors}
+                            handleSubmit={this.handleSubmit}
+                            handleInputChange={this.handleInputChange}
+                            cardSerial={this.state.cardSerial}
+                            cardsCount={this.state.cardsCount}
+                            cost={this.state.cost}
+                            handleChangeCurrency={this.handleChangeCurrency}
+                            currency={this.state.currency}
+                        />
 
                     </div>
+                    <SendSuccess
+                    />
                 </div>
 
 
-            )}
-        else return(<Redirect to={{
+            )
+        } else return (<Redirect to={{
             pathname: '/login',
-        }} />)
+        }}/>)
     }
 }
+
 NewCard.propTypes = {
     auth: PropTypes.object.isRequired,
     sellers: PropTypes.array.isRequired,
@@ -170,4 +200,4 @@ const mapStateToProps = state => ({
     sellers: state.sellers
 });
 
-export default connect(mapStateToProps, {getSellers,registerCard})(withRouter(NewCard))
+export default connect(mapStateToProps, {getSellers, registerCard})(withRouter(NewCard))

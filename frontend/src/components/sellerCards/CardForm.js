@@ -18,13 +18,6 @@ class CardForm extends Component {
                             disabled = 'disabled'
                             value={this.props.user.name}
                         />
-                        <input
-                            type="text"
-                            placeholder="Card Serial"
-                            name="cardSerial"
-                            value={this.props.cardSerial}
-                            disabled = 'disabled'
-                        />
                         {this.props.errors.cardSerial && (<div className="invalidFeedbackCard">{this.props.errors.cardSerial}</div>)}
                         <input
                             type="number"
@@ -36,7 +29,7 @@ class CardForm extends Component {
                         {this.props.errors.cardsCount && (<div className="invalidFeedbackCard">{this.props.errors.cardsCount}</div>)}
 
                         <input
-                            type="text"
+                            type="number"
                             placeholder="Cost"
                             name="cost"
                             onChange={this.props.handleInputChange}

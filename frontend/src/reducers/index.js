@@ -6,6 +6,9 @@ import countryReduser from './countryReducer'
 import foodReduser from './foodReduser'
 import sellersReduser from './sellersReduser'
 import cardsReduser from './cardsReduser'
+import callsReduser from './callsReduser'
+import emptyErrorsReduser from './callsReduser'
+
 
 
 
@@ -16,5 +19,7 @@ export default combineReducers({
     countries:countryReduser,
     food:foodReduser,
     sellers:sellersReduser,
-    cards:cardsReduser
+    cards:cardsReduser,
+    calls:callsReduser,
+    empty:emptyErrorsReduser
 });

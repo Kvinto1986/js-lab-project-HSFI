@@ -1,5 +1,5 @@
 import axios from 'axios';
-import {GET_ERRORS,SET_CURRENT_ORGANIZATIONS,} from './types';
+import {GET_ERRORS,GET_CURRENT_ORGANIZATIONS,} from './types';
 
 
 export const registerOrganizations = (organization) => dispatch => {
@@ -17,7 +17,7 @@ export const getOrganizations = () => dispatch => {
     axios.post('/api/organizations/getOrganizations')
         .then(res => {
             dispatch({
-                type: SET_CURRENT_ORGANIZATIONS,
+                type: GET_CURRENT_ORGANIZATIONS,
                 payload: res.data
             });
         });

@@ -1,11 +1,11 @@
 import axios from 'axios';
-import {GET_ERRORS, SET_CURRENT_USER} from './types';
+import {GET_ERRORS, GET_CURRENT_USER} from './types';
 import jwt_decode from 'jwt-decode';
 import setAuthToken from '../setAuthToken'
 
 export const setCurrentUser = decoded => {
     return {
-        type: SET_CURRENT_USER,
+        type: GET_CURRENT_USER,
         payload: decoded
     }
 };

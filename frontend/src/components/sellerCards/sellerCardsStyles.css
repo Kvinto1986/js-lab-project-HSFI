@@ -101,3 +101,20 @@
 
      margin-top: 1%;
 }
+
+.successContainer{
+    width: 50%;
+
+    margin-top: 2%;
+
+    background-color: white;
+
+    border-radius: 15px;
+
+}
+
+.successContainer h1{
+    color:lightgreen;
+    text-align: center;
+
+}

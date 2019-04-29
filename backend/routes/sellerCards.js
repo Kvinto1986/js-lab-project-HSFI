@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const validateRegisterInput = require('../validation/sellerCards');
 const Card = require('../models/Card');
+const Seller = require('../models/Seller');
 
 router.post('/registration', function(req, res) {
 
@@ -20,6 +21,13 @@ router.post('/registration', function(req, res) {
             });
         } else {
 
+            Seller.findOne({
+                license: req.body.license,
+            }).then(seller => {
+                seller.cards.push(req.body.cardSerial);
+                seller.save()
+                console.log(seller)
+            });
             if (!isValid) {
                 return res.status(400).json(errors);
             }

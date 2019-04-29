@@ -3,7 +3,7 @@ import {getCards} from '../../actions/cards';
 import './callsStyles.css'
 import {connect} from "react-redux";
 import PropTypes from 'prop-types';
-import {getSellers} from "../../actions/sellers";
+import {registerCall} from "../../actions/calls";
 import {withRouter} from "react-router-dom";
 import Select from "react-select";
 
@@ -24,10 +24,13 @@ const getSerialSelect=function (obj) {
          this.state = {
              ID:'',
              serial:'',
+             success:false,
              errors: {}
          };
          this.handleInputChange = this.handleInputChange.bind(this);
          this.handleChangeSerial = this.handleChangeSerial.bind(this);
+         this.handleSubmit = this.handleSubmit.bind(this);
+         this.resetForm = this.resetForm.bind(this);
      }
 
      handleInputChange(e) {
@@ -39,10 +42,34 @@ const getSerialSelect=function (obj) {
 
      handleChangeSerial = (serialSelect) => {
          this.setState({
-             currency: serialSelect.value
+             serial: serialSelect.value
          });
 
      };
+
+     resetForm = () => {
+         this.setState({
+             ID:'',
+             serial:'',
+             success:true
+         });
+         setTimeout(() => {
+             this.setState({ success:false})
+         }, 5000);
+     };
+
+     handleSubmit(e) {
+         e.preventDefault();
+
+         const call = {
+             operatorName:this.props.auth.user.name,
+             ID:this.state.ID,
+             serial:this.state.serial,
+         };
+                console.log(call)
+         this.props.registerCall(call, this.resetForm);
+     }
+
 
      componentWillReceiveProps(nextProps) {
          if (nextProps.errors) {
@@ -58,43 +85,59 @@ const getSerialSelect=function (obj) {
 
 
     render() {
+        const {errors} = this.state;
         const {isAuthenticated, user} = this.props.auth;
         const serialsArr = getSerialSelect(this.props.cards);
-        const {serialSelect}=this.state.serial
+        const {serialSelect}=this.state.serial;
+
+        const SendSuccess=()=>{
+            if(this.state.success===true){
+                return(
+                    <div className={'successContainer'}><h1>Card created successfully!</h1></div>
+                )
+            }
+            else return null
+        };
+
         if(isAuthenticated) {
             return (
                 <div className={'callsMainContainer'}>
                     <div className="callFormContainer">
                         <h2>Registration call</h2>
-                        <form>
+                        <form onSubmit={this.handleSubmit}>
                             <input
                                 type="text"
                                 placeholder={user.name}
                                 disabled = 'disabled'
                                 value={user.name}
                             />
+                            {errors.operatorName && (<div className="invalidFeedbackCalls">{errors.operatorName}</div>)}
 
                             <input
                                 type="text"
                                 placeholder="ID"
                                 name="ID"
-                                onChange={this.props.handleInputChange}
-                                value={this.props.ID}
+                                onChange={this.handleInputChange}
+                                value={this.state.ID}
                             />
+                            {errors.ID && (<div className="invalidFeedbackCalls">{errors.ID}</div>)}
 
                             <Select
                                 options={serialsArr}
                                 value={serialSelect}
-                                onChange={this.handleChangeLicense}
+                                onChange={this.handleChangeSerial}
                                 placeholder={'Select card serial...'}
                                 className={'serialSelectInput'}
                             />
-
+                            {errors.serial && (<div className="invalidFeedbackCalls">{errors.serial}</div>)}
+                            {errors.call && (<div className="invalidFeedbackCalls">{errors.call}</div>)}
                             <button type="submit" className={'btnSubmit'}>
                                 Submit
                             </button>
                         </form>
                     </div>
+                    <SendSuccess
+                    />
                 </div>
             );
         }
@@ -111,4 +154,4 @@ const mapStateToProps = state => ({
     cards: state.cards
 });
 
-export default connect(mapStateToProps, {getCards})(withRouter(Calls))
+export default connect(mapStateToProps, {getCards,registerCall})(withRouter(Calls))

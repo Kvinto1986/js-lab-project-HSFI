@@ -10,9 +10,6 @@ import Select from "react-select";
 import {getFood} from '../../actions/food';
 import './createSellerStyles.css'
 
-import countries from "../../resourses/countries";
-
-
 class NewSeller extends Component {
 
     constructor() {
@@ -31,13 +28,15 @@ class NewSeller extends Component {
             ingredients: "",
             foodGroup: "",
             data: "",
-            errors: {}
+            success:false,
+            errors: {},
         };
 
         this.handleInputChange = this.handleInputChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleInputFileChange = this.handleInputFileChange.bind(this);
         this.handleChangeCountry = this.handleChangeCountry.bind(this);
+        this.resetForm = this.resetForm.bind(this);
 
     }
 
@@ -53,6 +52,29 @@ class NewSeller extends Component {
         })
     }
 
+    resetForm = () => {
+        this.setState({
+            operatorName: "",
+            country: '',
+            name: "",
+            photo: "",
+            phone: "",
+            email: "",
+            license: "",
+            photoLicense:'',
+            location:'',
+            schedule: "",
+            ingredients: "",
+            foodGroup: "",
+            data: "",
+            errors: {},
+            success:true,
+        });
+        setTimeout(() => {
+            this.setState({ success:false})
+        }, 5000);
+    };
+
     handleSubmit(e) {
         e.preventDefault();
 
@@ -60,7 +82,7 @@ class NewSeller extends Component {
         images.append('file', this.state.photo);
         images.append('file', this.state.photoLicense);
 
-        const user = {
+        const seller = {
             operatorName: this.props.auth.user.name,
             country: this.state.country,
             name: this.state.name,
@@ -72,20 +94,21 @@ class NewSeller extends Component {
             schedule: this.state.schedule,
             ingredients: this.state.ingredients,
             foodGroup: this.state.foodGroup,
-            photoLicense:''
-
+            photoLicense:'',
+            flag:'',
+            flagCount:0,
+            cards:[]
         };
 
         if(this.state.photo.name){
-            user.photo=this.state.email+'-'+this.state.photo.name
+            seller.photo=this.state.email+'-'+this.state.photo.name
         }
         if(this.state.photoLicense.name){
-            user.photoLicense=this.state.email+'-'+this.state.photoLicense.name
+            seller.photoLicense=this.state.email+'-'+this.state.photoLicense.name
         }
 
-        this.props.registerSeller(user, this.props.history);
+        this.props.registerSeller(seller, this.resetForm);
         this.props.uploadImage(images,this.state.email);
-        console.log(user)
     }
 
     handleChangeCountry = (countrySelect) => {
@@ -111,11 +134,22 @@ class NewSeller extends Component {
         }
 
 
+
+
     render() {
         const {isAuthenticated, user} = this.props.auth;
         const {errors} = this.state;
         const {countrySelect} = this.state.country;
         const {foodSelect} = this.state.country;
+
+        const SendSuccess=()=>{
+            if(this.state.success===true){
+                return(
+                    <div className={'successContainer'}><h1>Card created successfully!</h1></div>
+                )
+            }
+            else return null
+        };
 
         if(isAuthenticated){
         return (
@@ -243,6 +277,8 @@ class NewSeller extends Component {
                             Register Seller
                         </button>
                 </form>
+                    <SendSuccess
+                    />
                 </div>
             </div>
 

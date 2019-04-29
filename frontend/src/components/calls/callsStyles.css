@@ -62,3 +62,26 @@
 
     margin-top: 1%;
 }
+
+.invalidFeedbackCalls{
+    color: brown;
+    width: 100%;
+    margin-left: 4%;
+}
+
+.successContainer{
+    width: 70%;
+
+    margin-top: 2%;
+
+    background-color: white;
+
+    border-radius: 15px;
+
+}
+
+.successContainer h1{
+    color:lightgreen;
+    text-align: center;
+
+}
