@@ -14,6 +14,8 @@ const countries = require('./routes/country');
 const food = require('./routes/food');
 const cards = require('./routes/sellerCards');
 const calls = require('./routes/call');
+const inspection = require('./routes/inspection');
+const inspectionQuestions = require('./routes/inspectionQuestions');
 
 
 mongoose.connect(config.DB, { useNewUrlParser: true }).then(
@@ -37,6 +39,8 @@ app.use('/api/countries', countries);
 app.use('/api/foodGroup', food);
 app.use('/api/sellerCard', cards);
 app.use('/api/calls', calls);
+app.use('/api/inspection', inspection);
+app.use('/api/inspectionQuestions', inspectionQuestions);
 
 const PORT = process.env.PORT || 5000;
 

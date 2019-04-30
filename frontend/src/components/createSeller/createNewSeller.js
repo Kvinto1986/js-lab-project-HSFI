@@ -9,6 +9,7 @@ import {uploadImage} from '../../actions/uploads';
 import Select from "react-select";
 import {getFood} from '../../actions/food';
 import './createSellerStyles.css'
+import Map from './Map'
 
 class NewSeller extends Component {
 
@@ -97,7 +98,9 @@ class NewSeller extends Component {
             photoLicense:'',
             flag:'',
             flagCount:0,
-            cards:[]
+            cards:[],
+            OSS:0,
+            stars:0
         };
 
         if(this.state.photo.name){
@@ -155,6 +158,14 @@ class NewSeller extends Component {
         return (
 
             <div className="newSellerMainContainer" >
+                <Map
+                    className="Map"
+                    google={this.props.google}
+                    center={{lat: 52.459751, lng: 31.027605}}
+                    height='500px'
+                    width='500px'
+                    zoom={15}
+                />
                 <div className='newSellerFormContainer'>
                 <h3 >Registration new seller</h3>
                 <form onSubmit={this.handleSubmit}>

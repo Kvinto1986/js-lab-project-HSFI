@@ -8,6 +8,7 @@ import Modal from 'react-modal';
 import {getOrganizations, registerOrganizations} from "../../actions/organizations";
 import {getCountry, registerCountry} from "../../actions/country";
 import {getFood, registerFood} from "../../actions/food";
+import {getInspectionQuestions, registerInspectionQuestion} from "../../actions/inspectionQuestions";
 import countriesArr from "../../resourses/countries";
 import './adminStyles.css'
 
@@ -19,8 +20,12 @@ class Admin extends Component {
         super();
         this.state = {
             country: '',
-            modalIsOpen: false,
             food:'',
+            question:'',
+            countryModal:false,
+            foodModal:false,
+            questionModal:false,
+            success:false,
             errors: {},
         };
         this.handleInputChange = this.handleInputChange.bind(this);
@@ -29,6 +34,7 @@ class Admin extends Component {
         this.handleSubmitCountry = this.handleSubmitCountry.bind(this);
         this.openModal = this.openModal.bind(this);
         this.closeModal = this.closeModal.bind(this);
+        this. handleSubmitQuestion = this. handleSubmitQuestion.bind(this);
 
     }
 
@@ -39,13 +45,28 @@ class Admin extends Component {
         })
     }
 
-    openModal() {
-        this.setState({modalIsOpen: true});
+    openModal(e) {
+        this.setState({[e.target.name]: true});
     }
 
 
-    closeModal() {
-        this.setState({modalIsOpen: false});
+    closeModal(e) {
+        this.setState({[e.target.name]: false});
+    }
+
+    resetForm = () => {
+        this.setState({
+            country: '',
+            food:'',
+            question:'',
+            countryModal:false,
+            foodModal:false,
+            questionModal:false,
+            success:true
+        });
+        setTimeout(() => {
+            this.setState({ success:false})
+        }, 5000);
     }
 
     handleChangeCountry = (countrySelect) => {
@@ -61,7 +82,7 @@ class Admin extends Component {
             food: this.state.food
         };
 
-        this.props.registerFood(food)
+        this.props.registerFood(food,this.resetForm)
     }
 
     handleSubmitCountry(e) {
@@ -70,7 +91,16 @@ class Admin extends Component {
             country: this.state.country
         };
 
-        this.props.registerCountry(country)
+        this.props.registerCountry(country,this.resetForm)
+    }
+
+    handleSubmitQuestion(e) {
+        e.preventDefault();
+        const question = {
+            question: this.state.question
+        };
+
+        this.props.registerInspectionQuestion(question,this.resetForm)
     }
 
     static getDerivedStateFromProps(nextProps, prevState){
@@ -82,9 +112,10 @@ class Admin extends Component {
 
 
     componentDidMount() {
-        this.props.getOrganizations()
-        this.props.getCountry()
-        this.props.getFood()
+        this.props.getOrganizations();
+        this.props.getCountry();
+        this.props.getFood();
+        this.props.getInspectionQuestions()
     }
 
     render() {
@@ -92,18 +123,34 @@ class Admin extends Component {
         const {errors} = this.state;
         const {countrySelect} = this.state.country;
 
+        const SendSuccess=()=>{
+            if(this.state.success===true){
+                return(
+                    <div className={'successContainer'}><h1>Data written successfully!</h1></div>
+                )
+            }
+            else return null
+        };
+
+
         if (isAuthenticated) {
             return (
 
                 <div className="adminMainContainer">
-                    <button onClick={this.openModal} className={'modalButton'}>Add country</button>
+                    <div className="adminAddDataContainer">
+                        <ul>
+                            <li><button name={"countryModal"} onClick={this.openModal} className={'modalButton'}>Add country</button></li>
+                            <li><button name={"foodModal"} onClick={this.openModal} className={'modalButton'}>Add food group</button></li>
+                            <li><button name={"questionModal"} onClick={this.openModal} className={'modalButton'}>Add inspection question</button></li>
+                        </ul>
+
                     <Modal
-                        isOpen={this.state.modalIsOpen}
+                        isOpen={this.state.countryModal}
                         onRequestClose={this.closeModal}
                         contentLabel="Modal"
                         className={'modal'}
                     >
-
+                        <button name={"countryModal"} onClick={this.closeModal}>close</button>
                         <h2>Select a country from the list</h2>
                         <Select
                             options={countriesArr}
@@ -113,8 +160,16 @@ class Admin extends Component {
                             className={'countrySelect'}
                         />
                         {errors.country && (<div className="invalidFeedback">{errors.country}</div>)}
-                        <button onClick={this.handleSubmitCountry} className={'modalButton'}>Send</button>
-
+                        <button onClick={this.handleSubmitCountry} >Send</button>
+                    </Modal>
+                        <Modal
+                            isOpen={this.state.foodModal}
+                            onRequestClose={this.closeModal}
+                            contentLabel="Modal"
+                            className={'modal'}
+                        >
+                            <button name={"foodModal"} onClick={this.closeModal}>close</button>
+                            <h2>Enter food group </h2>
                         <input
                             type="text"
                             placeholder="Food group"
@@ -124,9 +179,30 @@ class Admin extends Component {
                             className={'registerFormInput'}
                         />
                         {errors.food && (<div className="invalidFeedback">{errors.food}</div>)}
-                        <button onClick={this.handleSubmitFood} className={'modalButton'}>Send</button>
+                        <button onClick={this.handleSubmitFood} >Send</button>
                     </Modal>
-
+                        <Modal
+                            isOpen={this.state.questionModal}
+                            onRequestClose={this.closeModal}
+                            contentLabel="Modal"
+                            className={'modal'}
+                        >
+                            <button name={"questionModal"} onClick={this.closeModal}>close</button>
+                            <h2>Enter question</h2>
+                            <input
+                                type="text"
+                                placeholder="Question"
+                                name="question"
+                                onChange={this.handleInputChange}
+                                value={this.state.question}
+                                className={'registerFormInput'}
+                            />
+                            {errors.question && (<div className="invalidFeedback">{errors.question}</div>)}
+                            <button onClick={this.handleSubmitQuestion} >Send</button>
+                        </Modal>
+                </div>
+                    <SendSuccess
+                    />
                 </div>
 
 
@@ -149,7 +225,8 @@ const mapStateToProps = state => ({
     countries: state.countries,
     organizations:state.organizations,
     food:state.food,
+    inspectionQuestions:state.questions
 });
 
 export default connect(mapStateToProps, {getCountry, registerCountry,getFood,
-    registerFood,getOrganizations, registerOrganizations})(withRouter(Admin))
+    registerFood,getOrganizations, registerOrganizations,getInspectionQuestions, registerInspectionQuestion})(withRouter(Admin))

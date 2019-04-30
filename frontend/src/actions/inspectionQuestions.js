@@ -1,9 +1,8 @@
 import axios from 'axios';
-import {GET_ERRORS, GET_CURRENT_CARDS} from './types';
+import {GET_ERRORS, GET_CURRENT_INSPECTION_QUESTIONS} from './types';
 
-
-export const registerCard = (card,reset) => dispatch => {
-    axios.post('/api/sellerCard/registration', card)
+export const registerInspectionQuestion = (inspection, reset) => dispatch => {
+    axios.post('/api/inspectionQuestions/registration', inspection)
         .then(res => {
             dispatch({
                 type: GET_ERRORS,
@@ -19,11 +18,11 @@ export const registerCard = (card,reset) => dispatch => {
         });
 };
 
-export const getCards = () => dispatch =>{
-    axios.post('/api/sellerCard/getCards')
+export const getInspectionQuestions = () => dispatch => {
+    axios.post('/api/inspectionQuestions/getQuestions')
         .then(res => {
             dispatch({
-                type: GET_CURRENT_CARDS,
+                type: GET_CURRENT_INSPECTION_QUESTIONS,
                 payload: res.data
             });
         });

@@ -41,7 +41,9 @@ router.post('/sellerRegister', function(req, res) {
                 foodGroup: req.body.foodGroup,
                 flag:req.body.flag,
                 flagCount:req.body.flagCount,
-                cards:req.body.cards
+                cards:req.body.cards,
+                OSS:req.body.OSS,
+                stars:req.body.stars,
 
             });
             newSeller

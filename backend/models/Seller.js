@@ -60,7 +60,12 @@ const SellerSchema = new Schema({
     cards: {
         type: Array,
     },
-
+    OSS: {
+        type: Number,
+    },
+    stars: {
+        type: Number,
+    },
     date: {
         type: Date,
         default: Date.now

@@ -1,9 +1,9 @@
 .adminMainContainer {
     display: flex;
     flex-wrap: wrap;
-    justify-content: center;
+    justify-content: start;
     justify-items: center;
-    align-content: center;
+    align-content: start;
     align-items: center;
 
     width: 100%;
@@ -46,8 +46,9 @@
 }
 
 .modalButton {
-    width: 20%;
+    width: 100%;
 
+    margin-top: 10%;
 
     font-size: 0.9vw;
     border-radius: 5px;
@@ -62,3 +63,22 @@
     font-size: 0.7vw;
     color: brown;
 }
+
+.adminAddDataContainer{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: start;
+    justify-items: center;
+    align-content: center;
+    align-items: center;
+
+    width: 20%;
+
+    margin-left: 3%;
+
+
+}
+
+ .adminAddDataContainer ul li{
+     list-style-type: none
+ }
