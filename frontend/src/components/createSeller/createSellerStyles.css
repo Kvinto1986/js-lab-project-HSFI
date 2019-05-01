@@ -13,6 +13,7 @@
     background-repeat: no-repeat;
     background-size: 100%, 100%, contain;
     z-index: 1;
+    color: white;
 }
 
 .newSellerFormContainer {
@@ -23,10 +24,10 @@
     align-content: center;
     align-items: center;
 
-    width: 40%;
+    width: 95%;
 
     font-family: Georgia;
-    background-color: rgba(255, 255, 255, 0.7);
+    background-color: rgba(64, 64, 64, 0.8);
     border: black 2px double;
     border-radius: 10px
 }
@@ -46,58 +47,82 @@
     align-content: space-between;
     align-items: center;
 
-    width: 50%;
+    width: 100%;
 
-    margin-bottom: 5%;
+    margin-bottom: 1%;
+
+}
+.formSection{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: start;
+    justify-items: start;
+    align-content: start;
+    align-items: center;
+
+    width: 50%;
 
 }
 
 .sellerFormInput {
-    width: 100%;
+    width: 45%;
 
-    margin-top: 1%;
+    margin-top: 0.5%;
+    margin-bottom: 0.5%;
+    margin-left: 2%;
 
-    padding: 1.2% 1.2%;
+    padding: 1% 1%;
 
     font-size: 0.9vw;
     border-radius: 5px;
 }
 
-.sellerFormInputFile {
-    width: 60%;
+.formSection label{
+    width: 25%;
+    text-align: left;
+    margin-left: 5%;
+}
 
-    margin-top: 1%;
+.sellerFormInputFile {
+    width: 45%;
+
+    margin-top: 0.5%;
+    margin-bottom: 0.5%;
+    margin-left: 2%;
 
     font-size: 0.9vw;
     border-radius: 5px;
 }
 
 .sellerFormSelect {
-    width: 100%;
+    width: 47.5%;
 
-    margin-bottom: 1.2%;
-    margin-top: 1.2%;
+    margin-top: 0.5%;
+    margin-bottom: 0.5%;
+    margin-left: 2%;
 
-    font-size: 0.9vw;
+    font-size: 1vw;
+    color:black;
 }
 
 .btnFormSubmit {
-    width: 40%;
+    width: 80%;
 
-    margin-top: 2%;
+    margin-top: 1%;
 
-    padding: 1.3% 1.3%;
+    padding: 0.5% 0.5%;
 
-    font-size: 0.9vw;
+    font-size: 1vw;
     border-radius: 5px;
     background-color: aquamarine;
 }
 
 .invalidFeedback {
     width: 100%;
-    margin-bottom: 1%;
-    font-size: 0.7vw;
-    color: brown;
+    text-align: center;
+    font-size: 0.4vw;
+    text-decoration: underline;
+    color: red !important;
 }
 .successContainer{
     width: 100%;
@@ -115,6 +140,53 @@
     text-align: center;
 
 }
-.Map{
-    width: 500px;
+.searchLocationContainer{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: start;
+    justify-items: center;
+    align-content: center;
+    align-items: center;
+
+    width: 99.9%;
+    margin-top: 1%;
+
+}
+.autocompleteContainer{
+    width: 47.5%;
+    margin-left: 32%;
+    color: black;
+    margin-top: 0.5%;
+}
+
+.mapContainer{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    justify-items: center;
+    align-content: center;
+    align-items: center;
+
+    width: 20%;
+    background-color: red;
+}
+.map{
+    margin-top: 1%;
+    border: 3px aquamarine solid;
+    position: relative !important;
+    width: 46.5vw !important;
+
+    height: 15vw  !important;
+}
+.btnCheckMap{
+    width: 47.5%;
+
+    margin-top: 1%;
+
+    padding: 1% 1%;
+
+    font-size: 0.9vw;
+    border-radius: 5px;
+    margin-left: 32%;
+    background-color: aquamarine;
 }

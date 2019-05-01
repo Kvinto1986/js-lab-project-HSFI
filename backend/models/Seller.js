@@ -66,6 +66,14 @@ const SellerSchema = new Schema({
     stars: {
         type: Number,
     },
+    sity: {
+        type: String,
+        required: true
+    },
+    GPS: {
+        type: Object,
+        required: true
+    },
     date: {
         type: Date,
         default: Date.now

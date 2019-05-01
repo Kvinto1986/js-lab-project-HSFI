@@ -44,6 +44,8 @@ router.post('/sellerRegister', function(req, res) {
                 cards:req.body.cards,
                 OSS:req.body.OSS,
                 stars:req.body.stars,
+                sity:req.body.sity,
+                GPS:req.body.GPS,
 
             });
             newSeller

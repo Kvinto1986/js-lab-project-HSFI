@@ -15,10 +15,15 @@ module.exports = function validateRegisterInput(data) {
     data.email = !isEmpty(data.email) ? data.email : '';
     data.ingredients = !isEmpty(data.ingredients) ? data.ingredients : '';
     data.foodGroup = !isEmpty(data.foodGroup) ? data.foodGroup : '';
+    data.sity = !isEmpty(data.sity) ? data.sity : '';
 
 
     if(Validator.isEmpty(data.operatorName)) {
         errors.operatorName = 'OperatorName field is required';
+    }
+
+    if(Validator.isEmpty(data.sity)) {
+        errors.sity = 'sity field is required';
     }
 
     if(Validator.isEmpty(data.country)) {
