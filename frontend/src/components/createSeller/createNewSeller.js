@@ -9,9 +9,10 @@ import {uploadImage} from '../../actions/uploads';
 import Select from "react-select";
 import {getFood} from '../../actions/food';
 import './createSellerStyles.css'
-import {Map, GoogleApiWrapper} from 'google-maps-react';
+import days from '../../resourses/days';
 import PlacesAutocomplete, {geocodeByAddress, getLatLng} from "react-places-autocomplete";
 import MapContainer from "./Map"
+
 
 
 class NewSeller extends Component {
@@ -30,12 +31,13 @@ class NewSeller extends Component {
             GPS: null,
             sity: '',
             location: '',
-            schedule: "",
+            schedule: [],
             ingredients: "",
             foodGroup: "",
             data: "",
             success: false,
             map: false,
+            workingHours:'',
             errors: {},
         };
 
@@ -46,8 +48,12 @@ class NewSeller extends Component {
         this.resetForm = this.resetForm.bind(this);
         this.handleChange = this.handleChange.bind(this);
         this.handleSelect = this.handleSelect.bind(this);
+        this.handleChangeSchedule = this.handleChangeSchedule.bind(this);
     }
 
+    handleChangeSchedule = (schedule) => {
+        this.setState({schedule});
+    };
 
     handleChange = (location) => {
         this.setState({location});
@@ -143,7 +149,7 @@ class NewSeller extends Component {
 
         this.props.registerSeller(seller, this.resetForm);
         this.props.uploadImage(images, this.state.email);
-        console.log(seller)
+        console.log(this.state)
     }
 
     handleChangeCountry = (countrySelect) => {
@@ -172,7 +178,7 @@ class NewSeller extends Component {
         const {isAuthenticated, user} = this.props.auth;
         const {errors} = this.state;
         const {countrySelect} = this.state.country;
-        const {foodSelect} = this.state.country;
+        const {foodSelect} = this.state.foodGroup;
 
         const Map = (e) => {
             e.preventDefault();
@@ -287,19 +293,31 @@ class NewSeller extends Component {
                                     className={'sellerFormSelect'}
                                 />
                                 {errors.foodGroup && (<div className="invalidFeedback">{errors.foodGroup}</div>)}
+
+                            </div>
+                            <div className={'formSection'}>
                                 <label>Work schedule </label>
+                                <Select
+                                    isMulti
+                                    joinValues
+                                    options={days}
+                                    placeholder={'Select days...'}
+                                    value={this.state.schedule}
+                                    onChange={this.handleChangeSchedule}
+                                    className={'sellerFormSelect'}
+                                />
+
+                                <label>Working hours</label>
                                 <input
                                     type="text"
-                                    placeholder="schedule"
+                                    placeholder="Working hours"
                                     className={'sellerFormInput'}
-                                    name="schedule"
+                                    name="workingHours"
                                     onChange={this.handleInputChange}
                                     value={this.state.schedule}
                                 />
                                 {errors.schedule && (<div className="invalidFeedback">{errors.schedule}</div>)}
 
-                            </div>
-                            <div className={'formSection'}>
                                 <label>Country</label>
                                 <Select
                                     options={this.props.countries}
@@ -369,7 +387,6 @@ class NewSeller extends Component {
                                     visible={this.state.map}
                                     GPS={this.state.GPS}
                                 />
-
                             </div>
 
                             <button type="submit" className="btnFormSubmit">

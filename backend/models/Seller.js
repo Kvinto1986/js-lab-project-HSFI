@@ -33,7 +33,7 @@ const SellerSchema = new Schema({
         required: true
     },
     schedule: {
-        type: String,
+        type: Array,
         required: true
     },
     phone: {
