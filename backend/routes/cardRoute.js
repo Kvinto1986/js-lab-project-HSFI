@@ -1,8 +1,8 @@
 const express = require('express');
 const router = express.Router();
-const validateRegisterInput = require('../validation/sellerCards');
-const Card = require('../models/Card');
-const Seller = require('../models/Seller');
+const validateRegisterInput = require('../validation/cardValidation');
+const Card = require('../models/CardModel');
+const Seller = require('../models/SellerModel');
 
 router.post('/registration', function(req, res) {
 

@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
-const Country = require('../models/Country');
-const validateRegisterInput = require('../validation/country');
+const Country = require('../models/CountryModel');
+const validateRegisterInput = require('../validation/countryValidation');
 
 router.post('/registration', function(req, res) {
 

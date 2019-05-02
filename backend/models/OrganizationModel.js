@@ -11,9 +11,13 @@ const OrganizationSchema = new Schema({
     address: {
         type: String,
         required: true
+    },
+    GPS: {
+        type: Object,
+        required: true
     }
 });
 
-const Organization = mongoose.model('organization', OrganizationSchema);
+const OrganizationModel = mongoose.model('organization', OrganizationSchema);
 
-module.exports = Organization;
+module.exports = OrganizationModel;

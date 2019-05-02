@@ -10,6 +10,6 @@ const InspectionQuestionsSchema = new Schema({
     }
 });
 
-const InspectionQuestions = mongoose.model('inspectionQuestions', InspectionQuestionsSchema);
+const InspectionQuestionModel = mongoose.model('inspectionQuestions', InspectionQuestionsSchema);
 
-module.exports = InspectionQuestions;
+module.exports = InspectionQuestionModel;

@@ -2,7 +2,7 @@ import axios from 'axios';
 import {GET_ERRORS,GET_CURRENT_ORGANIZATIONS,} from './types';
 
 
-export const registerOrganizations = (organization) => dispatch => {
+export const registerOrganization = (organization) => dispatch => {
     axios.post('/api/organizations/registration', organization)
         .then(res => res)
         .catch(err => {

@@ -2,8 +2,8 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
 import {withRouter} from 'react-router-dom';
-import {registerUser} from '../../actions/users';
-import {getOrganizations, registerOrganizations} from '../../actions/organizations';
+import {registerUser} from '../../actions/userAction';
+import {getOrganizations, registerOrganization} from '../../actions/organizationAction';
 import {getCountry} from '../../actions/country';
 import Select from 'react-select'
 import roles from '../../resourses/roles'
@@ -11,11 +11,70 @@ import TaskSelect from './TaskSelect'
 import OrgInputs from './OrganizationInputs'
 import './registerStyle.css'
 
-class Register extends Component {
+class UserRegistration extends Component {
 
-    constructor() {
-        super();
-        this.state = {
+    state = {
+        role: '',
+        country: '',
+        name: '',
+        organization: '',
+        tasks: [],
+        phone: '',
+        email: '',
+        password: '',
+        password_confirm: '',
+        organizationNew: '',
+        organizationAddress: '',
+        organizationGPS: {},
+        errors: {},
+        OrganizationInputVisibility: true,
+    };
+
+    handleInputChange = (event) => {
+        this.setState({
+            [event.target.name]: event.target.value
+        })
+    };
+
+    handleRoleChange = (selectedRole) => {
+        this.setState({
+            role: selectedRole.value
+        });
+
+    };
+
+    handleCountryChange = (selectedCountry) => {
+        this.setState({
+            country: selectedCountry.value
+        });
+    };
+
+    handleOrganizationChange = (selectedOrganization) => {
+        this.setState({
+            organization: selectedOrganization.value
+        });
+    };
+
+    handleTaskChange = (selectedTasks) => {
+        this.setState({
+            tasks: selectedTasks
+        });
+    };
+
+    newOrganizationFormVisibility = (event) => {
+        event.preventDefault();
+
+        if (this.state.OrganizationInputVisibility === true) {
+            this.setState({
+                OrganizationInputVisibility: false
+            })
+        } else this.setState({
+            OrganizationInputVisibility: true
+        })
+    };
+
+    resetForm = () => {
+        this.setState({
             role: '',
             country: '',
             name: '',
@@ -27,62 +86,13 @@ class Register extends Component {
             password_confirm: '',
             organizationNew: '',
             organizationAddress: '',
+            organizationGPS: {},
             errors: {},
-            showOrganizationInput: true,
-        };
-
-        this.handleInputChange = this.handleInputChange.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
-        this.handleChangeTask = this.handleChangeTask.bind(this);
-        this.handleChangeCountry = this.handleChangeCountry.bind(this);
-        this.handleChangeOrganization = this.handleChangeOrganization.bind(this);
-        this.handleChangeRole = this.handleChangeRole.bind(this);
-    }
-
-    handleInputChange(e) {
-        this.setState({
-                [e.target.name]: e.target.value
-
-        })
-    }
-
-    handleChangeCountry = (countrySelect) => {
-        this.setState({
-                country: countrySelect.value
+            OrganizationInputVisibility: true,
         });
-
     };
 
-    handleChangeOrganization = (organizationSelect) => {
-        this.setState({
-                organization: organizationSelect.value
-        });
-
-    };
-
-    handleChangeRole = (roleSelect) => {
-        this.setState({
-                role: roleSelect.value
-        });
-
-    };
-
-    handleChangeTask = (tasks) => {
-        this.setState({tasks});
-    };
-
-    handleChangeShowInputs = (e) => {
-        e.preventDefault();
-        if (this.state.showOrganizationInput === true) {
-            this.setState({
-                showOrganizationInput: false
-            })
-        } else this.setState({
-            showOrganizationInput: true
-        })
-    };
-
-    handleSubmit(e) {
+    handleSubmit = (e) => {
         e.preventDefault();
 
         const user = {
@@ -97,19 +107,22 @@ class Register extends Component {
             password_confirm: this.state.password_confirm,
         };
 
+        if (this.state.OrganizationInputVisibility === false && this.state.role !== 'operator') {
+            user.organization = this.state.organizationNew;
 
-        if(this.state.showOrganizationInput===false&&this.state.role!=='operator') {
-            user.organization= this.state.organizationNew;
             const organization = {
                 organizationNew: this.state.organizationNew,
-                organizationAddress: this.state.organizationAddress
+                organizationAddress: this.state.organizationAddress,
+                organizationGPS: this.state.organizationGPS
             };
-                this.props.registerOrganizations(organization);
-        }
-        this.props.registerUser(user, this.props.history);
-    }
 
-    componentWillReceiveProps(nextProps) {
+            this.props.registerOrganization(organization);
+        }
+
+        this.props.registerUser(user, this.resetForm, this.props.history);
+    };
+
+    componentWillReceiveProps = (nextProps) => {
         if (nextProps.auth.isAuthenticated) {
             this.props.history.push('/')
         }
@@ -118,32 +131,31 @@ class Register extends Component {
                 errors: nextProps.errors
             });
         }
-    }
+    };
 
-    componentDidMount() {
+    componentDidMount = () => {
         if (this.props.auth.isAuthenticated) {
             this.props.history.push('/');
-        }
-
-        else {
+        } else {
             this.props.getOrganizations();
             this.props.getCountry();
         }
-    }
+    };
 
     render() {
 
         const {errors} = this.state;
-        const {countrySelect} = this.state.country;
-        const {organizationSelect} = this.state.organization;
-        const {roleSelect} = this.state.role;
+        const {selectedOrganization} = this.state.organization;
+        const {selectedCountry} = this.state.country;
+        const {selectedRole} = this.state.role;
+
         const Organization = () => {
             if (this.state.role === 'coordinator') {
 
                 return (
-                        <button className="btnNewOrganization" onClick={this.handleChangeShowInputs}>
-                            Create New Organization
-                        </button>
+                    <button className="btnNewOrganization" onClick={this.newOrganizationFormVisibility}>
+                        Create New Organization
+                    </button>
                 )
             } else return null
         };
@@ -151,14 +163,14 @@ class Register extends Component {
         return (
             <div className="registerMainContainer">
                 <div className='registerFormContainer'>
-                <h2>Registration new user</h2>
-                <form onSubmit={this.handleSubmit} >
+                    <h2>Registration new user</h2>
+                    <form onSubmit={this.handleSubmit}>
 
                         <Select
                             options={roles}
                             placeholder={'Select role...'}
-                            value={roleSelect}
-                            onChange={this.handleChangeRole}
+                            value={selectedRole}
+                            onChange={this.handleRoleChange}
                             className={'registerFormSelect'}
                         />
                         {errors.role && (<div className="invalidFeedback">{errors.role}</div>)}
@@ -166,18 +178,19 @@ class Register extends Component {
                         <Select
                             options={this.props.countries}
                             placeholder={'Select country...'}
-                            value={countrySelect}
-                            onChange={this.handleChangeCountry}
+                            value={selectedCountry}
+                            onChange={this.handleCountryChange}
                             className={'registerFormSelect'}
                         />
                         {errors.country && (<div className="invalidFeedback">{errors.country}</div>)}
 
 
-                    <TaskSelect
-                        errors={errors}
-                        handleChangeTask={this.handleChangeTask}
-                        role={this.state.role}
-                    />
+                        <TaskSelect
+                            errors={errors}
+                            handleChangeTask={this.handleTaskChange}
+                            role={this.state.role}
+                        />
+
                         <input
                             type="text"
                             placeholder="Name"
@@ -190,24 +203,25 @@ class Register extends Component {
 
                         <Select
                             options={this.props.organizations}
-                            value={organizationSelect}
-                            isDisabled={!this.state.showOrganizationInput}
+                            value={selectedOrganization}
+                            isDisabled={!this.state.OrganizationInputVisibility}
                             placeholder={'Select organization...'}
-                            onChange={this.handleChangeOrganization}
+                            onChange={this.handleOrganizationChange}
                             className={'registerFormSelect'}
                         />
                         {errors.organization && (<div className="invalidFeedback">{errors.organization}</div>)}
 
-                    <Organization />
-                    <OrgInputs
-                        role={this.state.role}
-                        showOrganizationInput={this.state.showOrganizationInput}
-                        errors={errors}
-                        handleInputChange={this.handleInputChange}
-                        organizationNew={this.state.organizationNew}
-                        organization={this.state.organization}
-                        organizationAddress={this.state.organizationAddress}
-                    />
+                        <Organization
+                        />
+                        <OrgInputs
+                            role={this.state.role}
+                            showOrganizationInput={this.state.OrganizationInputVisibility}
+                            errors={errors}
+                            handleInputChange={this.handleInputChange}
+                            organizationNew={this.state.organizationNew}
+                            organization={this.state.organization}
+                            organizationAddress={this.state.organizationAddress}
+                        />
                         <input
                             type="text"
                             placeholder="Phone number"
@@ -251,14 +265,14 @@ class Register extends Component {
                         <button type="submit" className="btnFormSubmit">
                             Submit
                         </button>
-                </form>
+                    </form>
                 </div>
             </div>
         )
     }
 }
 
-Register.propTypes = {
+UserRegistration.propTypes = {
     registerUser: PropTypes.func.isRequired,
     auth: PropTypes.object.isRequired,
     organizations: PropTypes.array.isRequired,
@@ -272,4 +286,9 @@ const mapStateToProps = state => ({
     countries: state.countries
 });
 
-export default connect(mapStateToProps, {registerUser, registerOrganizations,getOrganizations,getCountry})(withRouter(Register))
+export default connect(mapStateToProps, {
+    registerUser,
+    registerOrganization,
+    getOrganizations,
+    getCountry
+})(withRouter(UserRegistration))

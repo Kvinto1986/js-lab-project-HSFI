@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
-const validateRegisterInput = require('../validation/organization');
-const Organization = require('../models/Organization');
+const validateRegisterInput = require('../validation/organizationValidation');
+const Organization = require('../models/OrganizationModel');
 
 router.post('/registration', function(req, res) {
 
@@ -22,6 +22,8 @@ router.post('/registration', function(req, res) {
             const newOrganization = new Organization({
                 organization: req.body.organizationNew,
                 address: req.body.organizationAddress,
+                GPS: req.body.organizationGPS,
+
             });
             newOrganization
                 .save()

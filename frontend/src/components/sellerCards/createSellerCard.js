@@ -22,7 +22,7 @@ const getLicenseSelect = function (obj) {
 };
 
 const getSeller = function (obj, license) {
-    let seller = {}
+    let seller = {};
     for (let i = 0; i < obj.length; i++) {
         if (obj[i].license === license) {
             seller = obj[i]

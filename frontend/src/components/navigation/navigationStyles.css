@@ -77,3 +77,43 @@
     margin-left: 45%;
     margin-right: 15%;
 }
+
+.usersNavigationContainer{
+    display: flex;
+    justify-content: center;
+    justify-items: center;
+    align-content: center;
+    align-items: center;
+
+    width: 60%;
+}
+.usersNavigationContainer ul {
+    display: flex;
+    justify-content: center;
+    justify-items: center;
+    align-content: center;
+    align-items: center;
+
+    width: 100%;
+
+    color: white;
+
+}
+.usersNavigationContainer ul li{
+    display: inline;
+    margin-left: 2%;
+    list-style-type: none;
+    transition-duration:1s;
+
+}
+.usersNavigationContainerLink{
+    font-size: 1vw;
+    text-decoration: none;
+    color: white;
+
+}
+
+.usersNavigationContainer ul li:hover{
+    transform: scale(1.2);
+    border-bottom: white 1px solid;
+}

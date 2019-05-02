@@ -3,7 +3,7 @@ import React, {Component} from 'react';
 class OrgInputs extends Component {
 
     render() {
-            if (this.props.showOrganizationInput === false) {
+            if (this.props.OrganizationInputVisibility === false) {
                 return (
                     <div className="organizationInputContainer">
                             <input

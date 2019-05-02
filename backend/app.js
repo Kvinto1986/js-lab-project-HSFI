@@ -2,20 +2,20 @@ const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const passport = require('passport');
-const config = require('./db');
+const config = require('./dbConfig');
 const cors = require('cors');
 
 
-const users = require('./routes/user');
-const sellers = require('./routes/seller');
-const organizations = require('./routes/organization');
-const uploads = require('./routes/uploadImage');
-const countries = require('./routes/country');
-const food = require('./routes/food');
-const cards = require('./routes/sellerCards');
-const calls = require('./routes/call');
-const inspection = require('./routes/inspection');
-const inspectionQuestions = require('./routes/inspectionQuestions');
+const users = require('./routes/userRoute');
+const sellers = require('./routes/sellerRoute');
+const organizations = require('./routes/organizationRoute');
+const uploads = require('./routes/uploadImageRoute');
+const countries = require('./routes/countryRoute');
+const food = require('./routes/foodGroupRoute');
+const cards = require('./routes/cardRoute');
+const calls = require('./routes/callRoute');
+const inspection = require('./routes/inspectionRoute');
+const inspectionQuestions = require('./routes/inspectionQuestionRoute');
 
 
 mongoose.connect(config.DB, { useNewUrlParser: true }).then(
@@ -36,10 +36,10 @@ app.use('/api/sellers', sellers);
 app.use('/api/organizations', organizations);
 app.use('/api/uploads', uploads);
 app.use('/api/countries', countries);
-app.use('/api/foodGroup', food);
-app.use('/api/sellerCard', cards);
+app.use('/api/foodGroups', food);
+app.use('/api/sellerCards', cards);
 app.use('/api/calls', calls);
-app.use('/api/inspection', inspection);
+app.use('/api/inspections', inspection);
 app.use('/api/inspectionQuestions', inspectionQuestions);
 
 const PORT = process.env.PORT || 5000;

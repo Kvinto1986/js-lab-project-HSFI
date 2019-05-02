@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
-const Food = require('../models/Food');
-const validateRegisterInput = require('../validation/food');
+const Food = require('../models/FoodGroupModel');
+const validateRegisterInput = require('../validation/foodGroupValidation');
 
 router.post('/registration', function(req, res) {
 

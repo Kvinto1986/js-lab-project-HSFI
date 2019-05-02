@@ -10,6 +10,6 @@ const FoodSchema = new Schema({
     }
 });
 
-const Food = mongoose.model('foodGroup', FoodSchema);
+const FoodGroupModel = mongoose.model('foodGroup', FoodSchema);
 
-module.exports = Food;
+module.exports = FoodGroupModel;

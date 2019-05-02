@@ -5,7 +5,7 @@ import {withRouter} from 'react-router-dom';
 import PropTypes from 'prop-types';
 import Select from "react-select";
 import Modal from 'react-modal';
-import {getOrganizations, registerOrganizations} from "../../actions/organizations";
+import {getOrganizations, registerOrganization} from "../../actions/organizationAction";
 import {getCountry, registerCountry} from "../../actions/country";
 import {getFood, registerFood} from "../../actions/food";
 import {getInspectionQuestions, registerInspectionQuestion} from "../../actions/inspectionQuestions";
@@ -229,4 +229,4 @@ const mapStateToProps = state => ({
 });
 
 export default connect(mapStateToProps, {getCountry, registerCountry,getFood,
-    registerFood,getOrganizations, registerOrganizations,getInspectionQuestions, registerInspectionQuestion})(withRouter(Admin))
+    registerFood,getOrganizations, registerOrganizations: registerOrganization,getInspectionQuestions, registerInspectionQuestion})(withRouter(Admin))

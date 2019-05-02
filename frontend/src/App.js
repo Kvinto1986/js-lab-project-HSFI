@@ -4,11 +4,11 @@ import { Provider } from 'react-redux';
 import store from './store';
 import jwt_decode from 'jwt-decode';
 import setAuthToken from './setAuthToken';
-import { setCurrentUser} from './actions/authentication';
+import { setCurrentUser, logoutUser } from './actions/authentication';
 import './App.css'
 
 import Navbar from './components/navigation/Navbar';
-import Register from './components/register/Register';
+import UserRegistration from './components/userRegistration/userRegistration';
 import Login from './components/login/Login';
 import Home from './components/homePage/Home';
 import SellerCard from './components/sellerCards/createSellerCard';
@@ -18,9 +18,15 @@ import Inspection from './components/inspection/inspection';
 import AdminPage from './components/admin/adminPage';
 
 if(localStorage.jwtToken) {
-  setAuthToken(localStorage.jwtToken);
-  const decoded = jwt_decode(localStorage.jwtToken);
-  store.dispatch(setCurrentUser(decoded));
+    setAuthToken(localStorage.jwtToken);
+    const decoded = jwt_decode(localStorage.jwtToken);
+    store.dispatch(setCurrentUser(decoded));
+
+    const currentTime = Date.now() / 1000;
+    if(decoded.exp < currentTime) {
+        store.dispatch(logoutUser());
+        window.location.href = '/login'
+    }
 }
 
 class App extends Component {
@@ -37,7 +43,7 @@ class App extends Component {
                 <Route exact path="/calls" component={ Call } />
                 <Route exact path="/inspection" component={ Inspection } />
                 <Route exact path="/admin" component={ AdminPage } />
-              <Route exact path="/register" component={ Register } />
+              <Route exact path="/registration" component={ UserRegistration } />
               <Route exact path="/login" component={ Login } />
             </div>
           </Router>

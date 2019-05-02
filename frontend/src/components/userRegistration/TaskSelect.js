@@ -15,7 +15,7 @@ class TaskSelect extends Component {
                         options={tasks}
                         placeholder={'Select tasks...'}
                         value={this.props.tasks}
-                        onChange={this.props.handleChangeTask}
+                        onChange={this.props.handleTaskChange}
                         className={'registerFormSelect'}
                     />
                     {this.props.errors.tasks && (<div className="invalidFeedback">{this.props.errors.tasks}</div>)}
