@@ -3,18 +3,15 @@ const isEmpty = require('./is-empty');
 
 module.exports = function validateRegisterInput(data) {
     let errors = {};
-    data.organizationNew = !isEmpty(data.organizationNew) ? data.organizationNew : '';
-    data.organizationAddress = !isEmpty(data.organizationAddress) ? data.organizationAddress : '';
-    data.organizationGPS = !isEmpty(data.organizationGPS) ? data.organizationGPS : '';
+    data.newOrganizationName = !isEmpty(data.newOrganizationName) ? data.newOrganizationName : '';
+    data.newOrganizationAddress = !isEmpty(data.newOrganizationAddress) ? data.newOrganizationAddress : '';
+    data.newOrganizationGPS = !isEmpty(data.newOrganizationGPS) ? data.newOrganizationGPS : {};
 
-    if(Validator.isEmpty(data.organizationNew)) {
-        errors.organizationNew = 'Organization field is required';
+    if(Validator.isEmpty(data.newOrganizationName)) {
+        errors.newOrganizationName = 'Organization field is required';
     }
-    if(Validator.isEmpty(data.organizationAddress)) {
-        errors.organizationAddress = 'Address field is required';
-    }
-    if(Validator.isEmpty(data.organizationGPS)) {
-        errors.organizationGPS = 'Location field is required';
+    if(Validator.isEmpty(data.newOrganizationAddress)) {
+        errors.newOrganizationAddress = 'Address field is required';
     }
 
     return {

@@ -1,20 +1,16 @@
 import React, { Component } from 'react';
 import { Map, GoogleApiWrapper,Marker } from 'google-maps-react';
-import './createSellerStyles.css'
-const mapStyles = {
-    width: '100%',
-    height: '100%',
-};
+import '../createSeller/createSellerStyles.css'
 
 export class MapContainer extends Component {
     render() {
+
         if(this.props.visible===true && this.props.GPS) {
             return (
-
+            <div className={'mapContainer'}>
                 <Map
                     google={this.props.google}
                     zoom={18}
-                    style={mapStyles}
                     initialCenter={{
                         lat: this.props.GPS.lat,
                         lng: this.props.GPS.lng
@@ -24,7 +20,7 @@ export class MapContainer extends Component {
                     <Marker
                     />
                 </Map>
-
+            </div>
             );
         }
         else return null

@@ -3,7 +3,7 @@ const router = express.Router();
 const validateRegisterInput = require('../validation/sellerValidation');
 const Seller = require('../models/SellerModel');
 
-router.post('/sellerRegister', function(req, res) {
+router.post('/registration', function(req, res) {
 
     const {errors, isValid} = validateRegisterInput(req.body);
 
@@ -29,7 +29,7 @@ router.post('/sellerRegister', function(req, res) {
 
                 operatorName: req.body.operatorName,
                 name: req.body.name,
-                country: req.body.country,
+                country: req.body.countryAction,
                 photo: req.body.photo,
                 license: req.body.license,
                 photoLicense: req.body.photoLicense,

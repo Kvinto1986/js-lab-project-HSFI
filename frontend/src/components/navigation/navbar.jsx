@@ -2,14 +2,14 @@ import React, {Component} from 'react';
 import {Link} from 'react-router-dom';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
-import {logoutUser} from '../../actions/authentication';
+import {logoutUser} from '../../actions/authenticationAction';
 import {withRouter} from 'react-router-dom';
 
 import './navigationStyles.css'
 
 import logo from '../../resourses/images/unlogo.png'
 
-import UserNav from './UsersNav';
+import UserNav from './usersNav';
 
 
 class Navbar extends Component {
@@ -21,6 +21,7 @@ class Navbar extends Component {
 
     render() {
         const {isAuthenticated, user} = this.props.auth;
+
         const authLinks = (
             <div className="authContainer" >
                 <Link className="authContainerLink" to="" onClick={this.onLogout.bind(this)}>
@@ -29,6 +30,7 @@ class Navbar extends Component {
                 </Link>
             </div>
         );
+
         const guestLinks = (
             <div className="authContainer" >
                     <Link className="authContainerLink" to="/registration">Registration</Link>
@@ -55,10 +57,10 @@ class Navbar extends Component {
 Navbar.propTypes = {
     logoutUser: PropTypes.func.isRequired,
     auth: PropTypes.object.isRequired
-}
+};
 
 const mapStateToProps = (state) => ({
     auth: state.auth
-})
+});
 
 export default connect(mapStateToProps, {logoutUser})(withRouter(Navbar));

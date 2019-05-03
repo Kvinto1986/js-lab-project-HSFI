@@ -4,9 +4,9 @@ import {connect} from "react-redux";
 import PropTypes from 'prop-types';
 import {Redirect, withRouter} from "react-router-dom";
 import Select from "react-select";
-import {getSellers} from "../../actions/sellers";
-import {getInspectionQuestions} from "../../actions/inspectionQuestions";
-import {registerInspection} from "../../actions/inspection";
+import {getSellers} from "../../actions/sellerAction";
+import {getInspectionQuestions} from "../../actions/inspectionQuestionsAction";
+import {registerInspection} from "../../actions/inspectionAction";
 
 
 class Calls extends Component {

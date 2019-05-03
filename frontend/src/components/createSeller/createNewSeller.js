@@ -3,15 +3,15 @@ import {Redirect} from 'react-router-dom';
 import {connect} from 'react-redux';
 import {withRouter} from 'react-router-dom';
 import PropTypes from 'prop-types';
-import {registerSeller} from '../../actions/sellers';
-import {getCountry} from '../../actions/country';
-import {uploadImage} from '../../actions/uploads';
+import {registerSeller} from '../../actions/sellerAction';
+import {getCountry} from '../../actions/countryAction';
+import {uploadImage} from '../../actions/uploadAction';
 import Select from "react-select";
-import {getFood} from '../../actions/food';
+import {getFood} from '../../actions/foodAction';
 import './createSellerStyles.css'
 import days from '../../resourses/days';
 import PlacesAutocomplete, {geocodeByAddress, getLatLng} from "react-places-autocomplete";
-import MapContainer from "./Map"
+import MapContainer from "../map/Map"
 
 
 
@@ -120,7 +120,7 @@ class NewSeller extends Component {
 
         const seller = {
             operatorName: this.props.auth.user.name,
-            country: this.state.country,
+            country: this.state.countryAction,
             name: this.state.name,
             photo: '',
             phone: this.state.phone,
@@ -177,7 +177,7 @@ class NewSeller extends Component {
     render() {
         const {isAuthenticated, user} = this.props.auth;
         const {errors} = this.state;
-        const {countrySelect} = this.state.country;
+        const {countrySelect} = this.state.countryAction;
         const {foodSelect} = this.state.foodGroup;
 
         const Map = (e) => {
@@ -326,7 +326,7 @@ class NewSeller extends Component {
                                     onChange={this.handleChangeCountry}
                                     className={'sellerFormSelect'}
                                 />
-                                {errors.country && (<div className="invalidFeedback">{errors.country}</div>)}
+                                {errors.countryAction && (<div className="invalidFeedback">{errors.countryAction}</div>)}
 
                                 <label>Sity</label>
                                 <input

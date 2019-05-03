@@ -2,7 +2,7 @@ import axios from 'axios';
 import {GET_ERRORS, GET_CURRENT_SELLERS} from './types';
 
 export const registerSeller = (user, reset) => dispatch => {
-    axios.post('/api/sellers/sellerRegister', user)
+    axios.post('/api/sellers/registration', user)
         .then(res => {
             dispatch({
                 type: GET_ERRORS,

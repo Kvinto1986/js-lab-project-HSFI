@@ -7,8 +7,8 @@ import Select from "react-select";
 import SellerInfo from "./SellerInfo";
 import CardForm from "./CardForm";
 import './sellerCardsStyles.css';
-import {getSellers} from "../../actions/sellers";
-import {registerCard} from '../../actions/cards';
+import {getSellers} from "../../actions/sellerAction";
+import {registerCard} from '../../actions/cardsAction';
 
 const getLicenseSelect = function (obj) {
     const licenseArr = obj.map(function (elem) {

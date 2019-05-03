@@ -11,7 +11,7 @@ router.post('/registration', function(req, res) {
         return res.status(400).json(errors);
     }
     Organization.findOne({
-        organization: req.body.organizationNew
+        organization: req.body.newOrganizationName
     }).then(organization => {
         if(organization) {
             return res.status(400).json({
@@ -20,9 +20,9 @@ router.post('/registration', function(req, res) {
         }
         else {
             const newOrganization = new Organization({
-                organization: req.body.organizationNew,
-                address: req.body.organizationAddress,
-                GPS: req.body.organizationGPS,
+                organization: req.body.newOrganizationName,
+                address: req.body.newOrganizationAddress,
+                GPS: req.body.newOrganizationGPS,
 
             });
             newOrganization
@@ -37,7 +37,7 @@ router.post('/registration', function(req, res) {
 router.post('/getOrganizations', function(req, res) {
     Organization.find({}, function(err, organizations) {
         const arr=organizations.map(function (elem) {
-            const newElem={}
+            const newElem={};
             newElem.value=elem.organization;
             newElem.label=elem.organization;
             return newElem

@@ -2,7 +2,7 @@ import axios from 'axios';
 import {GET_ERRORS, GET_CURRENT_FOOD} from './types';
 
 export const registerFood = (food) => dispatch => {
-    axios.post('/api/foodGroup/registration', food)
+    axios.post('/api/foodGroups/registration', food)
         .then(res => res)
         .catch(err => {
             dispatch({
@@ -13,7 +13,7 @@ export const registerFood = (food) => dispatch => {
 };
 
 export const getFood = () => dispatch => {
-    axios.post('/api/foodGroup/getFood')
+    axios.post('/api/foodGroups/getFood')
         .then(res => {
             dispatch({
                 type: GET_CURRENT_FOOD,

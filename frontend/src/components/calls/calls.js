@@ -1,9 +1,9 @@
 import React, {Component} from 'react';
-import {getCards} from '../../actions/cards';
+import {getCards} from '../../actions/cardsAction';
 import './callsStyles.css'
 import {connect} from "react-redux";
 import PropTypes from 'prop-types';
-import {registerCall} from "../../actions/calls";
+import {registerCall} from "../../actions/callsAction";
 import {withRouter} from "react-router-dom";
 import Select from "react-select";
 
