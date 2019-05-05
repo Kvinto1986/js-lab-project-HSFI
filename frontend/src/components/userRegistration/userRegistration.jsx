@@ -1,16 +1,20 @@
 import React, {Component, Fragment} from 'react';
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
+import {geocodeByAddress, getLatLng} from "react-places-autocomplete";
 import {withRouter} from 'react-router-dom';
+import Select from 'react-select';
+
 import {registerUser} from '../../actions/userAction';
 import {getOrganizations, registerOrganization} from '../../actions/organizationAction';
 import {getCountry} from '../../actions/countryAction';
-import Select from 'react-select'
+
 import roles from '../../resourses/roles'
-import NewOrganizationInputs from './organizationInputs'
-import './registerStyle.css'
 import tasksList from "../../resourses/tasks";
-import {geocodeByAddress, getLatLng} from "react-places-autocomplete";
+
+import './registerStyle.css';
+
+import NewOrganizationInputs from './organizationInputs';
 
 class UserRegistration extends Component {
 
@@ -42,7 +46,11 @@ class UserRegistration extends Component {
         this.setState({
             role: role.value
         });
-
+        if (role.value === 'operator') {
+            this.setState({
+                organizationInputVisibility: true
+            });
+        }
     };
 
     handleCountryChange = (country) => {
@@ -65,18 +73,14 @@ class UserRegistration extends Component {
 
     newOrganizationFormVisibility = (e) => {
         e.preventDefault();
-
-        if (this.state.organizationInputVisibility === true) {
-            this.setState({
-                organizationInputVisibility: false
-            })
-        } else this.setState({
-            organizationInputVisibility: true
+        this.setState({
+            organizationInputVisibility: !this.state.organizationInputVisibility
         });
+
     };
 
     handleOrganizationLocation = (location) => {
-        this.setState({newOrganizationAddress:location});
+        this.setState({newOrganizationAddress: location});
         geocodeByAddress(location)
             .then(results => {
                 return getLatLng(results[0])
@@ -88,9 +92,9 @@ class UserRegistration extends Component {
     };
 
     handleOrganizationAddress = (address) => {
-        this.setState({newOrganizationAddress:address});
+        this.setState({newOrganizationAddress: address});
         this.setState({mapVisibility: false});
-        this.setState({organization:this.state.newOrganizationName});
+        this.setState({organization: this.state.newOrganizationName});
 
     };
 
@@ -134,33 +138,31 @@ class UserRegistration extends Component {
             password_confirm: this.state.password_confirm,
         };
 
-        if (this.state.organizationInputVisibility === false && this.state.role !== 'operator' ) {
+        if (this.state.organizationInputVisibility === false && this.state.role !== 'operator') {
 
             const organization = {
                 newOrganizationName: this.state.newOrganizationName,
                 newOrganizationAddress: this.state.newOrganizationAddress,
                 newOrganizationGPS: this.state.newOrganizationGPS
             };
-            
+
             this.props.registerOrganization(organization);
 
         }
 
         this.props.registerUser(user, this.resetForm, this.props.history);
-        console.log(this.state)
 
     };
 
-    componentWillReceiveProps = (nextProps) => {
+    static getDerivedStateFromProps(nextProps, prevState) {
         if (nextProps.auth.isAuthenticated) {
             this.props.history.push('/')
         }
-        if (nextProps.errors) {
-            this.setState({
-                errors: nextProps.errors
-            });
-        }
-    };
+
+        if (nextProps.errors !== prevState.errors) {
+            return {errors: nextProps.errors};
+        } else return null;
+    }
 
     componentDidMount = () => {
         if (this.props.auth.isAuthenticated) {
@@ -295,18 +297,19 @@ class UserRegistration extends Component {
                             )}
                         </div>
 
-                            <NewOrganizationInputs
-                                organizationInputVisibility={this.state.organizationInputVisibility}
-                                errors={errors}
-                                mapVisibility={this.state.mapVisibility}
-                                handleInputChange={this.handleInputChange}
-                                organizationNew={this.state.newOrganizationName}
-                                newOrganizationAddress={this.state.newOrganizationAddress}
-                                newOrganizationGPS={this.state.newOrganizationGPS}
-                                onChange={this.handleOrganizationAddress}
-                                onSelect={this.handleOrganizationLocation}
-                                handleMapVisibility={this.handleMapVisibility}
-                            />
+                        <NewOrganizationInputs
+                            role={this.state.role}
+                            organizationInputVisibility={this.state.organizationInputVisibility}
+                            errors={errors}
+                            mapVisibility={this.state.mapVisibility}
+                            handleInputChange={this.handleInputChange}
+                            newOrganizationName={this.state.newOrganizationName}
+                            newOrganizationAddress={this.state.newOrganizationAddress}
+                            newOrganizationGPS={this.state.newOrganizationGPS}
+                            onChangeLocation={this.handleOrganizationAddress}
+                            onSelectLocation={this.handleOrganizationLocation}
+                            handleMapVisibility={this.handleMapVisibility}
+                        />
 
                         <button type="submit" className="btnFormSubmit">
                             Submit
@@ -320,6 +323,9 @@ class UserRegistration extends Component {
 
 UserRegistration.propTypes = {
     registerUser: PropTypes.func.isRequired,
+    registerOrganization: PropTypes.func.isRequired,
+    getOrganizations: PropTypes.func.isRequired,
+    getCountry: PropTypes.func.isRequired,
     auth: PropTypes.object.isRequired,
     organizations: PropTypes.array.isRequired,
     countries: PropTypes.array.isRequired

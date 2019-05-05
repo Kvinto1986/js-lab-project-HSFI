@@ -11,7 +11,6 @@ import {getFood} from '../../actions/foodAction';
 import './createSellerStyles.css'
 import days from '../../resourses/days';
 import PlacesAutocomplete, {geocodeByAddress, getLatLng} from "react-places-autocomplete";
-import MapContainer from "../map/Map"
 
 
 
@@ -383,10 +382,6 @@ class NewSeller extends Component {
                                     )}
 
                                 </PlacesAutocomplete>
-                                <MapContainer
-                                    visible={this.state.map}
-                                    GPS={this.state.GPS}
-                                />
                             </div>
 
                             <button type="submit" className="btnFormSubmit">

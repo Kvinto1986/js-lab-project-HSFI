@@ -14,7 +14,6 @@ import './adminStyles.css'
 import ModalWindow from './modalAdmin'
 import {geocodeByAddress, getLatLng} from "react-places-autocomplete";
 import MapAutocomplete from "../map/mapAutocomplete";
-import NewOrganizationInputs from "../userRegistration/organizationInputs";
 
 
 Modal.setAppElement('#root');
@@ -275,7 +274,6 @@ class Admin extends Component {
                             {errors.newOrganizationName && (<div className="invalidFeedback">{errors.newOrganizationName}</div>)}
 
                             <MapAutocomplete
-
                                 errors={errors}
                                 mapVisibility={this.state.mapVisibility}
                                 value={this.state.newOrganizationAddress}

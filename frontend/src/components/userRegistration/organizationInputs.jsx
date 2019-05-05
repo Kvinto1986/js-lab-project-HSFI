@@ -1,37 +1,54 @@
-import React, {Component} from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
+
 import MapAutocomplete from "../map/mapAutocomplete";
 
-class OrgInputs extends Component {
+const NewOrganizationInputs = ({
+                                   role, organizationInputVisibility, errors, mapVisibility, handleInputChange,
+                                   newOrganizationName, newOrganizationAddress, newOrganizationGPS,
+                                   onChangeLocation, onSelectLocation, handleMapVisibility
+                               }) => {
 
-    render() {
-            if (this.props.organizationInputVisibility === false) {
-                return (
-                    <div className='formSection'>
-                        <label>Organization Name</label>
-                            <input
-                                type="text"
-                                placeholder="Organization Name"
-                                className={'formInput'}
-                                name="newOrganizationName"
-                                onChange={this.props.handleInputChange}
-                                value={this.props.newOrganizationName}
-                            />
-                            {this.props.errors.newOrganizationName && (
-                                <div className="invalidFeedback">{this.props.errors.newOrganizationName}</div>)}
+    if (!organizationInputVisibility && role === 'coordinator') {
+        return (
+            <div className='formSection'>
+                <label>Organization Name</label>
+                <input
+                    type="text"
+                    placeholder="Organization Name"
+                    className={'formInput'}
+                    name="newOrganizationName"
+                    onChange={handleInputChange}
+                    value={newOrganizationName}
+                />
+                {errors.newOrganizationName && (
+                    <div className="invalidFeedback">{errors.newOrganizationName}</div>)}
 
-                        <MapAutocomplete
-                            error={this.props.errors.newOrganizationAddress}
-                            mapVisibility={this.props.mapVisibility}
-                            value={this.props.newOrganizationAddress}
-                            onChange={this.props.onChange}
-                            onSelect={this.props.onSelect}
-                            GPS={this.props.newOrganizationGPS}
-                            handleMapVisibility={this.props.handleMapVisibility}
-                        />
+                <MapAutocomplete
+                    error={errors.newOrganizationAddress}
+                    mapVisibility={mapVisibility}
+                    value={newOrganizationAddress}
+                    onChange={onChangeLocation}
+                    onSelect={onSelectLocation}
+                    GPS={newOrganizationGPS}
+                    handleMapVisibility={handleMapVisibility}
+                />
 
-                    </div>)
-            } else return null
-        }
-}
+            </div>)
+    } else return null
+};
 
-export default OrgInputs
+NewOrganizationInputs.propTypes = {
+    role: PropTypes.string.isRequired,
+    organizationInputVisibility: PropTypes.bool.isRequired,
+    errors: PropTypes.object,
+    mapVisibility: PropTypes.bool.isRequired,
+    handleInputChange: PropTypes.func.isRequired,
+    newOrganizationName: PropTypes.string.isRequired,
+    newOrganizationGPS: PropTypes.object.isRequired,
+    onChangeLocation: PropTypes.func.isRequired,
+    onSelectLocation: PropTypes.func.isRequired,
+    handleMapVisibility: PropTypes.func.isRequired
+};
+
+export default NewOrganizationInputs

@@ -5,7 +5,6 @@ import store from './store';
 import jwt_decode from 'jwt-decode';
 import setAuthToken from './setAuthToken';
 import {setCurrentUser, logoutUser} from './actions/authenticationAction';
-import './App.css'
 
 import Navbar from './components/navigation/navbar';
 import UserRegistration from './components/userRegistration/userRegistration';
