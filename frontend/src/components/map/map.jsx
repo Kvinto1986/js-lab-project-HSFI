@@ -5,10 +5,10 @@ import {Map, GoogleApiWrapper, Marker} from 'google-maps-react';
 export class MapContainer extends Component {
     render() {
 
-        const {visible, GPS} = this.props;
+        const {visible, GPS,mapContainerClass,mapClass} = this.props;
         if (visible) {
             return (
-                <div className={'mapContainer'}>
+                <div className={mapContainerClass}>
                     <Map
                         google={this.props.google}
                         zoom={18}
@@ -16,7 +16,7 @@ export class MapContainer extends Component {
                             lat: GPS.lat,
                             lng: GPS.lng
                         }}
-                        className={'map'}
+                        className={mapClass}
                     >
                         <Marker
                         />
@@ -29,7 +29,7 @@ export class MapContainer extends Component {
 
 MapContainer.propTypes = {
     value: PropTypes.string,
-    GPS: PropTypes.object.isRequired,
+    GPS: PropTypes.object,
 };
 
 export default GoogleApiWrapper({

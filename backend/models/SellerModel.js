@@ -16,8 +16,8 @@ const SellerSchema = new Schema({
         required: true
     },
     photo:{
-        default:'none',
         type: String,
+        required: true
     },
     license:{
         type: String,
@@ -25,11 +25,6 @@ const SellerSchema = new Schema({
     },
     photoLicense:{
         type: String,
-        required: true
-    },
-
-    location: {
-        type: Object,
         required: true
     },
     schedule: {
@@ -43,8 +38,8 @@ const SellerSchema = new Schema({
         type: String,
         required: true
     },
-    ingredients: {
-        type: String,
+    ingredientSuppliers: {
+        type: Array,
         required: true
     },
     foodGroup: {
@@ -70,10 +65,7 @@ const SellerSchema = new Schema({
         type: String,
         required: true
     },
-    GPS: {
-        type: Object,
-        required: true
-    },
+
     date: {
         type: Date,
         default: Date.now

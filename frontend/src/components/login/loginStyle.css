@@ -1,4 +1,75 @@
-.formMainContainer {
+.loginMainContainer {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    justify-items: center;
+    align-content: center;
+    align-items: center;
+
+    width: 100%;
+    height: 88%;
+
     background: url("../../resourses/images/bus.jpeg");
+    background-repeat: no-repeat;
+    background-size: 100%, 100%, contain;
+    color: white;
 }
 
+.loginForm{
+    display: flex;
+    justify-content: center;
+    justify-items: center;
+    align-content: center;
+    align-items: center;
+
+    margin-bottom: 1%;
+    margin-left: 2%;
+    margin-right: 2%;
+
+}
+
+.loginFormSection{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: start;
+    justify-items: start;
+    align-content: start;
+    align-items: center;
+
+    width: 30vw;
+}
+
+.loginFormSection input {
+    width: 72%;
+
+    margin-top: 0.5%;
+    margin-bottom: 0.5%;
+    margin-left: 2%;
+
+
+    padding: 1% 1%;
+
+    font-size: 0.9vw;
+    border-radius: 5px;
+}
+
+.loginFormSection label{
+    width: 20%;
+
+    text-align: left;
+    margin-left: 2%;
+}
+
+.btnLoginFormSubmit{
+    width: 97%;
+
+    margin-left: 2%;
+    margin-top: 2%;
+    margin-bottom: 1%;
+
+    padding: 0.5% 0.5%;
+
+    font-size: 1vw;
+    border-radius: 5px;
+    background-color: aquamarine;
+}

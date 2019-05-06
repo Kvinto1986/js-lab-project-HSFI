@@ -4,7 +4,8 @@ import PlacesAutocomplete from "react-places-autocomplete";
 
 import MapContainer from './map';
 
-const MapAutocomplete = ({error, mapVisibility, value, onChange, onSelect, GPS, handleMapVisibility}) => {
+const MapAutocomplete = ({error, mapVisibility, value, onChange, onSelect, GPS, handleMapVisibility,mapContainerClass,
+                             mapClass,btnMapClass}) => {
     return (
         <Fragment>
             <PlacesAutocomplete
@@ -45,7 +46,7 @@ const MapAutocomplete = ({error, mapVisibility, value, onChange, onSelect, GPS, 
                                 );
                             })}
                         </div>
-                        <button className={'btnCheckMap'} onClick={handleMapVisibility}>Check on the map</button>
+                        <button className={btnMapClass} onClick={handleMapVisibility}>Check on the map</button>
                     </div>
                 )}
             </PlacesAutocomplete>
@@ -53,6 +54,8 @@ const MapAutocomplete = ({error, mapVisibility, value, onChange, onSelect, GPS, 
             <MapContainer
                 visible={mapVisibility}
                 GPS={GPS}
+                mapContainerClass={mapContainerClass}
+                mapClass={mapClass}
             />
 
         </Fragment>

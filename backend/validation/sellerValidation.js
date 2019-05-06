@@ -10,17 +10,14 @@ module.exports = function validateRegisterInput(data) {
     data.photoLicense = !isEmpty(data.photoLicense) ? data.photoLicense : '';
     data.photo = !isEmpty(data.photo) ? data.photo : '';
     data.phone = !isEmpty(data.phone) ? data.phone : '';
-    data.location = !isEmpty(data.location) ? data.location : '';
-    data.schedule = !isEmpty(data.schedule) ? data.schedule : '';
     data.email = !isEmpty(data.email) ? data.email : '';
-    data.ingredients = !isEmpty(data.ingredients) ? data.ingredients : '';
     data.foodGroup = !isEmpty(data.foodGroup) ? data.foodGroup : '';
     data.sity = !isEmpty(data.sity) ? data.sity : '';
-
 
     if(Validator.isEmpty(data.operatorName)) {
         errors.operatorName = 'OperatorName field is required';
     }
+
 
     if(Validator.isEmpty(data.sity)) {
         errors.sity = 'sity field is required';
@@ -60,18 +57,6 @@ module.exports = function validateRegisterInput(data) {
         errors.photo = 'Photo is required';
     }
 
-    if(Validator.isEmpty(data.schedule)) {
-        errors.schedule = 'schedule is required';
-    }
-
-    if(Validator.isEmpty(data.ingredients)) {
-        errors.ingredients = 'ingredients is required';
-    }
-
-    if(Validator.isEmpty(data.location)) {
-        errors.location = 'location is required';
-    }
-
     if(Validator.isEmpty(data.foodGroup)) {
         errors.foodGroup = 'foodGroup is required';
     }
@@ -82,4 +67,4 @@ module.exports = function validateRegisterInput(data) {
         errors,
         isValid: isEmpty(errors)
     }
-}
+};

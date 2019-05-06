@@ -24,8 +24,10 @@
     width: 50%;
 
     font-family: Georgia;
-    background-color: rgba(255,255,255,0.7);
+    background-color: rgba(64, 64, 64, 0.8);
     border: black 2px double;
+    border-radius: 10px;
+    color: white;
 }
 
 .homeContainerRules p{
@@ -36,5 +38,5 @@
 .homeContainerRules h2{
     font-size: 1.7vw;
 
-    border-bottom: 2px black solid;
+    border-bottom: 2px white solid;
 }

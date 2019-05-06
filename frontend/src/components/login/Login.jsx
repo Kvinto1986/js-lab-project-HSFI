@@ -37,24 +37,27 @@ class Login extends Component {
         }
     };
 
-    static getDerivedStateFromProps(nextProps, prevState) {
-        if (nextProps.auth.isAuthenticated) {
+    componentWillReceiveProps(nextProps) {
+        if(nextProps.auth.isAuthenticated) {
             this.props.history.push('/')
         }
-
-        if (nextProps.errors !== prevState.errors) {
-            return {errors: nextProps.errors};
-        } else return null;
+        if(nextProps.errors) {
+            this.setState({
+                errors: nextProps.errors
+            });
+        }
     }
 
     render() {
         const {errors} = this.state;
 
         return(
-        <div className="formMainContainer" >
+        <div className="loginMainContainer" >
             <div className='formContainer'>
             <h1>Login</h1>
-            <form onSubmit={ this.handleSubmit }>
+            <form onSubmit={ this.handleSubmit } className={'loginForm'}>
+                <div className='loginFormSection'>
+                <label>Email</label>
                     <input
                     type="email"
                     placeholder="Email"
@@ -65,6 +68,7 @@ class Login extends Component {
                     />
                     {errors.email && (<div className="invalidFeedback">{errors.email}</div>)}
 
+                <label>Password</label>
                     <input
                     type="password"
                     placeholder="Password"
@@ -75,10 +79,10 @@ class Login extends Component {
                     />
                     {errors.password && (<div className="invalidFeedback">{errors.password}</div>)}
 
-                    <button type="submit" className="btnFormSubmit">
+                    <button type="submit" className="btnLoginFormSubmit">
                         Login
                     </button>
-
+                </div>
             </form>
             </div>
         </div>

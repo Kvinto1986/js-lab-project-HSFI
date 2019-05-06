@@ -154,14 +154,15 @@ class UserRegistration extends Component {
 
     };
 
-    static getDerivedStateFromProps(nextProps, prevState) {
-        if (nextProps.auth.isAuthenticated) {
+    componentWillReceiveProps(nextProps) {
+        if(nextProps.auth.isAuthenticated) {
             this.props.history.push('/')
         }
-
-        if (nextProps.errors !== prevState.errors) {
-            return {errors: nextProps.errors};
-        } else return null;
+        if(nextProps.errors) {
+            this.setState({
+                errors: nextProps.errors
+            });
+        }
     }
 
     componentDidMount = () => {
@@ -181,18 +182,18 @@ class UserRegistration extends Component {
         const {tasks} = this.state.tasks;
 
         return (
-            <div className="formMainContainer">
+            <div className="userMainContainer">
                 <div className='formContainer'>
                     <h1>Registration new user</h1>
-                    <form onSubmit={this.handleSubmit}>
-                        <div className='formSection'>
+                    <form onSubmit={this.handleSubmit} className={'userForm'}>
+                        <div className='userformSection'>
                             <label>Select role</label>
                             <Select
                                 options={roles}
                                 placeholder={'Select role...'}
                                 value={role}
                                 onChange={this.handleRoleChange}
-                                className={'formSelect'}
+                                className={'userFormSelect'}
                             />
                             {errors.role && (<div className="invalidFeedback">{errors.role}</div>)}
 
@@ -202,7 +203,7 @@ class UserRegistration extends Component {
                                 placeholder={'Select country...'}
                                 value={country}
                                 onChange={this.handleCountryChange}
-                                className={'formSelect'}
+                                className={'userFormSelect'}
                             />
                             {errors.country && (<div className="invalidFeedback">{errors.country}</div>)}
 
@@ -216,7 +217,7 @@ class UserRegistration extends Component {
                                         placeholder={'Select tasks...'}
                                         value={tasks}
                                         onChange={this.handleTaskChange}
-                                        className={'formSelect'}
+                                        className={'userFormSelect'}
                                     />
                                     {errors.tasks && (<div className="invalidFeedback">{errors.tasks}</div>)}
                                 </Fragment>
@@ -230,7 +231,6 @@ class UserRegistration extends Component {
                                 name="name"
                                 onChange={this.handleInputChange}
                                 value={this.state.name}
-                                className={'formInput'}
                             />
                             {errors.name && (<div className="invalidFeedback">{errors.name}</div>)}
 
@@ -241,7 +241,6 @@ class UserRegistration extends Component {
                                 name="phone"
                                 onChange={this.handleInputChange}
                                 value={this.state.phone}
-                                className={'formInput'}
                             />
                             {errors.phone && (<div className="invalidFeedback">{errors.phone}</div>)}
 
@@ -252,7 +251,6 @@ class UserRegistration extends Component {
                                 name="email"
                                 onChange={this.handleInputChange}
                                 value={this.state.email}
-                                className={'formInput'}
                             />
                             {errors.email && (<div className="invalidFeedback">{errors.email}</div>)}
 
@@ -263,7 +261,6 @@ class UserRegistration extends Component {
                                 name="password"
                                 onChange={this.handleInputChange}
                                 value={this.state.password}
-                                className={'formInput'}
                             />
                             {errors.password && (<div className="invalidFeedback">{errors.password}</div>)}
 
@@ -274,7 +271,6 @@ class UserRegistration extends Component {
                                 name="password_confirm"
                                 onChange={this.handleInputChange}
                                 value={this.state.password_confirm}
-                                className={'formInput'}
                             />
                             {errors.password_confirm && (
                                 <div className="invalidFeedback">{errors.password_confirm}</div>)}
@@ -286,19 +282,21 @@ class UserRegistration extends Component {
                                 isDisabled={!this.state.organizationInputVisibility}
                                 placeholder={'Select organization...'}
                                 onChange={this.handleOrganizationChange}
-                                className={'formSelect'}
+                                className={'userFormSelect'}
                             />
                             {errors.organization && (<div className="invalidFeedback">{errors.organization}</div>)}
 
                             {this.state.role === 'coordinator' && (
-                                <button className="btnNewOrganization" onClick={this.newOrganizationFormVisibility}>
+                                <button className="btnUserFormSubmit" onClick={this.newOrganizationFormVisibility}>
                                     Create New Organization
                                 </button>
                             )}
+                            <button type="submit" className="btnUserFormSubmit">
+                                Submit
+                            </button>
                         </div>
 
                         <NewOrganizationInputs
-                            role={this.state.role}
                             organizationInputVisibility={this.state.organizationInputVisibility}
                             errors={errors}
                             mapVisibility={this.state.mapVisibility}
@@ -311,9 +309,6 @@ class UserRegistration extends Component {
                             handleMapVisibility={this.handleMapVisibility}
                         />
 
-                        <button type="submit" className="btnFormSubmit">
-                            Submit
-                        </button>
                     </form>
                 </div>
             </div>

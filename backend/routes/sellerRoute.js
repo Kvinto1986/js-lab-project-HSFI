@@ -29,7 +29,7 @@ router.post('/registration', function(req, res) {
 
                 operatorName: req.body.operatorName,
                 name: req.body.name,
-                country: req.body.countryAction,
+                country: req.body.country,
                 photo: req.body.photo,
                 license: req.body.license,
                 photoLicense: req.body.photoLicense,
@@ -37,7 +37,7 @@ router.post('/registration', function(req, res) {
                 schedule: req.body.schedule,
                 phone: req.body.phone,
                 email: req.body.email,
-                ingredients: req.body.ingredients,
+                ingredientSuppliers: req.body.ingredientSuppliers,
                 foodGroup: req.body.foodGroup,
                 flag:req.body.flag,
                 flagCount:req.body.flagCount,
