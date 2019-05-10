@@ -17,61 +17,74 @@ import days from '../../resourses/days';
 
 import './createSellerStyles.css'
 
-const daysList=Array.from(days).slice(0);
-
 class NewSeller extends Component {
 
-        state = {
-            operatorName: "",
-            country: '',
-            name: "",
-            photo: "",
-            phone: "",
-            email: "",
-            license: "",
-            photoLicense: '',
-            GPS: {},
-            sity: '',
-            schedule: [],
-            ingredientSuppliers:[],
-            ingredient: '',
-            foodGroup: "",
-            data: "",
-            success: false,
-            workingDays:[],
-            beginningWork:'',
-            endWork:'',
-            address:'',
-            mapVisibility:false,
-            errors: {},
-        };
+    state = {
+        operatorName: "",
+        country: '',
+        name: "",
+        photo: "",
+        phone: "",
+        email: "",
+        license: "",
+        photoLicense: '',
+        GPS: {},
+        sity: '',
+        schedule: [],
+        ingredientSuppliers: [],
+        ingredient: '',
+        foodGroup: "",
+        data: "",
+        success: false,
+        workingDays: [],
+        beginningWork: '',
+        endWork: '',
+        address: '',
+        mapVisibility: false,
+        errors: {},
+    };
 
-    handleAddSchedule=(e)=>{
+    handleAddSchedule = (e) => {
         e.preventDefault();
+        if (this.state.address!==''&&this.state.workingDays.length>0
+            &&this.state.beginningWork!==''&&this.state.endWork!=='') {
+            const schedule = {};
 
-        const schedule={};
+            for (let i = 0; i < this.state.workingDays.length; i++) {
+                this.state.workingDays[i] = this.state.workingDays[i].value
+            }
 
-        for(let i=0;i<this.state. workingDays.length;i++){
-            const index=daysList.indexOf(this.state. workingDays[i]);
-            daysList.splice(index, 1);
-            this.state. workingDays[i]=this.state. workingDays[i].value
+            schedule.address = this.state.address;
+            schedule.GPS = this.state.GPS;
+            schedule.workingDays = this.state.workingDays;
+            schedule.beginningWork = this.state.beginningWork;
+            schedule.endWork = this.state.endWork;
+
+            this.state.schedule.push(schedule);
+
+            this.setState({
+                GPS: {},
+                workingDays: [],
+                beginningWork: '',
+                endWork: '',
+                address: '',
+                mapVisibility: false
+            });
         }
+    };
 
-        schedule.address=this.state.address;
-        schedule.GPS=this.state.GPS;
-        schedule.workingDays=this.state.workingDays;
-        schedule.beginningWork=this.state.beginningWork;
-        schedule.endWork=this.state.endWork;
+    handleDeleteSchedule = (e) => {
+        e.preventDefault();
+        const index = this.state.schedule.indexOf(e.target.name);
+        console.log(this.state.schedule[index]);
 
-        this.state.schedule.push(schedule);
-
+        this.state.schedule.splice(index, 1);
+        console.log(this.state.schedule);
         this.setState({
-            GPS:{},
-            workingDays:[],
-            beginningWork:'',
-            endWork:'',
-            address:'',
-           });
+            schedule: this.state.schedule
+        });
+
+
     };
 
     onChangeLocation = (location) => {
@@ -91,8 +104,6 @@ class NewSeller extends Component {
 
     onSelectLocation = (address) => {
         this.setState({address: address});
-
-
     };
 
     handleMapVisibility = (e) => {
@@ -100,25 +111,25 @@ class NewSeller extends Component {
         this.setState({mapVisibility: true})
     };
 
-    handleAddSupplier=(e)=>{
-        e.preventDefault();
-        this.state.ingredientSuppliers.push(this.state.ingredient);
-        this.setState({
-            ingredient: ''
-        });
+    handleAddSupplier = (e) => {
+        e.preventDefault()
+        if (this.state.ingredient !== ''&&!this.state.ingredientSuppliers.includes(this.state.ingredient)) {
+            this.state.ingredientSuppliers.push(this.state.ingredient);
+            this.setState({
+                ingredient: ''
+            });
 
-
+        }
     };
 
-    handleDeleteSupplier=(e)=>{
+    handleDeleteSupplier = (e) => {
         e.preventDefault();
-        const index=this.state.ingredientSuppliers.indexOf(e.target.name);
+        const index = this.state.ingredientSuppliers.indexOf(e.target.name);
         this.state.ingredientSuppliers.splice(index, 1);
         console.log(this.state.ingredientSuppliers);
         this.setState({
             ingredientSuppliers: this.state.ingredientSuppliers
         });
-
     };
 
     handleChangeSchedule = (workingDays) => {
@@ -131,14 +142,13 @@ class NewSeller extends Component {
     };
 
 
-
-    handleInputChange=(e)=> {
+    handleInputChange = (e) => {
         this.setState({
             [e.target.name]: e.target.value
         })
     };
 
-    handleInputFileChange=(e)=> {
+    handleInputFileChange = (e) => {
         this.setState({
             [e.target.name]: e.target.files[0]
         })
@@ -170,7 +180,7 @@ class NewSeller extends Component {
         }, 5000);
     };
 
-    handleSubmit=(e) =>{
+    handleSubmit = (e) => {
         e.preventDefault();
 
         const images = new FormData();
@@ -206,7 +216,6 @@ class NewSeller extends Component {
 
         this.props.registerSeller(seller, this.resetForm);
         this.props.uploadImage(images, this.state.email);
-        console.log(seller)
     };
 
     handleChangeCountry = (countrySelect) => {
@@ -246,13 +255,35 @@ class NewSeller extends Component {
         };
 
         const IngridientsList = () => {
-            if (this.state.ingredientSuppliers.length>0) {
-                const liArr=[];
+            if (this.state.ingredientSuppliers.length > 0) {
+                const liArr = [];
 
-                for(let i=0;i<this.state.ingredientSuppliers.length;i++){
+                for (let i = 0; i < this.state.ingredientSuppliers.length; i++) {
                     liArr.push(<li key={this.state.ingredientSuppliers[i]}>
                         {this.state.ingredientSuppliers[i]}
-                        <button name={this.state.ingredientSuppliers[i]} onClick={this.handleDeleteSupplier}>Delete</button></li>)
+                        <button name={this.state.ingredientSuppliers[i]} onClick={this.handleDeleteSupplier}>Delete
+                        </button>
+                    </li>)
+                }
+                return (
+                    <ul>
+                        {liArr}
+                    </ul>
+
+                )
+            } else return null
+        };
+
+        const ScheduleList = () => {
+            if (this.state.schedule.length > 0) {
+                const liArr = [];
+
+                for (let i = 0; i < this.state.schedule.length; i++) {
+                    liArr.push(<li key={this.state.schedule[i].address}>
+                        {this.state.schedule[i].address}
+                        <button name={this.state.schedule[i].address} onClick={this.handleDeleteSchedule}>Delete
+                        </button>
+                    </li>)
                 }
                 return (
                     <ul>
@@ -286,6 +317,7 @@ class NewSeller extends Component {
                                     name="name"
                                     onChange={this.handleInputChange}
                                     value={this.state.name}
+
                                 />
                                 {errors.name && (<div className="invalidFeedback">{errors.name}</div>)}
 
@@ -306,6 +338,7 @@ class NewSeller extends Component {
                                     name="sity"
                                     onChange={this.handleInputChange}
                                     value={this.state.sity}
+
                                 />
                                 {errors.sity && (<div className="invalidFeedback">{errors.sity}</div>)}
 
@@ -316,6 +349,7 @@ class NewSeller extends Component {
                                     name="license"
                                     onChange={this.handleInputChange}
                                     value={this.state.license}
+
                                 />
                                 {errors.license && (<div className="invalidFeedback">{errors.license}</div>)}
 
@@ -326,6 +360,7 @@ class NewSeller extends Component {
                                     name="phone"
                                     onChange={this.handleInputChange}
                                     value={this.state.phone}
+
                                 />
                                 {errors.phone && (<div className="invalidFeedback">{errors.phone}</div>)}
 
@@ -336,6 +371,7 @@ class NewSeller extends Component {
                                     name="email"
                                     onChange={this.handleInputChange}
                                     value={this.state.email}
+
                                 />
                                 {errors.email && (<div className="invalidFeedback">{errors.email}</div>)}
 
@@ -355,6 +391,7 @@ class NewSeller extends Component {
                                     placeholder="License photo"
                                     name="photoLicense"
                                     onChange={this.handleInputFileChange}
+
                                 />
                                 {errors.photoLicense && (<div className="invalidFeedback">{errors.photoLicense}</div>)}
 
@@ -378,42 +415,49 @@ class NewSeller extends Component {
                                 <div className={'sellerIngredientFormSection'}>
                                     <IngridientsList
                                     />
-                                <label>Ingredient supplier </label>
-                                <input
-                                    type="text"
-                                    placeholder="Ingredient supplier"
-                                    name="ingredient"
-                                    onChange={this.handleInputChange}
-                                    value={this.state.ingredient}
-                                />
-                                {errors.ingredientSuppliers && (<div className="invalidFeedback">{errors.ingredientSuppliers}</div>)}
+                                    <label>Ingredient supplier </label>
+                                    <input
+                                        type="text"
+                                        placeholder="Ingredient supplier"
+                                        name="ingredient"
+                                        onChange={this.handleInputChange}
+                                        value={this.state.ingredient}
+                                    />
+                                    {errors.ingredientSuppliers && (
+                                        <div className="invalidFeedback">{errors.ingredientSuppliers}</div>)}
 
-                                <button onClick={this.handleAddSupplier}>
-                                    Add supplier
-                                </button>
+                                    <button onClick={this.handleAddSupplier}>
+                                        Add supplier
+                                    </button>
                                 </div>
                                 <div className={'sellerScheduleFormSection'}>
-                                    <h3>Work schedule </h3>
-                                <label>Working days </label>
-                                <Select
-                                    isMulti
-                                    joinValues
-                                    options={daysList}
-                                    placeholder={'Select days...'}
-                                    value={this.state.workingDays}
-                                    onChange={this.handleChangeSchedule}
-                                    className={'sellerFormSelect'}
-                                />
 
-                                <label>Beginning of work</label>
-                                <input
-                                    type="time"
-                                    step="600"
-                                    placeholder="Working hours"
-                                    name="beginningWork"
-                                    onChange={this.handleInputChange}
-                                    value={this.state.beginningWork}
-                                />
+                                    <h3>Work schedule </h3>
+                                    <div className={'sellerScheduleFormSection'}>
+                                        <ScheduleList
+                                        />
+                                    </div>
+                                    <label>Working days </label>
+                                    <Select
+                                        isMulti
+                                        joinValues
+                                        options={days}
+                                        placeholder={'Select days...'}
+                                        value={this.state.workingDays}
+                                        onChange={this.handleChangeSchedule}
+                                        className={'sellerFormSelect'}
+                                    />
+
+                                    <label>Beginning of work</label>
+                                    <input
+                                        type="time"
+                                        step="600"
+                                        placeholder="Working hours"
+                                        name="beginningWork"
+                                        onChange={this.handleInputChange}
+                                        value={this.state.beginningWork}
+
+                                    />
 
                                     <label>End of work</label>
                                     <input
@@ -423,6 +467,7 @@ class NewSeller extends Component {
                                         name="endWork"
                                         onChange={this.handleInputChange}
                                         value={this.state.endWork}
+
                                     />
                                     <MapAutocomplete
                                         error={errors.foodGroup}
@@ -439,6 +484,9 @@ class NewSeller extends Component {
                                     <button className={'btnSellerCheckMap'} onClick={this.handleAddSchedule}>
                                         Add schedule
                                     </button>
+                                    {errors.schedule && (
+                                        <div className="invalidFeedback">{errors.schedule}</div>)}
+
                                 </div>
                             </div>
                         </form>

@@ -3,6 +3,7 @@ const isEmpty = require('./is-empty');
 
 module.exports = function validateRegisterInput(data) {
     let errors = {};
+
     data.operatorName = !isEmpty(data.operatorName) ? data.operatorName : '';
     data.name = !isEmpty(data.name) ? data.name : '';
     data.country = !isEmpty(data.country) ? data.country : '';
@@ -13,9 +14,19 @@ module.exports = function validateRegisterInput(data) {
     data.email = !isEmpty(data.email) ? data.email : '';
     data.foodGroup = !isEmpty(data.foodGroup) ? data.foodGroup : '';
     data.sity = !isEmpty(data.sity) ? data.sity : '';
+    data.ingredientSuppliers = !isEmpty(data.ingredientSuppliers) ? data.ingredientSuppliers: '';
+    data.schedule = !isEmpty(data.schedule) ? data.schedule : '';
 
     if(Validator.isEmpty(data.operatorName)) {
         errors.operatorName = 'OperatorName field is required';
+    }
+
+    if(data.schedule[0]===undefined) {
+        errors.schedule = 'schedule field is required';
+    }
+
+    if(data.ingredientSuppliers[0]===undefined) {
+        errors.ingredientSuppliers = 'ingredientSuppliers field is required';
     }
 
 

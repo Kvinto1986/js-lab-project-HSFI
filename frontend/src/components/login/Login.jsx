@@ -65,6 +65,7 @@ class Login extends Component {
                     onChange={ this.handleInputChange }
                     value={ this.state.email }
                     className={'formInput'}
+                    required
                     />
                     {errors.email && (<div className="invalidFeedback">{errors.email}</div>)}
 
@@ -76,6 +77,7 @@ class Login extends Component {
                     onChange={ this.handleInputChange }
                     value={ this.state.password }
                     className={'formInput'}
+                    required
                     />
                     {errors.password && (<div className="invalidFeedback">{errors.password}</div>)}
 

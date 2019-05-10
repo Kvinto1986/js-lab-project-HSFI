@@ -34,14 +34,17 @@ const SellerSchema = new Schema({
     phone: {
         type: String,
     },
+
     email: {
         type: String,
         required: true
     },
+
     ingredientSuppliers: {
         type: Array,
         required: true
     },
+
     foodGroup: {
         type: String,
         required: true

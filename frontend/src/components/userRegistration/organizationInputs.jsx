@@ -19,12 +19,12 @@ const NewOrganizationInputs = ({
                         name="newOrganizationName"
                         onChange={handleInputChange}
                         value={newOrganizationName}
+                        required
                     />
                     {errors.newOrganizationName && (
                         <div className="invalidFeedback">{errors.newOrganizationName}</div>)}
 
                     <MapAutocomplete
-                        error={errors.newOrganizationAddress}
                         mapVisibility={mapVisibility}
                         value={newOrganizationAddress}
                         onChange={onChangeLocation}
@@ -40,6 +40,7 @@ const NewOrganizationInputs = ({
             </Fragment>
         )
     }
+    else return null
 };
 
 NewOrganizationInputs.propTypes = {

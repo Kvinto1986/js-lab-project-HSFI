@@ -218,6 +218,7 @@ class UserRegistration extends Component {
                                         value={tasks}
                                         onChange={this.handleTaskChange}
                                         className={'userFormSelect'}
+
                                     />
                                     {errors.tasks && (<div className="invalidFeedback">{errors.tasks}</div>)}
                                 </Fragment>
@@ -231,6 +232,7 @@ class UserRegistration extends Component {
                                 name="name"
                                 onChange={this.handleInputChange}
                                 value={this.state.name}
+                                required
                             />
                             {errors.name && (<div className="invalidFeedback">{errors.name}</div>)}
 
@@ -241,6 +243,7 @@ class UserRegistration extends Component {
                                 name="phone"
                                 onChange={this.handleInputChange}
                                 value={this.state.phone}
+                                required
                             />
                             {errors.phone && (<div className="invalidFeedback">{errors.phone}</div>)}
 
@@ -251,6 +254,7 @@ class UserRegistration extends Component {
                                 name="email"
                                 onChange={this.handleInputChange}
                                 value={this.state.email}
+                                required
                             />
                             {errors.email && (<div className="invalidFeedback">{errors.email}</div>)}
 
@@ -261,6 +265,7 @@ class UserRegistration extends Component {
                                 name="password"
                                 onChange={this.handleInputChange}
                                 value={this.state.password}
+                                required
                             />
                             {errors.password && (<div className="invalidFeedback">{errors.password}</div>)}
 
@@ -271,6 +276,7 @@ class UserRegistration extends Component {
                                 name="password_confirm"
                                 onChange={this.handleInputChange}
                                 value={this.state.password_confirm}
+                                required
                             />
                             {errors.password_confirm && (
                                 <div className="invalidFeedback">{errors.password_confirm}</div>)}

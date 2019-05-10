@@ -4,7 +4,7 @@ import PlacesAutocomplete from "react-places-autocomplete";
 
 import MapContainer from './map';
 
-const MapAutocomplete = ({error, mapVisibility, value, onChange, onSelect, GPS, handleMapVisibility,mapContainerClass,
+const MapAutocomplete = ({mapVisibility, value, onChange, onSelect, GPS, handleMapVisibility,mapContainerClass,
                              mapClass,btnMapClass}) => {
     return (
         <Fragment>
@@ -19,11 +19,9 @@ const MapAutocomplete = ({error, mapVisibility, value, onChange, onSelect, GPS, 
                         <input
                             {...getInputProps({
                                 placeholder: 'Search Full Location Address...',
-                                className: 'formInput',
+                                className: 'formInput'
                             })}
                         />
-
-                        {error && (<div className="invalidFeedback">{error}</div>)}
 
                         <div className="autocompleteContainer">
                             {loading && <div>Loading...</div>}
@@ -64,11 +62,10 @@ const MapAutocomplete = ({error, mapVisibility, value, onChange, onSelect, GPS, 
 };
 
 MapAutocomplete.propTypes = {
-    error: PropTypes.string,
     mapVisibility: PropTypes.bool.isRequired,
     value: PropTypes.string,
     onChange: PropTypes.func.isRequired,
-    GPS: PropTypes.object.isRequired,
+    GPS: PropTypes.object,
     onSelect: PropTypes.func.isRequired,
     handleMapVisibility: PropTypes.func.isRequired
 };
