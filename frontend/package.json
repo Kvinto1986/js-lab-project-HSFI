@@ -17,6 +17,7 @@
     "react-geocode": "^0.1.2",
     "react-google-autocomplete": "^1.1.0",
     "react-google-maps": "^9.4.5",
+    "react-input-mask": "^2.0.4",
     "react-load-script": "0.0.6",
     "react-modal": "^3.8.1",
     "react-places-autocomplete": "^7.2.1",

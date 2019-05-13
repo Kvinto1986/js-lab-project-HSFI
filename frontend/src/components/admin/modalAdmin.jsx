@@ -24,7 +24,7 @@ class ModalAdmin extends Component {
                     options={this.props.array}
                     placeholder={'Select country...'}
                     value={select}
-                    onChange={this.props.handleChange}
+                    onChange={this.props.handleChangeLocation}
                     className={'countrySelect'}
                 />
                 {this.props.error && (<div className="invalidFeedback">{this.props.error}</div>)}

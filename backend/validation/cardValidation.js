@@ -20,8 +20,13 @@ module.exports = function validateRegisterInput(data) {
     if(Validator.isEmpty(data.sellerName)) {
         errors.sellerName = 'sellerName field is required';
     }
+
     if(Validator.isEmpty(data.cardsCount)) {
-        errors.cardsCount = 'cardsCount is required';
+        errors.cardsCount = 'cards count is required';
+    }
+
+    if(data.cardsCount<1) {
+        errors.cardsCount = 'Cards count must be greater than 0';
     }
 
     if(Validator.isEmpty(data.license)) {
@@ -29,11 +34,15 @@ module.exports = function validateRegisterInput(data) {
     }
 
     if(Validator.isEmpty(data.sellerPhoto)) {
-        errors.sellerPhoto = 'sellerPhoto is required';
+        errors.sellerPhoto = 'seller photo is required';
     }
 
     if(Validator.isEmpty(data.cost)) {
         errors.cost = 'cost is required';
+    }
+
+    if(data.cost<1) {
+        errors.cost = 'Cost must be greater than 0';
     }
 
     if(Validator.isEmpty(data.currency)) {
@@ -44,10 +53,8 @@ module.exports = function validateRegisterInput(data) {
         errors.foodGroup = 'foodGroup is required';
     }
 
-
-
     return {
         errors,
         isValid: isEmpty(errors)
     }
-}
+};

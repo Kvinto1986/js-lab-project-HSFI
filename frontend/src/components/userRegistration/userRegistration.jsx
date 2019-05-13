@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import {geocodeByAddress, getLatLng} from "react-places-autocomplete";
 import {withRouter} from 'react-router-dom';
 import Select from 'react-select';
+import InputMask from 'react-input-mask';
 
 import {registerUser} from '../../actions/userAction';
 import {getOrganizations, registerOrganization} from '../../actions/organizationAction';
@@ -237,14 +238,16 @@ class UserRegistration extends Component {
                             {errors.name && (<div className="invalidFeedback">{errors.name}</div>)}
 
                             <label>Phone</label>
-                            <input
-                                type="text"
+                            <InputMask
+                                type="tel"
+                                mask="+999 (99) 999 99 99"
                                 placeholder="Phone number"
                                 name="phone"
                                 onChange={this.handleInputChange}
                                 value={this.state.phone}
                                 required
-                            />
+                            >
+                        </InputMask>
                             {errors.phone && (<div className="invalidFeedback">{errors.phone}</div>)}
 
                             <label>Email</label>

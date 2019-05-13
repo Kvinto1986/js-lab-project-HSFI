@@ -4,6 +4,7 @@ import {connect} from 'react-redux';
 import {withRouter} from 'react-router-dom';
 import PropTypes from 'prop-types';
 import Select from "react-select";
+import InputMask from 'react-input-mask';
 import {geocodeByAddress, getLatLng} from "react-places-autocomplete";
 
 import {registerSeller} from '../../actions/sellerAction';
@@ -12,8 +13,11 @@ import {uploadImage} from '../../actions/uploadAction';
 import {getFood} from '../../actions/foodAction';
 
 import MapAutocomplete from "../map/mapAutocomplete";
+import SupplersTable from "./supplersTable";
+import SheduleListTable from './scheduleTable'
 
-import days from '../../resourses/days';
+import daysList from '../../resourses/days';
+import likeImg from '../../resourses/images/like.png'
 
 import './createSellerStyles.css'
 
@@ -44,10 +48,86 @@ class NewSeller extends Component {
         errors: {},
     };
 
+    handleInputChange = (e) => {
+        this.setState({
+            [e.target.name]: e.target.value
+        })
+    };
+
+    handleChangeCountry = (countrySelect) => {
+        this.setState({country: countrySelect.value});
+    };
+
+    handleInputFileChange = (e) => {
+        this.setState({
+            [e.target.name]: e.target.files[0]
+        })
+    };
+
+    handleChangeFood = (foodSelect) => {
+        this.setState({foodGroup: foodSelect.value});
+
+    };
+
+    handleAddSupplier = (e) => {
+        e.preventDefault();
+        if (this.state.ingredient !== '' && !this.state.ingredientSuppliers.includes(this.state.ingredient)) {
+            this.state.ingredientSuppliers.push(this.state.ingredient);
+            this.setState({
+                ingredient: ''
+            });
+
+        }
+    };
+
+    handleDeleteSupplier = (e) => {
+        e.preventDefault();
+        const index = this.state.ingredientSuppliers.indexOf(e.target.name);
+        this.state.ingredientSuppliers.splice(index, 1);
+        console.log(this.state.ingredientSuppliers);
+        this.setState({
+            ingredientSuppliers: this.state.ingredientSuppliers
+        });
+    };
+
+    onChangeLocation = (location) => {
+        this.setState({address: location});
+        this.setState({mapVisibility: false});
+
+        geocodeByAddress(location)
+            .then(results => {
+                return getLatLng(results[0])
+            })
+            .then(latLng => {
+                this.setState({GPS: latLng})
+            })
+            .catch(error => console.error('Error', error));
+
+    };
+
+    onSelectLocation = (address) => {
+        this.setState({address: address});
+    };
+
+    handleChangeLocation = (location) => {
+        this.setState({location});
+        this.setState({map: false})
+    };
+
+    handleMapVisibility = (e) => {
+        e.preventDefault();
+        this.setState({mapVisibility: true})
+    };
+
+
+    handleChangeSchedule = (workingDays) => {
+        this.setState({workingDays});
+    };
+
     handleAddSchedule = (e) => {
         e.preventDefault();
-        if (this.state.address!==''&&this.state.workingDays.length>0
-            &&this.state.beginningWork!==''&&this.state.endWork!=='') {
+        if (this.state.address !== '' && this.state.workingDays.length > 0
+            && this.state.beginningWork !== '' && this.state.endWork !== '') {
             const schedule = {};
 
             for (let i = 0; i < this.state.workingDays.length; i++) {
@@ -87,74 +167,10 @@ class NewSeller extends Component {
 
     };
 
-    onChangeLocation = (location) => {
-        this.setState({address: location});
-        this.setState({mapVisibility: false});
-
-        geocodeByAddress(location)
-            .then(results => {
-                return getLatLng(results[0])
-            })
-            .then(latLng => {
-                this.setState({GPS: latLng})
-            })
-            .catch(error => console.error('Error', error));
-
-    };
-
-    onSelectLocation = (address) => {
-        this.setState({address: address});
-    };
-
-    handleMapVisibility = (e) => {
-        e.preventDefault();
-        this.setState({mapVisibility: true})
-    };
-
-    handleAddSupplier = (e) => {
-        e.preventDefault()
-        if (this.state.ingredient !== ''&&!this.state.ingredientSuppliers.includes(this.state.ingredient)) {
-            this.state.ingredientSuppliers.push(this.state.ingredient);
-            this.setState({
-                ingredient: ''
-            });
-
-        }
-    };
-
-    handleDeleteSupplier = (e) => {
-        e.preventDefault();
-        const index = this.state.ingredientSuppliers.indexOf(e.target.name);
-        this.state.ingredientSuppliers.splice(index, 1);
-        console.log(this.state.ingredientSuppliers);
-        this.setState({
-            ingredientSuppliers: this.state.ingredientSuppliers
-        });
-    };
-
-    handleChangeSchedule = (workingDays) => {
-        this.setState({workingDays});
-    };
-
-    handleChange = (location) => {
-        this.setState({location});
-        this.setState({map: false})
-    };
-
-
-    handleInputChange = (e) => {
-        this.setState({
-            [e.target.name]: e.target.value
-        })
-    };
-
-    handleInputFileChange = (e) => {
-        this.setState({
-            [e.target.name]: e.target.files[0]
-        })
-    };
-
     resetForm = () => {
+        const rotateElem=document.getElementById("sellerFormInner");
+        rotateElem.style.transform = "rotateY(180deg)";
+
         this.setState({
             operatorName: "",
             country: '',
@@ -164,19 +180,24 @@ class NewSeller extends Component {
             email: "",
             license: "",
             photoLicense: '',
-            GPS: null,
+            GPS: {},
             sity: '',
-            location: '',
-            schedule: "",
+            schedule: [],
             ingredientSuppliers: [],
+            ingredient: '',
             foodGroup: "",
             data: "",
-            success: false,
-            map: false,
+            success: true,
+            workingDays: [],
+            beginningWork: '',
+            endWork: '',
+            address: '',
+            mapVisibility: false,
             errors: {},
         });
+
         setTimeout(() => {
-            this.setState({success: false})
+            document.getElementById("sellerFormInner").style.transform = "rotateY(0deg)";
         }, 5000);
     };
 
@@ -218,14 +239,6 @@ class NewSeller extends Component {
         this.props.uploadImage(images, this.state.email);
     };
 
-    handleChangeCountry = (countrySelect) => {
-        this.setState({country: countrySelect.value});
-    };
-    handleChangeFood = (foodSelect) => {
-        this.setState({foodGroup: foodSelect.value});
-
-    };
-
     componentWillReceiveProps(nextProps) {
         if (nextProps.errors) {
             this.setState({
@@ -246,252 +259,220 @@ class NewSeller extends Component {
         const {countrySelect} = this.state.country;
         const {foodSelect} = this.state.foodGroup;
 
-        const SendSuccess = () => {
-            if (this.state.success) {
-                return (
-                    <div className={'successContainer'}><h1>Card created successfully!</h1></div>
-                )
-            } else return null
-        };
-
-        const IngridientsList = () => {
-            if (this.state.ingredientSuppliers.length > 0) {
-                const liArr = [];
-
-                for (let i = 0; i < this.state.ingredientSuppliers.length; i++) {
-                    liArr.push(<li key={this.state.ingredientSuppliers[i]}>
-                        {this.state.ingredientSuppliers[i]}
-                        <button name={this.state.ingredientSuppliers[i]} onClick={this.handleDeleteSupplier}>Delete
-                        </button>
-                    </li>)
-                }
-                return (
-                    <ul>
-                        {liArr}
-                    </ul>
-
-                )
-            } else return null
-        };
-
-        const ScheduleList = () => {
-            if (this.state.schedule.length > 0) {
-                const liArr = [];
-
-                for (let i = 0; i < this.state.schedule.length; i++) {
-                    liArr.push(<li key={this.state.schedule[i].address}>
-                        {this.state.schedule[i].address}
-                        <button name={this.state.schedule[i].address} onClick={this.handleDeleteSchedule}>Delete
-                        </button>
-                    </li>)
-                }
-                return (
-                    <ul>
-                        {liArr}
-                    </ul>
-
-                )
-            } else return null
-        };
-
-
         if (isAuthenticated) {
             return (
-
-                <div className="sellerMainContainer">
-                    <div className='formContainer'>
-                        <h1>Register a new seller</h1>
-                        <form onSubmit={this.handleSubmit} className={'sellerForm'}>
-                            <div className='sellerformSection'>
-                                <label>Operator name</label>
-                                <input
-                                    type="text"
-                                    placeholder={user.name}
-                                    disabled='disabled'
-                                    value={user.name}
-                                />
-                                <label>Seller name</label>
-                                <input
-                                    type="text"
-                                    placeholder="Name"
-                                    name="name"
-                                    onChange={this.handleInputChange}
-                                    value={this.state.name}
-
-                                />
-                                {errors.name && (<div className="invalidFeedback">{errors.name}</div>)}
-
-                                <label>Country</label>
-                                <Select
-                                    options={this.props.countries}
-                                    placeholder={'Select country...'}
-                                    value={countrySelect}
-                                    onChange={this.handleChangeCountry}
-                                    className={'sellerFormSelect'}
-                                />
-                                {errors.country && (<div className="invalidFeedback">{errors.country}</div>)}
-
-                                <label>Sity</label>
-                                <input
-                                    type="text"
-                                    placeholder="Sity"
-                                    name="sity"
-                                    onChange={this.handleInputChange}
-                                    value={this.state.sity}
-
-                                />
-                                {errors.sity && (<div className="invalidFeedback">{errors.sity}</div>)}
-
-                                <label>Seller license </label>
-                                <input
-                                    type="text"
-                                    placeholder="License"
-                                    name="license"
-                                    onChange={this.handleInputChange}
-                                    value={this.state.license}
-
-                                />
-                                {errors.license && (<div className="invalidFeedback">{errors.license}</div>)}
-
-                                <label>Seller phone number </label>
-                                <input
-                                    type="text"
-                                    placeholder="phone"
-                                    name="phone"
-                                    onChange={this.handleInputChange}
-                                    value={this.state.phone}
-
-                                />
-                                {errors.phone && (<div className="invalidFeedback">{errors.phone}</div>)}
-
-                                <label>Seller email </label>
-                                <input
-                                    type="email"
-                                    placeholder="Email"
-                                    name="email"
-                                    onChange={this.handleInputChange}
-                                    value={this.state.email}
-
-                                />
-                                {errors.email && (<div className="invalidFeedback">{errors.email}</div>)}
-
-                                <label>Download Photo </label>
-                                <input
-                                    type="file"
-                                    placeholder="Photo"
-                                    name="photo"
-                                    onChange={this.handleInputFileChange}
-
-                                />
-                                {errors.photo && (<div className="invalidFeedback">{errors.photo}</div>)}
-
-                                <label>Download License photo </label>
-                                <input
-                                    type="file"
-                                    placeholder="License photo"
-                                    name="photoLicense"
-                                    onChange={this.handleInputFileChange}
-
-                                />
-                                {errors.photoLicense && (<div className="invalidFeedback">{errors.photoLicense}</div>)}
-
-                                <label>Food group </label>
-                                <Select
-                                    options={this.props.food}
-                                    placeholder={'Select food group...'}
-                                    value={foodSelect}
-                                    onChange={this.handleChangeFood}
-                                    className={'sellerFormSelect'}
-                                />
-                                {errors.foodGroup && (<div className="invalidFeedback">{errors.foodGroup}</div>)}
-
-                                <button type="submit" className="btnSellerFormSubmit">
-                                    Submit
-                                </button>
-
-                            </div>
-
-                            <div className={'sellerformSection'}>
-                                <div className={'sellerIngredientFormSection'}>
-                                    <IngridientsList
-                                    />
-                                    <label>Ingredient supplier </label>
+                <div className="sellerMainContainer" id='sellerMainContainer'>
+                    <div className='sellerFormInner' id='sellerFormInner'>
+                        <div className="sellerFormFront">
+                            <h1>Register a new seller</h1>
+                            <form onSubmit={this.handleSubmit} className={'sellerForm'}>
+                                <div className='sellerformSection'>
+                                    <label>Operator name</label>
                                     <input
                                         type="text"
-                                        placeholder="Ingredient supplier"
-                                        name="ingredient"
-                                        onChange={this.handleInputChange}
-                                        value={this.state.ingredient}
+                                        placeholder={user.name}
+                                        disabled='disabled'
+                                        value={user.name}
+                                        required
                                     />
-                                    {errors.ingredientSuppliers && (
-                                        <div className="invalidFeedback">{errors.ingredientSuppliers}</div>)}
+                                    <label>Seller name</label>
+                                    <input
+                                        type="text"
+                                        placeholder="Name"
+                                        name="name"
+                                        onChange={this.handleInputChange}
+                                        value={this.state.name}
+                                        required
+                                    />
+                                    {errors.name && (<div className="invalidFeedback">{errors.name}</div>)}
 
-                                    <button onClick={this.handleAddSupplier}>
-                                        Add supplier
-                                    </button>
-                                </div>
-                                <div className={'sellerScheduleFormSection'}>
-
-                                    <h3>Work schedule </h3>
-                                    <div className={'sellerScheduleFormSection'}>
-                                        <ScheduleList
-                                        />
-                                    </div>
-                                    <label>Working days </label>
+                                    <label>Country</label>
                                     <Select
-                                        isMulti
-                                        joinValues
-                                        options={days}
-                                        placeholder={'Select days...'}
-                                        value={this.state.workingDays}
-                                        onChange={this.handleChangeSchedule}
+                                        options={this.props.countries}
+                                        placeholder={'Select country...'}
+                                        value={countrySelect}
+                                        onChange={this.handleChangeCountry}
                                         className={'sellerFormSelect'}
                                     />
+                                    {errors.country && (<div className="invalidFeedback">{errors.country}</div>)}
 
-                                    <label>Beginning of work</label>
+                                    <label>Sity</label>
                                     <input
-                                        type="time"
-                                        step="600"
-                                        placeholder="Working hours"
-                                        name="beginningWork"
+                                        type="text"
+                                        placeholder="Sity"
+                                        name="sity"
                                         onChange={this.handleInputChange}
-                                        value={this.state.beginningWork}
-
+                                        value={this.state.sity}
+                                        required
                                     />
+                                    {errors.sity && (<div className="invalidFeedback">{errors.sity}</div>)}
 
-                                    <label>End of work</label>
+                                    <label>Seller license </label>
                                     <input
-                                        type="time"
-                                        step="600"
-                                        placeholder="Working hours"
-                                        name="endWork"
+                                        type="text"
+                                        placeholder="License"
+                                        name="license"
                                         onChange={this.handleInputChange}
-                                        value={this.state.endWork}
+                                        value={this.state.license}
+                                        required
+                                    />
+                                    {errors.license && (<div className="invalidFeedback">{errors.license}</div>)}
 
+                                    <label>Seller phone number </label>
+                                    <InputMask
+                                        type="tel"
+                                        mask="+999 (99) 999 99 99"
+                                        placeholder="phone"
+                                        name="phone"
+                                        onChange={this.handleInputChange}
+                                        value={this.state.phone}
+                                        required
+                                    >
+                                    </InputMask>
+
+                                    {errors.phone && (<div className="invalidFeedback">{errors.phone}</div>)}
+
+                                    <label>Seller email </label>
+                                    <input
+                                        type="email"
+                                        placeholder="Email"
+                                        name="email"
+                                        onChange={this.handleInputChange}
+                                        value={this.state.email}
+                                        required
                                     />
-                                    <MapAutocomplete
-                                        error={errors.foodGroup}
-                                        mapVisibility={this.state.mapVisibility}
-                                        value={this.state.address}
-                                        onChange={this.onChangeLocation}
-                                        onSelect={this.onSelectLocation}
-                                        GPS={this.state.GPS}
-                                        handleMapVisibility={this.handleMapVisibility}
-                                        mapContainerClass={'sellerMapContainer'}
-                                        mapClass={'sellerMap'}
-                                        btnMapClass={'btnSellerCheckMap'}
+                                    {errors.email && (<div className="invalidFeedback">{errors.email}</div>)}
+
+                                    <label>Download Photo </label>
+                                    <input
+                                        type="file"
+                                        placeholder="Photo"
+                                        name="photo"
+                                        onChange={this.handleInputFileChange}
+                                        required
                                     />
-                                    <button className={'btnSellerCheckMap'} onClick={this.handleAddSchedule}>
-                                        Add schedule
+                                    {errors.photo && (<div className="invalidFeedback">{errors.photo}</div>)}
+
+                                    <label>Download License photo </label>
+                                    <input
+                                        type="file"
+                                        placeholder="License photo"
+                                        name="photoLicense"
+                                        onChange={this.handleInputFileChange}
+                                        required
+                                    />
+                                    {errors.photoLicense && (
+                                        <div className="invalidFeedback">{errors.photoLicense}</div>)}
+
+                                    <label>Food group </label>
+                                    <Select
+                                        options={this.props.food}
+                                        placeholder={'Select food group...'}
+                                        value={foodSelect}
+                                        onChange={this.handleChangeFood}
+                                        className={'sellerFormSelect'}
+                                    />
+                                    {errors.foodGroup && (<div className="invalidFeedback">{errors.foodGroup}</div>)}
+
+                                    <button type="submit" className="btnSellerFormSubmit">
+                                        Submit
                                     </button>
-                                    {errors.schedule && (
-                                        <div className="invalidFeedback">{errors.schedule}</div>)}
 
                                 </div>
+
+                                <div className={'sellerformSection'}>
+                                    <div className={'sellerIngredientFormSection'}>
+
+                                        <SupplersTable
+                                            ingredientSuppliers={this.state.ingredientSuppliers}
+                                            handleDeleteSupplier={this.handleDeleteSupplier}
+                                        />
+
+                                        <label>Ingredient supplier </label>
+                                        <input
+                                            type="text"
+                                            placeholder="Ingredient supplier"
+                                            name="ingredient"
+                                            onChange={this.handleInputChange}
+                                            value={this.state.ingredient}
+                                        />
+                                        <button onClick={this.handleAddSupplier}>
+                                            Add supplier
+                                        </button>
+                                    </div>
+                                    {errors.ingredientSuppliers && (
+                                        <div className="invalidFeedback">{errors.ingredientSuppliers}</div>)}
+                                    <div className={'sellerScheduleFormSection'}>
+
+                                        <h3>Work schedule </h3>
+
+                                            <SheduleListTable
+                                                schedule={this.state.schedule}
+                                                handleDeleteSchedule={this.handleDeleteSchedule}
+                                            />
+
+                                        <label>Working days </label>
+                                        <Select
+                                            isMulti
+                                            joinValues
+                                            options={daysList}
+                                            placeholder={'Select days...'}
+                                            value={this.state.workingDays}
+                                            onChange={this.handleChangeSchedule}
+                                            className={'sellerFormSelect'}
+                                        />
+
+                                        <label>Beginning of work</label>
+                                        <input
+                                            type="time"
+                                            step="600"
+                                            placeholder="Working hours"
+                                            name="beginningWork"
+                                            onChange={this.handleInputChange}
+                                            value={this.state.beginningWork}
+
+                                        />
+
+                                        <label>End of work</label>
+                                        <input
+                                            type="time"
+                                            step="600"
+                                            placeholder="Working hours"
+                                            name="endWork"
+                                            onChange={this.handleInputChange}
+                                            value={this.state.endWork}
+
+                                        />
+
+                                        <MapAutocomplete
+                                            error={errors.foodGroup}
+                                            mapVisibility={this.state.mapVisibility}
+                                            value={this.state.address}
+                                            onChange={this.onChangeLocation}
+                                            onSelect={this.onSelectLocation}
+                                            GPS={this.state.GPS}
+                                            handleMapVisibility={this.handleMapVisibility}
+                                            mapContainerClass={'sellerMapContainer'}
+                                            mapClass={'sellerMap'}
+                                            btnMapClass={'btnSellerCheckMap'}
+                                        />
+
+                                        <button className={'btnSellerCheckMap'} onClick={this.handleAddSchedule}>
+                                            Add schedule
+                                        </button>
+                                        {errors.schedule && (
+                                            <div className="invalidFeedback">{errors.schedule}</div>)}
+
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+
+                            <div className="sellerFormBack">
+                                <h1>Seller successfully added to database!</h1>
+                                <img src={likeImg} alt={'like'}/>
                             </div>
-                        </form>
-                        <SendSuccess
-                        />
+
                     </div>
                 </div>
 
@@ -504,6 +485,9 @@ class NewSeller extends Component {
 
 NewSeller.propTypes = {
     registerSeller: PropTypes.func.isRequired,
+    uploadImage: PropTypes.func.isRequired,
+    getCountry: PropTypes.func.isRequired,
+    getFood: PropTypes.func.isRequired,
     auth: PropTypes.object.isRequired,
     countries: PropTypes.array.isRequired,
     food: PropTypes.array.isRequired

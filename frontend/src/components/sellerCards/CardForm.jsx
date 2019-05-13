@@ -1,6 +1,8 @@
 import React, {Component} from 'react';
 import './sellerCardsStyles.css'
 import Select from 'react-select'
+
+
 import currencyList from '../../resourses/currency'
 
 class CardForm extends Component {
@@ -21,19 +23,23 @@ class CardForm extends Component {
                         {this.props.errors.cardSerial && (<div className="invalidFeedbackCard">{this.props.errors.cardSerial}</div>)}
                         <input
                             type="number"
+                            min="1"
                             placeholder="Cards Count"
                             name="cardsCount"
                             onChange={this.props.handleInputChange}
                             value={this.props.cardsCount}
+                            required
                         />
                         {this.props.errors.cardsCount && (<div className="invalidFeedbackCard">{this.props.errors.cardsCount}</div>)}
 
                         <input
                             type="number"
+                            min="1"
                             placeholder="Cost"
                             name="cost"
                             onChange={this.props.handleInputChange}
                             value={this.props.cost}
+                            required
                         />
                         {this.props.errors.cost && (<div className="invalidFeedbackCard">{this.props.errors.cost}</div>)}
 

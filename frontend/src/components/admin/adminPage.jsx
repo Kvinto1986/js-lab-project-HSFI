@@ -75,7 +75,7 @@ class Admin extends Component {
         const country = {
             country: this.state.country
         };
-
+            console.log(this.state.country)
         this.props.registerCountry(country, this.resetForm)
     };
 
@@ -154,6 +154,7 @@ class Admin extends Component {
     render() {
         const {isAuthenticated, user} = this.props.auth;
         const {errors} = this.state;
+        const {country} = this.state.country;
 
         const SendSuccess = () => {
             if (this.state.success === true) {
@@ -192,25 +193,24 @@ class Admin extends Component {
                             </li>
                         </ul>
 
-                        <ModalWindow
+                        <Modal
                             isOpen={this.state.countryModal}
                             onRequestClose={this.closeModal}
-                            array={countriesArr}
-                            select={this.state.country}
-                            handleChange={this.handleChangeCountry}
-                            handleSubmit={this.handleSubmitCountry}
-                            error={errors.country}
+                            contentLabel="Modal"
+                            className={'modal'}
+                        >
+                            <button name={"countryModal"} onClick={this.closeModal}>close</button>
+                            <h2>Select a country from the list</h2>
+                            <Select
+                                options={countriesArr}
+                                placeholder={'Select country...'}
+                                value={country}
+                                onChange={this.handleChangeCountry}
+                                className={'countrySelect'}
                             />
-
-                        <ModalWindow
-                            isOpen={this.state.foodModal}
-                            onRequestClose={this.closeModal}
-                            array={countriesArr}
-                            select={this.state.country}
-                            handleChange={this.handleChangeCountry}
-                            handleSubmit={this.handleSubmitCountry}
-                            error={errors.country}
-                        />
+                            {errors.country && (<div className="invalidFeedback">{errors.country}</div>)}
+                            <button onClick={this.handleSubmitCountry}>Send</button>
+                        </Modal>
 
                         <Modal
                             isOpen={this.state.foodModal}

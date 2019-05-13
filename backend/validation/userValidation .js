@@ -28,7 +28,6 @@ module.exports = function validateRegisterInput(data) {
         errors.name = 'Name field is required';
     }
 
-
     if(Validator.isEmpty(data.organization)) {
         errors.organization = 'Organization field is required';
     }

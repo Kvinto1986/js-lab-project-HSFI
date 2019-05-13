@@ -40,5 +40,6 @@ body{
     text-align: center;
     font-size: 0.6vw;
     text-decoration: underline;
-    color: red !important;
+    color: red;
+    margin-bottom: 5px;
 }

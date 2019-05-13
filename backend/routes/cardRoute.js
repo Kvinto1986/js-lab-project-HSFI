@@ -25,7 +25,7 @@ router.post('/registration', function(req, res) {
                 license: req.body.license,
             }).then(seller => {
                 seller.cards.push(req.body.cardSerial);
-                seller.save()
+                seller.save();
                 console.log(seller)
             });
             if (!isValid) {

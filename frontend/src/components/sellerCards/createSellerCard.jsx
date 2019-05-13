@@ -1,43 +1,20 @@
 import React, {Component} from 'react';
+import PropTypes from 'prop-types';
 import {Redirect} from 'react-router-dom';
 import {connect} from 'react-redux';
 import {withRouter} from 'react-router-dom';
-import PropTypes from 'prop-types';
-import Select from "react-select";
-import SellerInfo from "./SellerInfo";
-import CardForm from "./CardForm";
-import './sellerCardsStyles.css';
+
 import {getSellers} from "../../actions/sellerAction";
 import {registerCard} from '../../actions/cardsAction';
 
-const getLicenseSelect = function (obj) {
-    const licenseArr = obj.map(function (elem) {
-        const newElem = {};
-        newElem.value = elem.license;
-        newElem.label = elem.license;
-        return newElem
-    });
+import {getLicenseSelect,getSeller,getRandomSerial} from '../../utils/utils'
 
-    return licenseArr;
-};
+import Select from "react-select";
 
-const getSeller = function (obj, license) {
-    let seller = {};
-    for (let i = 0; i < obj.length; i++) {
-        if (obj[i].license === license) {
-            seller = obj[i]
-        }
-    }
+import SellerInfo from "./SellerInfo";
+import CardForm from "./CardForm";
 
-    return seller;
-};
-
-const getRandomSerial = function () {
-    let serial = Math.floor(Math.random() * 10000000000001)
-
-    return serial.toString();
-};
-
+import './sellerCardsStyles.css';
 
 class NewCard extends Component {
 
