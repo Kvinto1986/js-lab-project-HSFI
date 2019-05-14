@@ -1,66 +1,76 @@
-import React, {Component} from 'react';
-import './sellerCardsStyles.css'
+import React from 'react';
+import PropTypes from "prop-types";
+
 import Select from 'react-select'
 
+import currencyList from '../../resourses/currency';
 
-import currencyList from '../../resourses/currency'
+const CardForm = ({
+                      user, seller, errors, handleSubmit,
+                      handleInputChange, cardsCount, cost, handleChangeCurrency, currency
+                  }) => {
+    if (seller) {
+        return (
+            <form onSubmit={handleSubmit} className="cardFormContainer">
+                <label>Operator name</label>
+                <input
+                    type="text"
+                    placeholder={user.name}
+                    disabled='disabled'
+                    value={user.name}
+                />
+                {errors.cardSerial && (<div className="invalidFeedbackCard">{errors.cardSerial}</div>)}
+                <label>Cards count</label>
+                <input
+                    type="number"
+                    min="1"
+                    placeholder="Cards Count"
+                    name="cardsCount"
+                    onChange={handleInputChange}
+                    value={cardsCount}
+                    required
+                />
+                {errors.cardsCount && (<div className="invalidFeedback">{errors.cardsCount}</div>)}
 
-class CardForm extends Component {
+                <label>Card cost</label>
+                <input
+                    type="number"
+                    min="1"
+                    placeholder="Cost"
+                    name="cost"
+                    onChange={handleInputChange}
+                    value={cost}
+                    required
+                />
+                {errors.cost && (<div className="invalidFeedback">{errors.cost}</div>)}
 
-    render() {
-        if (this.props.seller) {
-            const {currency}=this.props.currency;
-            return (
-                <div className="cardFormContainer">
-                    <h2>Registration user card</h2>
-                    <form onSubmit={this.props.handleSubmit} >
-                        <input
-                            type="text"
-                            placeholder={this.props.user.name}
-                            disabled = 'disabled'
-                            value={this.props.user.name}
-                        />
-                        {this.props.errors.cardSerial && (<div className="invalidFeedbackCard">{this.props.errors.cardSerial}</div>)}
-                        <input
-                            type="number"
-                            min="1"
-                            placeholder="Cards Count"
-                            name="cardsCount"
-                            onChange={this.props.handleInputChange}
-                            value={this.props.cardsCount}
-                            required
-                        />
-                        {this.props.errors.cardsCount && (<div className="invalidFeedbackCard">{this.props.errors.cardsCount}</div>)}
+                <label>Currency</label>
+                <Select
+                    options={currencyList}
+                    placeholder={'Select currency...'}
+                    value={currency}
+                    onChange={handleChangeCurrency}
+                    className={'cardFormSelect'}
+                />
 
-                        <input
-                            type="number"
-                            min="1"
-                            placeholder="Cost"
-                            name="cost"
-                            onChange={this.props.handleInputChange}
-                            value={this.props.cost}
-                            required
-                        />
-                        {this.props.errors.cost && (<div className="invalidFeedbackCard">{this.props.errors.cost}</div>)}
+                {errors.currency && (<div className="invalidFeedback">{errors.currency}</div>)}
+                <button type="submit" className={'btnSubmit'} onClick={handleSubmit}>
+                    Submit
+                </button>
+            </form>
+        )
+    } else return null
 
-                        <Select
-                            options={currencyList}
-                            placeholder={'Select currency...'}
-                            value={currency}
-                            onChange={this.props.handleChangeCurrency}
-                            className={'currencySelect'}
-                        />
+};
 
-                        {this.props.errors.currency && (<div className="invalidFeedbackCard">{this.props.errors.currency}</div>)}
-                        <button type="submit" className={'btnSubmit'} onClick={this.props.handleSubmit}>
-                            Submit
-                        </button>
-                    </form>
-                </div>)
-        }
-        else return null
-
-    }
-}
+CardForm.propTypes = {
+    user: PropTypes.object,
+    seller: PropTypes.object,
+    handleSubmit: PropTypes.func,
+    cardsCount: PropTypes.string,
+    cost: PropTypes.string,
+    handleChangeCurrency: PropTypes.func,
+    currency: PropTypes.string
+};
 
 export default CardForm

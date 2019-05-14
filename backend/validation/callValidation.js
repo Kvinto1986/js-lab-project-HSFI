@@ -8,13 +8,13 @@ module.exports = function validateRegisterInput(data) {
     data.serial = !isEmpty(data.serial)? data.serial : '';
 
     if(Validator.isEmpty(data.operatorName)) {
-        errors.operatorName = 'operatorName field is required';
+        errors.operatorName = 'Operator Name field is required';
     }
     if(Validator.isEmpty(data.ID)) {
         errors.ID = 'ID field is required';
     }
     if(Validator.isEmpty(data.serial)) {
-        errors.serial = 'cardSerial field is required';
+        errors.serial = 'Card serial field is required';
     }
     return {
         errors,

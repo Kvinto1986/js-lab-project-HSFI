@@ -1,44 +1,35 @@
 import React, {Component} from 'react';
-import {getCards} from '../../actions/cardsAction';
-import './callsStyles.css'
 import {connect} from "react-redux";
 import PropTypes from 'prop-types';
-import {registerCall} from "../../actions/callsAction";
 import {withRouter} from "react-router-dom";
+
 import Select from "react-select";
+import InputMask from 'react-input-mask';
 
-const getSerialSelect = function (obj) {
-    const serialArr = obj.map(function (elem) {
-        const newElem = {};
-        newElem.value = elem.cardSerial;
-        newElem.label = elem.cardSerial;
-        return newElem
-    });
+import {getCards} from '../../actions/cardsAction';
+import {registerCall} from "../../actions/callsAction";
 
-    return serialArr;
-};
+import './callsStyles.css'
+
+import {getSerialSelect} from '../../utils/utils'
+import likeImg from "../../resourses/images/like.png";
+
 
 class Calls extends Component {
-    constructor() {
-        super();
-        this.state = {
+
+        state = {
             ID: '',
             serial: '',
-            success: false,
             errors: {}
         };
-        this.handleInputChange = this.handleInputChange.bind(this);
-        this.handleChangeSerial = this.handleChangeSerial.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
-        this.resetForm = this.resetForm.bind(this);
-    }
 
-    handleInputChange(e) {
+
+    handleInputChange=(e)=> {
         this.setState({
             [e.target.name]: e.target.value
 
         })
-    }
+    };
 
     handleChangeSerial = (serialSelect) => {
         this.setState({
@@ -48,17 +39,22 @@ class Calls extends Component {
     };
 
     resetForm = () => {
+        const rotateElem = document.getElementById("callsFormInner");
+        rotateElem.style.transform = "rotateY(180deg)";
+
         this.setState({
             ID: '',
             serial: '',
-            success: true
+            errors: {}
         });
+
         setTimeout(() => {
-            this.setState({success: false})
+            rotateElem.style.transform = "rotateY(0deg)";
         }, 5000);
+
     };
 
-    handleSubmit(e) {
+    handleSubmit=(e)=> {
         e.preventDefault();
 
         const call = {
@@ -66,9 +62,9 @@ class Calls extends Component {
             ID: this.state.ID,
             serial: this.state.serial,
         };
-        console.log(call)
+
         this.props.registerCall(call, this.resetForm);
-    }
+    };
 
 
     componentWillReceiveProps(nextProps) {
@@ -90,53 +86,54 @@ class Calls extends Component {
         const serialsArr = getSerialSelect(this.props.cards);
         const {serialSelect} = this.state.serial;
 
-        const SendSuccess = () => {
-            if (this.state.success === true) {
-                return (
-                    <div className={'successContainer'}><h1>Card created successfully!</h1></div>
-                )
-            } else return null
-        };
-
         if (isAuthenticated) {
             return (
                 <div className={'callsMainContainer'}>
-                    <div className="callFormContainer">
-                        <h2>Registration call</h2>
-                        <form onSubmit={this.handleSubmit}>
+                    <div className='callsFormInner' id='callsFormInner'>
+
+                        <form onSubmit={this.handleSubmit} className="callsFormFront">
+                            <h1>Registration call</h1>
+                            <label>Operator name</label>
                             <input
                                 type="text"
                                 placeholder={user.name}
                                 disabled='disabled'
                                 value={user.name}
                             />
-                            {errors.operatorName && (<div className="invalidFeedbackCalls">{errors.operatorName}</div>)}
+                            {errors.operatorName && (<div className="invalidFeedback">{errors.operatorName}</div>)}
 
-                            <input
-                                type="text"
-                                placeholder="ID"
+                            <label>National caller id</label>
+                            <InputMask
+                                type="tel"
+                                mask="+999 (99) 999 99 99"
+                                placeholder="ID phone"
                                 name="ID"
                                 onChange={this.handleInputChange}
                                 value={this.state.ID}
-                            />
-                            {errors.ID && (<div className="invalidFeedbackCalls">{errors.ID}</div>)}
+                                required
+                            >
+                            </InputMask>
 
+                            {errors.ID && (<div className="invalidFeedback">{errors.ID}</div>)}
+
+                            <label>Card serial number</label>
                             <Select
                                 options={serialsArr}
                                 value={serialSelect}
                                 onChange={this.handleChangeSerial}
                                 placeholder={'Select card serial...'}
-                                className={'serialSelectInput'}
+                                className={'callsFormSelect'}
                             />
-                            {errors.serial && (<div className="invalidFeedbackCalls">{errors.serial}</div>)}
-                            {errors.call && (<div className="invalidFeedbackCalls">{errors.call}</div>)}
-                            <button type="submit" className={'btnSubmit'}>
+                            {errors.serial && (<div className="invalidFeedback">{errors.serial}</div>)}
+                            <button type="submit">
                                 Submit
                             </button>
                         </form>
+                        <div className="callsFormBack">
+                            <h2>Seller card successfully added to database!</h2>
+                            <img src={likeImg} alt={'like'}/>
+                        </div>
                     </div>
-                    <SendSuccess
-                    />
                 </div>
             );
         } else return null

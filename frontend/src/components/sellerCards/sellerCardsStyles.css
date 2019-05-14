@@ -13,49 +13,43 @@
     background-repeat: no-repeat;
     background-size: 100%, 100%, contain;
 }
+
+.cardMainContainer h1{
+    width: 100%;
+
+    margin-bottom: -3%;
+
+    font-family: Georgia;
+    font-size: 3vw;
+    color: white;
+    text-align: center;
+}
+
 .licenseSelectInput{
-    width: 52%;
+    width: 50%;
+
+    margin-top: 5%;
+}
+
+.cardFormInner{
+    position: relative;
+    width: 50%;
+    height: 45%;
 
     margin-top: 2%;
-}
-.cardContainer{
-    width: 52%;
 
-    margin-top: 2%;
-    background-color: rgba(255, 255, 255, 0.9);
-}
+    font-family: Georgia;
+    background-color: rgba(64, 64, 64, 0.8);
+    border: black 2px double;
+    border-radius: 10px;
 
-.sellerInfoContainer{
-    display: flex;
-    justify-content: center;
-    justify-items: center;
-    align-content: center;
-    align-items: center;
+    text-align: center;
+    transition: transform 0.8s;
+    transform-style: preserve-3d;
 
-     width: 100%;
-
-    border-bottom: 5px black double;
- }
-
-.sellerInfoContainer img{
-    width: 15%;
-
-    margin-top: 1%;
-    margin-bottom: 1%;
-
-    border: 2px black solid;
 }
 
-.sellerInfoContainer ul li{
-    list-style-type: none;
-    border-bottom: 2px black solid;
-}
-
-.sellerInfoContainer ul li span{
-    font-size: 1.2vw;
-}
-
-.cardFormContainer form{
+.cardFormFront, .cardFormBack {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
@@ -63,58 +57,133 @@
     align-content: center;
     align-items: center;
 
+
+    position: absolute;
+
     width: 100%;
+    height: 100%;
+
+
+    backface-visibility: hidden;
 }
-.cardFormContainer h2{
+
+.cardFormBack {
+    background-color: #01bc9d;
+    border: black 2px double;
+    border-radius: 10px;
+    color: black;
+    transform: rotateY(180deg);
+}
+
+.cardFormFront h2{
     width: 100%;
+
+    font-size: 1.4vw;
+    color: white;
+}
+
+.sellerInfo{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    justify-items: center;
+    align-content: center;
+    align-items: center;
+
+    width: 50%;
+
+}
+
+.sellerInfo img{
+    width: 35%;
+    border: 2px solid aquamarine;
+
+    margin-left: 3%;
+}
+
+.sellerInfo h3{
+    width: 100%;
+
+    font-size: 1.2vw;
+    color: white;
     text-align: center;
 }
-.cardFormContainer input{
-    width: 70%;
 
-    font-size: 0.8vw;
+.sellerInfo ul li{
+    width: 100%;
 
-    padding: 1% 1%;
+    margin-top: 3%;
+    margin-bottom: 3%;
 
-    margin-top: 1%;
+    border-bottom: 1px solid aquamarine;
+    list-style-type: none;
+    color: white;
 }
-.btnSubmit{
-    width: 70%;
 
+.cardFormContainer{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    justify-items: center;
+    align-content: center;
+    align-items: center;
+
+    width: 50%;
+
+}
+
+.cardFormContainer label{
+
+    width: 25%;
+
+    text-align: left;
+    color: white;
     font-size: 0.8vw;
+}
+
+.cardFormContainer input{
+    width: 60%;
+
+    margin-top: 0.5%;
+    margin-bottom: 0.5%;
+    margin-left: 1%;
 
     padding: 1% 1%;
 
-    margin-top: 1%;
-    margin-bottom: 1%;
+    font-size: 0.7vw;
+    border-radius: 5px;
+}
 
+.cardFormSelect{
+    width: 62.7%;
+
+    margin-top: 0.5%;
+    margin-bottom: 0.5%;
+    margin-left: 1.5%;
+
+    font-size: 0.8vw;
+}
+
+.cardFormContainer button{
+    width: 63%;
+
+    margin-left: 26.7%;
+    padding: 0.5% 0.5%;
+    margin-top: 3%;
+
+    font-size: 1vw;
+    border-radius: 5px;
     background-color: aquamarine;
 }
 
-.invalidFeedbackCard{
-    color: brown;
-    width: 72.5%;
-    margin-bottom: 1%;
-}
-.currencySelect{
-    width: 72%;
-
-     margin-top: 1%;
-}
-
-.successContainer{
-    width: 50%;
-
-    margin-top: 2%;
-
-    background-color: white;
-
-    border-radius: 15px;
-
-}
-
-.successContainer h1{
-    color:lightgreen;
+.cardFormBack h1{
+    width: 100%;
+    color:  black;
+    font-size: 2vw;
     text-align: center;
+}
+.cardFormBack img{
+    width: 25%;
 
+    margin-top: 5%;
 }

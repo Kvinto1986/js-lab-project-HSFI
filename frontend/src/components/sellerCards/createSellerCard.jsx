@@ -7,7 +7,7 @@ import {withRouter} from 'react-router-dom';
 import {getSellers} from "../../actions/sellerAction";
 import {registerCard} from '../../actions/cardsAction';
 
-import {getLicenseSelect,getSeller,getRandomSerial} from '../../utils/utils'
+import {getLicenseSelect, getSeller, getRandomSerial} from '../../utils/utils'
 
 import Select from "react-select";
 
@@ -15,29 +15,26 @@ import SellerInfo from "./SellerInfo";
 import CardForm from "./CardForm";
 
 import './sellerCardsStyles.css';
+import likeImg from "../../resourses/images/like.png";
 
 class NewCard extends Component {
 
-    constructor() {
-        super();
-        this.state = {
-            license: "",
-            seller: null,
-            cardsCount: '',
-            cardSerial: '',
-            cost: '',
-            currency: '',
-            success:false,
-            errors: {}
-        };
+    state = {
+        license: "",
+        seller: null,
+        cardsCount: '',
+        cardSerial: '',
+        cost: '',
+        currency: '',
+        errors: {}
+    };
 
-        this.handleChangeLicense = this.handleChangeLicense.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
-        this.handleInputChange = this.handleInputChange.bind(this);
-        this.handleChangeCurrency = this.handleChangeCurrency.bind(this);
-        this.resetForm = this.resetForm.bind(this);
+    handleInputChange = (e) => {
+        this.setState({
+            [e.target.name]: e.target.value
 
-    }
+        })
+    };
 
     handleChangeLicense = (licenseSelect) => {
         this.setState({
@@ -49,13 +46,6 @@ class NewCard extends Component {
 
     };
 
-    handleInputChange(e) {
-        this.setState({
-            [e.target.name]: e.target.value
-
-        })
-    }
-
     handleChangeCurrency = (currencySelect) => {
         this.setState({
             currency: currencySelect.value
@@ -64,21 +54,23 @@ class NewCard extends Component {
     };
 
     resetForm = () => {
+        const rotateElem = document.getElementById("cardFormInner");
+        rotateElem.style.transform = "rotateY(180deg)";
+
         this.setState({
             license: "",
             cardsCount: '',
             cardSerial: '',
             cost: '',
-            currency: '',
-            seller: null,
-            success:true,
-    });
+            currency: ''
+        });
+
         setTimeout(() => {
-            this.setState({ success:false})
+            rotateElem.style.transform = "rotateY(0deg)";
         }, 5000);
     };
 
-    handleSubmit(e) {
+    handleSubmit = (e) => {
         e.preventDefault();
 
         const card = {
@@ -94,8 +86,8 @@ class NewCard extends Component {
 
         };
 
-        this.props.registerCard(card,this.resetForm);
-    }
+        this.props.registerCard(card, this.resetForm);
+    };
 
     componentWillReceiveProps(nextProps) {
         if (nextProps.errors) {
@@ -115,20 +107,11 @@ class NewCard extends Component {
         const sellersArr = getLicenseSelect(this.props.sellers);
         const {licenseSelect} = this.state.license;
 
-        const SendSuccess=()=>{
-            if(this.state.success===true){
-                return(
-                    <div className={'successContainer'}><h1>Card created successfully!</h1></div>
-                )
-            }
-            else return null
-        };
-
         if (isAuthenticated) {
             return (
 
                 <div className="cardMainContainer">
-
+                    <h1>Select seller license</h1>
                     <Select
                         options={sellersArr}
                         value={licenseSelect}
@@ -136,27 +119,33 @@ class NewCard extends Component {
                         placeholder={'Select seller license...'}
                         className={'licenseSelectInput'}
                     />
-                    <div className="cardContainer">
-                        <SellerInfo
-                            seller={this.state.seller}
-                        />
-                        <CardForm
-                            user={user}
-                            registerCard={this.props.registerCard}
-                            seller={this.state.seller}
-                            errors={errors}
-                            handleSubmit={this.handleSubmit}
-                            handleInputChange={this.handleInputChange}
-                            cardSerial={this.state.cardSerial}
-                            cardsCount={this.state.cardsCount}
-                            cost={this.state.cost}
-                            handleChangeCurrency={this.handleChangeCurrency}
-                            currency={this.state.currency}
-                        />
+                    {this.state.seller ? (
+                        <div className='cardFormInner' id='cardFormInner'>
+                            <div className="cardFormFront">
+                                <h2>Registration user card</h2>
+                                <SellerInfo
+                                    seller={this.state.seller}
+                                />
 
-                    </div>
-                    <SendSuccess
-                    />
+                                <CardForm
+                                    user={user}
+                                    seller={this.state.seller}
+                                    errors={errors}
+                                    handleSubmit={this.handleSubmit}
+                                    handleInputChange={this.handleInputChange}
+                                    cardsCount={this.state.cardsCount}
+                                    cost={this.state.cost}
+                                    handleChangeCurrency={this.handleChangeCurrency}
+                                    currency={this.state.currency}
+                                />
+
+                            </div>
+                            <div className="cardFormBack">
+                                <h1>Seller card successfully added to database!</h1>
+                                <img src={likeImg} alt={'like'}/>
+                            </div>
+                        </div>
+                    ) : null}
                 </div>
 
 
@@ -168,6 +157,8 @@ class NewCard extends Component {
 }
 
 NewCard.propTypes = {
+    getSellers: PropTypes.func.isRequired,
+    registerCard: PropTypes.func.isRequired,
     auth: PropTypes.object.isRequired,
     sellers: PropTypes.array.isRequired,
 };

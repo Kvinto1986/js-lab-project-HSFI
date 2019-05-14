@@ -25,3 +25,14 @@ export const getRandomSerial = function () {
 
     return serial.toString();
 };
+
+export const getSerialSelect = function (obj) {
+    const serialArr = obj.map(function (elem) {
+        const newElem = {};
+        newElem.value = elem.cardSerial;
+        newElem.label = elem.cardSerial;
+        return newElem
+    });
+
+    return serialArr;
+};

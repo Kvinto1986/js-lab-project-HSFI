@@ -1,26 +1,23 @@
-import React, {Component} from 'react';
+import React from 'react';
 import './sellerCardsStyles.css'
 
-class SellerInfo extends Component {
+const SellerInfo =({seller})=> {
 
-    render() {
-        if (this.props.seller) {
-            const seller=this.props.seller
+        if (seller) {
             return (
-
-                    <div className="sellerInfoContainer">
+                <div className="sellerInfo">
+                    <h3>Seller info</h3>
                         <img src={'../../../static/'+seller.photo}/>
                         <ul>
-                            <li><span>Name:</span><span>{seller.name}</span></li>
-                            <li><span>License:</span><span>{seller.license}</span></li>
-                            <li><span>Food group:</span><span>{seller.foodGroup}</span></li>
-                            <li><span>Phone:</span><span>{seller.phone}</span></li>
-                            <li><span>Email:</span><span>{seller.email}</span></li>
+                            <li><span><strong>Name: </strong></span><span>{seller.name}</span></li>
+                            <li><span><strong>License: </strong></span><span>{seller.license}</span></li>
+                            <li><span><strong>Food group: </strong></span><span>{seller.foodGroup}</span></li>
+                            <li><span><strong>Phone: </strong></span><span>{seller.phone}</span></li>
+                            <li><span><strong>Email: </strong></span><span>{seller.email}</span></li>
                         </ul>
-
-                    </div>)
+                </div>
+                    )
         } else return null
-    }
-}
+    };
 
 export default SellerInfo

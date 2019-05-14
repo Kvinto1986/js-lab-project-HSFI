@@ -197,7 +197,7 @@ class NewSeller extends Component {
         });
 
         setTimeout(() => {
-            document.getElementById("sellerFormInner").style.transform = "rotateY(0deg)";
+            rotateElem.style.transform = "rotateY(0deg)";
         }, 5000);
     };
 
@@ -261,7 +261,7 @@ class NewSeller extends Component {
 
         if (isAuthenticated) {
             return (
-                <div className="sellerMainContainer" id='sellerMainContainer'>
+                <div className="sellerMainContainer">
                     <div className='sellerFormInner' id='sellerFormInner'>
                         <div className="sellerFormFront">
                             <h1>Register a new seller</h1>
