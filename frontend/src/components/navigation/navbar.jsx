@@ -23,7 +23,8 @@ class Navbar extends Component {
         const {isAuthenticated, user} = this.props.auth;
 
         const authLinks = (
-            <div className="authContainer" >
+            <div className="authContainer">
+                <Link className="authContainerLink" to="/profile">Profile</Link>
                 <Link className="authContainerLink" to="" onClick={this.onLogout.bind(this)}>
                     <img src={user.avatar} alt={user.name} title={user.name}/>
                     Logout
@@ -32,9 +33,9 @@ class Navbar extends Component {
         );
 
         const guestLinks = (
-            <div className="authContainer" >
-                    <Link className="authContainerLink" to="/registration">Registration</Link>
-                    <Link className="authContainerLink" to="/login">Login</Link>
+            <div className="authContainer">
+                <Link className="authContainerLink" to="/registration">Registration</Link>
+                <Link className="authContainerLink" to="/login">Login</Link>
             </div>
         );
 
@@ -42,13 +43,13 @@ class Navbar extends Component {
             <header className="headerContainer">
                 <div className="headerLogo">
                     <Link to="/"><img src={logo} alt={'logo'}/></Link>
-                    <h1>Street Food Quality Supervision</h1>
+                    <h1>Healthy Street Food Incentives</h1>
                 </div>
                 <UserNav
                     user={user}
                     isAuthenticated={isAuthenticated}
                 />
-                    {isAuthenticated ? authLinks : guestLinks}
+                {isAuthenticated ? authLinks : guestLinks}
             </header>
         )
     }

@@ -15,6 +15,7 @@ import NewSeller from './components/createSeller/createNewSeller';
 import Call from './components/calls/calls';
 import Inspection from './components/inspection/inspection';
 import AdminPage from './components/admin/adminPage';
+import Profile from './components/profile/profile';
 
 if (localStorage.jwtToken) {
     setAuthToken(localStorage.jwtToken);
@@ -37,6 +38,7 @@ class App extends Component {
                     <div className={'mainContainer'}>
                         <Navbar/>
                         <Route exact path="/" component={Home}/>
+                        <Route exact path="/profile" component={Profile}/>
                         <Route exact path='/newSeller' component={NewSeller}/>
                         <Route exact path='/sellerCards' component={SellerCard}/>
                         <Route exact path="/calls" component={Call}/>

@@ -1,0 +1,15 @@
+.profileMainContainer{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    justify-items: center;
+    align-content: center;
+    align-items: center;
+
+    width: 100%;
+    height: 88%;
+
+    background-image: url('../../resourses/images/profile.jpg');
+    background-repeat: no-repeat;
+    background-size: 100%, 100%, contain;
+}

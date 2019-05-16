@@ -101,7 +101,11 @@ router.post('/login', (req, res) => {
                             tasks: user.tasks,
                             country: user.country,
                             confirmation: user.confirmation,
+                            organization: user.organization,
+                            phone: user.phone,
+                            email: user.email,
                             avatar: user.avatar
+
                         };
 
                         jwt.sign(payload, 'secret', {
@@ -128,6 +132,36 @@ router.get('/me', passport.authenticate('jwt', {session: false}), (req, res) => 
         id: req.user.id,
         name: req.user.name,
         email: req.user.email
+    });
+});
+
+router.post('/find', function (req, res) {
+
+    const {errors, isValid} = validateUserInput(req.body);
+
+    if (!isValid) {
+        return res.status(400).json(errors);
+    }
+    User.findOneAndUpdate({
+        id: req.body.id
+    }).then(user => {
+
+        const newUser = new User({
+            role: req.body.role,
+            country: req.body.country,
+            name: req.body.name,
+            tasks: req.body.tasks,
+            organization: req.body.organization,
+            phone: req.body.phone,
+            email: req.body.email,
+            password: req.body.password,
+            confirmation: false,
+        });
+        newUser
+            .save()
+            .then(user => {
+                res.json(user)
+            });
     });
 });
 
