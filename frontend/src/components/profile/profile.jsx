@@ -9,6 +9,7 @@ import {getOrganizations, registerOrganization} from '../../actions/organization
 import {getCountry} from '../../actions/countryAction';
 
 import './profileStyles.css';
+import likeImg from "../../resourses/images/like.png";
 
 class Profile extends Component {
 
@@ -39,6 +40,11 @@ class Profile extends Component {
 
     show = (e) => {
         e.preventDefault();
+        const rotateElem = document.getElementById("profileFormInner");
+        rotateElem.style.transform = "rotateY(180deg)";
+        setTimeout(() => {
+            rotateElem.style.transform = "rotateY(0deg)";
+        }, 5000);
         console.log(this.state)
     };
 
@@ -71,8 +77,8 @@ class Profile extends Component {
         if (isAuthenticated) {
             return (
                 <div className="profileMainContainer">
-                    <div className='callsFormInner' id='callsFormInner'>
-                        <form className="callsFormFront" onSubmit={this.show}>
+                    <div className='profileFormInner' id='profileFormInner'>
+                        <form className="profileFormFront" onSubmit={this.show}>
                             <h1>User profile</h1>
                             <label>Name</label>
                             <input
@@ -96,15 +102,6 @@ class Profile extends Component {
                                 required
                             />
 
-                            <label>Country</label>
-                            <Select
-                                options={this.props.countries}
-                                placeholder={this.state.country}
-                                value={country}
-                                className={'userFormSelect'}
-                                isDisabled={this.state.disable}
-                                onChange={this.handleCountryChange}
-                            />
 
                             <label>Phone number</label>
                             <InputMask
@@ -118,7 +115,43 @@ class Profile extends Component {
                                 required
                             >
                             </InputMask>
+                            <label>Country</label>
 
+                            {user.role === 'manager' || user.role === 'coordinator' ? (
+                                <Select
+                                    options={this.props.countries}
+                                    placeholder={this.state.country}
+                                    value={country}
+                                    className={'profileFormSelect'}
+                                    isDisabled={this.state.disable}
+                                    onChange={this.handleCountryChange}
+                                />
+                            ):(
+                                <Fragment>
+                                <Select
+                                    placeholder={this.state.country}
+                                    className={'profileFormSelect'}
+                                    isDisabled={true}
+                                />
+                                    <label>Tasks</label>
+                                    <Select
+                                        placeholder={user.tasks.join(', ')}
+                                        className={'profileFormSelect'}
+                                        isDisabled={true}
+                                    />
+
+                                    <label>Organization</label>
+                                    <input
+                                        type="text"
+                                        placeholder={this.state.organization}
+                                        disabled={this.state.disable}
+                                        value={this.state.organization}
+                                        onChange={this.handleInputChange}
+                                        name={'organization'}
+                                        required
+                                    />
+                                </Fragment>
+                            )}
                             {!this.state.disable && (<button type="submit">
                                 Submit
                             </button>)}
@@ -128,6 +161,10 @@ class Profile extends Component {
                             </button>)}
 
                         </form>
+                        <div className="profileFormBack">
+                            <h1>Seller card successfully added to database!</h1>
+                            <img src={likeImg} alt={'like'}/>
+                        </div>
                     </div>
                 </div>
             )
