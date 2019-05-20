@@ -112,3 +112,15 @@
 .callsFormBack img {
     width: 30%;
 }
+
+#callsPhoneInput{
+    width: 63%;
+
+    margin-left: 1.2%;
+    color: black;
+
+}
+
+#callsPhoneInput input{
+    width: 100%;
+}

@@ -4,7 +4,8 @@ import PropTypes from 'prop-types';
 import {geocodeByAddress, getLatLng} from "react-places-autocomplete";
 import {withRouter} from 'react-router-dom';
 import Select from 'react-select';
-import InputMask from 'react-input-mask';
+import PhoneInput from 'react-phone-input-2'
+import 'react-phone-input-2/dist/style.css'
 
 import {registerUser} from '../../actions/userAction';
 import {getOrganizations, registerOrganization} from '../../actions/organizationAction';
@@ -58,6 +59,10 @@ class UserRegistration extends Component {
         this.setState({
             country: country.value
         });
+    };
+
+    handlePhoneChange = (number) => {
+        this.setState({phone: number})
     };
 
     handleOrganizationChange = (organization) => {
@@ -156,10 +161,10 @@ class UserRegistration extends Component {
     };
 
     componentWillReceiveProps(nextProps) {
-        if(nextProps.auth.isAuthenticated) {
+        if (nextProps.auth.isAuthenticated) {
             this.props.history.push('/')
         }
-        if(nextProps.errors) {
+        if (nextProps.errors) {
             this.setState({
                 errors: nextProps.errors
             });
@@ -238,18 +243,16 @@ class UserRegistration extends Component {
                             {errors.name && (<div className="invalidFeedback">{errors.name}</div>)}
 
                             <label>Phone</label>
-                            <InputMask
-                                type="tel"
-                                mask="+999 (99) 999 99 99"
+                            <div id='userPhoneInput'>
+                            <PhoneInput
                                 placeholder="Phone number"
-                                name="phone"
-                                onChange={this.handleInputChange}
+                                onChange={this.handlePhoneChange}
                                 value={this.state.phone}
                                 required
                             >
-                        </InputMask>
+                            </PhoneInput>
                             {errors.phone && (<div className="invalidFeedback">{errors.phone}</div>)}
-
+                            </div>
                             <label>Email</label>
                             <input
                                 type="email"

@@ -6,6 +6,8 @@ const jwt = require('jsonwebtoken');
 const passport = require('passport');
 const validateLoginInput = require('../validation/loginValidation');
 const validateUserInput = require('../validation/userValidation ');
+const validateUserUpdate = require('../validation/updateUserValidation');
+const validateUserPassword=require('../validation/userPasswordChange')
 
 const User = require('../models/UserModel');
 
@@ -39,7 +41,7 @@ router.post('/registration', function (req, res) {
                 } else return ["createNewSeller", "createSellerCard", "getCall", "inspection"]
             }
 
-            const tasks = getTasks()
+            const tasks = getTasks();
 
             const newUser = new User({
                 role: req.body.role,
@@ -122,6 +124,7 @@ router.post('/login', (req, res) => {
                     } else {
                         errors.password = 'Incorrect Password';
                         return res.status(400).json(errors);
+
                     }
                 });
         });
@@ -135,34 +138,72 @@ router.get('/me', passport.authenticate('jwt', {session: false}), (req, res) => 
     });
 });
 
-router.post('/find', function (req, res) {
+router.post('/update', function (req, res) {
 
-    const {errors, isValid} = validateUserInput(req.body);
+    const {errors, isValid} = validateUserUpdate(req.body);
 
     if (!isValid) {
         return res.status(400).json(errors);
     }
+
     User.findOneAndUpdate({
         id: req.body.id
-    }).then(user => {
+    })
+        .then(myUser => {
+            User.findOne({
+                email: req.body.email
+            }).then(user => {
+                if (myUser.id !== user.id) {
+                    return res.status(400).json({
+                        email: 'Email already exists'
+                    });
+                } else {
+                    myUser.country = req.body.country;
+                    myUser.name = req.body.name;
+                    myUser.organization = req.body.organization;
+                    myUser.phone = req.body.phone;
+                    myUser.email = req.body.email;
+                    myUser.save()
+                        .then(user => {
+                            res.json(user)
+                        });
+                }
+            })
+        })
 
-        const newUser = new User({
-            role: req.body.role,
-            country: req.body.country,
-            name: req.body.name,
-            tasks: req.body.tasks,
-            organization: req.body.organization,
-            phone: req.body.phone,
-            email: req.body.email,
-            password: req.body.password,
-            confirmation: false,
+});
+
+router.post('/changePassword', function (req, res) {
+
+    const {errors, isValid} = validateUserPassword(req.body);
+
+    if (!isValid) {
+        return res.status(400).json(errors);
+    }
+
+    User.findOneAndUpdate({
+        id: req.body.id
+    })
+        .then(user => {
+            user.password=req.body.password;
+            bcrypt.genSalt(10, (err, salt) => {
+                if (err) console.error('There was an error', err);
+                else {
+                    bcrypt.hash(user.password, salt, (err, hash) => {
+                        if (err) console.error('There was an error', err);
+                        else {
+                            user.password = hash;
+                            user
+                                .save()
+                                .then(user => {
+                                    res.json(user)
+                                });
+                        }
+                    });
+                }
+            })
+
         });
-        newUser
-            .save()
-            .then(user => {
-                res.json(user)
-            });
-    });
 });
 
 module.exports = router;

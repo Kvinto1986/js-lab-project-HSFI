@@ -4,8 +4,9 @@ import {connect} from 'react-redux';
 import {withRouter} from 'react-router-dom';
 import PropTypes from 'prop-types';
 import Select from "react-select";
-import InputMask from 'react-input-mask';
 import {geocodeByAddress, getLatLng} from "react-places-autocomplete";
+import PhoneInput from 'react-phone-input-2'
+import 'react-phone-input-2/dist/style.css'
 
 import {registerSeller} from '../../actions/sellerAction';
 import {getCountry} from '../../actions/countryAction';
@@ -56,6 +57,10 @@ class NewSeller extends Component {
 
     handleChangeCountry = (countrySelect) => {
         this.setState({country: countrySelect.value});
+    };
+
+    handlePhoneChange = (number) => {
+        this.setState({phone: number})
     };
 
     handleInputFileChange = (e) => {
@@ -319,18 +324,16 @@ class NewSeller extends Component {
                                     {errors.license && (<div className="invalidFeedback">{errors.license}</div>)}
 
                                     <label>Seller phone number </label>
-                                    <InputMask
-                                        type="tel"
-                                        mask="+999 (99) 999 99 99"
-                                        placeholder="phone"
-                                        name="phone"
-                                        onChange={this.handleInputChange}
-                                        value={this.state.phone}
-                                        required
-                                    >
-                                    </InputMask>
-
-                                    {errors.phone && (<div className="invalidFeedback">{errors.phone}</div>)}
+                                    <div id='sellerPhoneInput'>
+                                        <PhoneInput
+                                            placeholder="Phone number"
+                                            onChange={this.handlePhoneChange}
+                                            value={this.state.phone}
+                                            required
+                                        >
+                                        </PhoneInput>
+                                        {errors.phone && (<div className="invalidFeedback">{errors.phone}</div>)}
+                                    </div>
 
                                     <label>Seller email </label>
                                     <input

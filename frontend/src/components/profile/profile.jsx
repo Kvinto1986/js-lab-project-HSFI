@@ -3,13 +3,18 @@ import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
 import {Redirect, withRouter} from 'react-router-dom';
 import Select from "react-select";
-import InputMask from 'react-input-mask';
+import PhoneInput from 'react-phone-input-2'
+import 'react-phone-input-2/dist/style.css'
 
 import {getOrganizations, registerOrganization} from '../../actions/organizationAction';
 import {getCountry} from '../../actions/countryAction';
+import {updateUser,updateUserPassword} from '../../actions/userAction';
+import {logoutUser,loginUser} from '../../actions/authenticationAction';
+
 
 import './profileStyles.css';
 import likeImg from "../../resourses/images/like.png";
+
 
 class Profile extends Component {
 
@@ -22,6 +27,7 @@ class Profile extends Component {
         tasks: this.props.auth.user.tasks,
         password: '',
         password_confirm: '',
+        passwordInput:false,
         disable: true,
         errors: {},
     };
@@ -38,22 +44,80 @@ class Profile extends Component {
         });
     };
 
-    show = (e) => {
+    handlePhoneChange = (number) => {
+        this.setState({phone: number})
+    };
+
+
+    handleDisablePasswordInput = (e) => {
         e.preventDefault();
-        const rotateElem = document.getElementById("profileFormInner");
-        rotateElem.style.transform = "rotateY(180deg)";
-        setTimeout(() => {
-            rotateElem.style.transform = "rotateY(0deg)";
-        }, 5000);
-        console.log(this.state)
+
+        this.setState({
+            passwordInput: !this.state.passwordInput
+        });
     };
 
     handleDisableForm = (e) => {
         e.preventDefault();
-
+        this.setState({
+            passwordInput: !this.state.passwordInput
+        });
         this.setState({
             disable: !this.state.disable
         });
+    };
+
+    resetForm = () => {
+        const rotateElem=document.getElementById("profileFormInner");
+        rotateElem.style.transform = "rotateY(180deg)";
+
+        this.setState({
+            country: this.props.auth.user.country,
+            name: this.props.auth.user.name,
+            organization: this.props.auth.user.organization,
+            phone: this.props.auth.user.phone,
+            email: this.props.auth.user.email,
+            tasks: this.props.auth.user.tasks,
+            password: '',
+            password_confirm: '',
+            passwordInput:false,
+            disable: true,
+            errors: {},
+        });
+
+        setTimeout(() => {
+            rotateElem.style.transform = "rotateY(0deg)";
+            this.props.logoutUser(this.props.history);
+        }, 5000);
+    };
+
+    handleSubmit = (e) => {
+        e.preventDefault();
+
+        const user = {
+            country: this.state.country,
+            name: this.state.name,
+            organization: this.state.organization,
+            phone: this.state.phone,
+            email: this.state.email,
+            tasks: this.state.tasks,
+
+        };
+        const newPassword=()=>{
+            if(!this.state.passwordInput){
+
+                const newPassword = {
+                    id:this.props.auth.user.id,
+                    password: this.state.password,
+                    password_confirm: this.state.password_confirm
+
+                };
+                this.props.updateUserPassword(newPassword);
+            }
+        };
+
+        this.props.updateUser(user,newPassword, this.resetForm);
+
     };
 
     componentWillReceiveProps(nextProps) {
@@ -73,12 +137,13 @@ class Profile extends Component {
     render() {
         const {isAuthenticated, user} = this.props.auth;
         const {country} = this.state.country;
+        const {errors} = this.state;
 
         if (isAuthenticated) {
             return (
                 <div className="profileMainContainer">
                     <div className='profileFormInner' id='profileFormInner'>
-                        <form className="profileFormFront" onSubmit={this.show}>
+                        <form className="profileFormFront" onSubmit={this.handleSubmit}>
                             <h1>User profile</h1>
                             <label>Name</label>
                             <input
@@ -93,7 +158,7 @@ class Profile extends Component {
 
                             <label>Email</label>
                             <input
-                                type="text"
+                                type="email"
                                 placeholder={this.state.email}
                                 disabled={this.state.disable}
                                 value={this.state.email}
@@ -101,20 +166,22 @@ class Profile extends Component {
                                 name={'email'}
                                 required
                             />
+                            {errors.email && (<div className="invalidFeedback">{errors.email}</div>)}
 
 
                             <label>Phone number</label>
-                            <InputMask
-                                type="tel"
-                                mask="+999 (99) 999 99 99"
-                                placeholder="Phone number"
-                                name="phone"
-                                value={this.state.phone}
-                                disabled={this.state.disable}
-                                onChange={this.handleInputChange}
-                                required
-                            >
-                            </InputMask>
+                            <div id='profilePhoneInput'>
+                                <PhoneInput
+                                    placeholder="Phone number"
+                                    onChange={this.handlePhoneChange}
+                                    value={this.state.phone}
+                                    disabled={this.state.disable}
+                                    required
+                                >
+                                </PhoneInput>
+                                {errors.phone && (<div className="invalidFeedback">{errors.phone}</div>)}
+                            </div>
+
                             <label>Country</label>
 
                             {user.role === 'manager' || user.role === 'coordinator' ? (
@@ -152,6 +219,38 @@ class Profile extends Component {
                                     />
                                 </Fragment>
                             )}
+
+                            {this.state.passwordInput && (<button onClick={this.handleDisablePasswordInput}>
+                                Change password
+                            </button>)}
+
+                            {!this.state.disable &&(
+                                <Fragment>
+                                    <label>Password</label>
+                                    <input
+                                        type="text"
+                                        placeholder={'New password'}
+                                        disabled={this.state.passwordInput}
+                                        value={this.state.password}
+                                        onChange={this.handleInputChange}
+                                        name={'password'}
+                                        required
+                                    />
+                                    {errors.password && (<div className="invalidFeedback">{errors.password}</div>)}
+                                    <label>confirm password</label>
+                                    <input
+                                        type="text"
+                                        placeholder={'Confirm New password'}
+                                        disabled={this.state.passwordInput}
+                                        value={this.state.password_confirm}
+                                        onChange={this.handleInputChange}
+                                        name={'password_confirm'}
+                                        required
+                                    />
+                                    {errors.password_confirm && (<div className="invalidFeedback">{errors.password_confirm}</div>)}
+                                </Fragment>
+                            )}
+
                             {!this.state.disable && (<button type="submit">
                                 Submit
                             </button>)}
@@ -162,7 +261,7 @@ class Profile extends Component {
 
                         </form>
                         <div className="profileFormBack">
-                            <h1>Seller card successfully added to database!</h1>
+                            <h1>User profile successfully updated!</h1>
                             <img src={likeImg} alt={'like'}/>
                         </div>
                     </div>
@@ -191,5 +290,9 @@ const mapStateToProps = state => ({
 export default connect(mapStateToProps, {
     registerOrganization,
     getOrganizations,
-    getCountry
+    getCountry,
+    updateUser,
+    logoutUser,
+    loginUser,
+    updateUserPassword
 })(withRouter(Profile))

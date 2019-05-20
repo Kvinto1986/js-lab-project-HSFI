@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const validateRegisterInput = require('../validation/callValidation');
+
 const Call = require('../models/CallModel');
 const Seller = require('../models/SellerModel');
 

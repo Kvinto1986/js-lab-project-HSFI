@@ -136,3 +136,15 @@
     height: 100% ;
 }
 
+#userPhoneInput{
+    width: 70%;
+
+    margin-left: 2%;
+
+    color: black;
+
+}
+
+#userPhoneInput input{
+    width: 100%;
+}

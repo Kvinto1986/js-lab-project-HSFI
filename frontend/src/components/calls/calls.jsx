@@ -4,7 +4,8 @@ import PropTypes from 'prop-types';
 import {withRouter} from "react-router-dom";
 
 import Select from "react-select";
-import InputMask from 'react-input-mask';
+import PhoneInput from 'react-phone-input-2'
+import 'react-phone-input-2/dist/style.css'
 
 import {getCards} from '../../actions/cardsAction';
 import {registerCall} from "../../actions/callsAction";
@@ -24,11 +25,8 @@ class Calls extends Component {
         };
 
 
-    handleInputChange=(e)=> {
-        this.setState({
-            [e.target.name]: e.target.value
-
-        })
+    handlePhoneChange = (number) => {
+        this.setState({phone: number})
     };
 
     handleChangeSerial = (serialSelect) => {
@@ -103,18 +101,16 @@ class Calls extends Component {
                             {errors.operatorName && (<div className="invalidFeedback">{errors.operatorName}</div>)}
 
                             <label>National caller id</label>
-                            <InputMask
-                                type="tel"
-                                mask="+999 (99) 999 99 99"
-                                placeholder="ID phone"
-                                name="ID"
-                                onChange={this.handleInputChange}
-                                value={this.state.ID}
-                                required
-                            >
-                            </InputMask>
-
-                            {errors.ID && (<div className="invalidFeedback">{errors.ID}</div>)}
+                            <div id='callsPhoneInput'>
+                                <PhoneInput
+                                    placeholder="Phone number"
+                                    onChange={this.handlePhoneChange}
+                                    value={this.state.ID}
+                                    required
+                                >
+                                </PhoneInput>
+                                {errors.ID && (<div className="invalidFeedback">{errors.ID}</div>)}
+                            </div>
 
                             <label>Card serial number</label>
                             <Select
