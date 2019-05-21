@@ -145,25 +145,24 @@ router.post('/update', function (req, res) {
     if (!isValid) {
         return res.status(400).json(errors);
     }
+    User.findById(req.body.id)
+        .then(user => {
 
-    User.findOneAndUpdate({
-        id: req.body.id
-    })
-        .then(myUser => {
             User.findOne({
                 email: req.body.email
-            }).then(user => {
-                if (myUser.id !== user.id) {
+            }).then(findUser => {
+
+                if (findUser&&user.id!==findUser.id) {
                     return res.status(400).json({
                         email: 'Email already exists'
                     });
                 } else {
-                    myUser.country = req.body.country;
-                    myUser.name = req.body.name;
-                    myUser.organization = req.body.organization;
-                    myUser.phone = req.body.phone;
-                    myUser.email = req.body.email;
-                    myUser.save()
+                    user.country = req.body.country;
+                    user.name = req.body.name;
+                    user.organization = req.body.organization;
+                    user.phone = req.body.phone;
+                    user.email = req.body.email;
+                    user.save()
                         .then(user => {
                             res.json(user)
                         });
@@ -181,9 +180,7 @@ router.post('/changePassword', function (req, res) {
         return res.status(400).json(errors);
     }
 
-    User.findOneAndUpdate({
-        id: req.body.id
-    })
+    User.findById(req.body.id)
         .then(user => {
             user.password=req.body.password;
             bcrypt.genSalt(10, (err, salt) => {
@@ -205,5 +202,13 @@ router.post('/changePassword', function (req, res) {
 
         });
 });
+
+router.post('/getUsers', function(req, res) {
+    User.find({role:req.body.role,confirmation:false}, function(err, user) {
+        res.send(user);
+    });
+});
+
+module.exports = router;
 
 module.exports = router;

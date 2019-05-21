@@ -48,6 +48,12 @@ class Profile extends Component {
         this.setState({phone: number})
     };
 
+    handleOrganizationChange = (organization) => {
+        this.setState({
+            organization: organization.value
+        });
+    };
+
 
     handleDisablePasswordInput = (e) => {
         e.preventDefault();
@@ -94,30 +100,34 @@ class Profile extends Component {
     handleSubmit = (e) => {
         e.preventDefault();
 
-        const user = {
-            country: this.state.country,
-            name: this.state.name,
-            organization: this.state.organization,
-            phone: this.state.phone,
-            email: this.state.email,
-            tasks: this.state.tasks,
 
-        };
-        const newPassword=()=>{
-            if(!this.state.passwordInput){
+        const updatePassword = () => {
 
-                const newPassword = {
-                    id:this.props.auth.user.id,
-                    password: this.state.password,
-                    password_confirm: this.state.password_confirm
+            const user = {
+                id:this.props.auth.user.id,
+                country: this.state.country,
+                name: this.state.name,
+                organization: this.state.organization,
+                phone: this.state.phone,
+                email: this.state.email,
+                tasks: this.state.tasks,
 
-                };
-                this.props.updateUserPassword(newPassword);
-            }
+            };
+            this.props.updateUser(user, this.resetForm);
         };
 
-        this.props.updateUser(user,newPassword, this.resetForm);
+        if (!this.state.passwordInput) {
 
+            const newPassword = {
+                id: this.props.auth.user.id,
+                password: this.state.password,
+                password_confirm: this.state.password_confirm
+
+            };
+
+            this.props.updateUserPassword(newPassword, updatePassword);
+        }
+        else updatePassword();
     };
 
     componentWillReceiveProps(nextProps) {
@@ -138,6 +148,7 @@ class Profile extends Component {
         const {isAuthenticated, user} = this.props.auth;
         const {country} = this.state.country;
         const {errors} = this.state;
+        const {organization} = this.state.organization;
 
         if (isAuthenticated) {
             return (
@@ -208,15 +219,15 @@ class Profile extends Component {
                                     />
 
                                     <label>Organization</label>
-                                    <input
-                                        type="text"
+                                    <Select
+                                        options={this.props.organizations}
+                                        value={organization}
+                                        isDisabled={this.state.disable}
                                         placeholder={this.state.organization}
-                                        disabled={this.state.disable}
-                                        value={this.state.organization}
-                                        onChange={this.handleInputChange}
-                                        name={'organization'}
-                                        required
+                                        onChange={this.handleOrganizationChange}
+                                        className={'profileFormSelect'}
                                     />
+                                    {errors.organization && (<div className="invalidFeedback">{errors.organization}</div>)}
                                 </Fragment>
                             )}
 
@@ -228,8 +239,8 @@ class Profile extends Component {
                                 <Fragment>
                                     <label>Password</label>
                                     <input
-                                        type="text"
-                                        placeholder={'New password'}
+                                        type="password"
+                                        placeholder={'********'}
                                         disabled={this.state.passwordInput}
                                         value={this.state.password}
                                         onChange={this.handleInputChange}
@@ -239,8 +250,8 @@ class Profile extends Component {
                                     {errors.password && (<div className="invalidFeedback">{errors.password}</div>)}
                                     <label>confirm password</label>
                                     <input
-                                        type="text"
-                                        placeholder={'Confirm New password'}
+                                        type="password"
+                                        placeholder={'********'}
                                         disabled={this.state.passwordInput}
                                         value={this.state.password_confirm}
                                         onChange={this.handleInputChange}
@@ -275,7 +286,12 @@ class Profile extends Component {
 
 Profile.propTypes = {
     registerOrganization: PropTypes.func.isRequired,
-    getOrganizations: PropTypes.func.isRequired,
+    getOrganizations:PropTypes.func.isRequired,
+    getCountry:PropTypes.func.isRequired,
+    updateUser:PropTypes.func.isRequired,
+    logoutUser:PropTypes.func.isRequired,
+    loginUser:PropTypes.func.isRequired,
+    updateUserPassword:PropTypes.func.isRequired,
     auth: PropTypes.object.isRequired,
     organizations: PropTypes.array.isRequired,
 };
