@@ -1,13 +1,15 @@
 const express = require('express');
 const router = express.Router();
 const gravatar = require('gravatar');
+const mongoosePaginate = require('mongoose-paginate-v2');
+const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const passport = require('passport');
 const validateLoginInput = require('../validation/loginValidation');
 const validateUserInput = require('../validation/userValidation ');
 const validateUserUpdate = require('../validation/updateUserValidation');
-const validateUserPassword=require('../validation/userPasswordChange')
+const validateUserPassword = require('../validation/userPasswordChange')
 
 const User = require('../models/UserModel');
 
@@ -152,7 +154,7 @@ router.post('/update', function (req, res) {
                 email: req.body.email
             }).then(findUser => {
 
-                if (findUser&&user.id!==findUser.id) {
+                if (findUser && user.id !== findUser.id) {
                     return res.status(400).json({
                         email: 'Email already exists'
                     });
@@ -182,7 +184,7 @@ router.post('/changePassword', function (req, res) {
 
     User.findById(req.body.id)
         .then(user => {
-            user.password=req.body.password;
+            user.password = req.body.password;
             bcrypt.genSalt(10, (err, salt) => {
                 if (err) console.error('There was an error', err);
                 else {
@@ -203,12 +205,24 @@ router.post('/changePassword', function (req, res) {
         });
 });
 
-router.post('/getUsers', function(req, res) {
-    User.find({role:req.body.role,confirmation:false}, function(err, user) {
-        res.send(user);
+
+router.post('/getUsers', function (req, res) {
+    const options = {
+        page: req.body.page,
+        limit: 4,
+    };
+
+    let userRole='';
+
+    if (req.body.role === 'manager') {
+        userRole = 'coordinator'
+    }
+    if (req.body.role === 'coordinator') {
+        userRole = 'operator'
+    }
+    User.paginate({role: userRole, confirmation: false}, options, function (err, result) {
+        res.send(result);
     });
 });
-
-module.exports = router;
 
 module.exports = router;

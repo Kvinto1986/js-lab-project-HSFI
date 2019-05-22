@@ -10,6 +10,7 @@ import callsReduser from './callsReducer'
 import emptyErrorsReduser from './callsReducer'
 import inspectionReducer from './inspectionReducer'
 import inspectionQuestionsReducer from './inspectionQuestionsReducer'
+import usersReducer from './usersReduser'
 
 
 export default combineReducers({
@@ -23,5 +24,6 @@ export default combineReducers({
     calls:callsReduser,
     empty:emptyErrorsReduser,
     inspection:inspectionReducer,
-    inspectionQuestions:inspectionQuestionsReducer
+    inspectionQuestions:inspectionQuestionsReducer,
+    users:usersReducer
 });

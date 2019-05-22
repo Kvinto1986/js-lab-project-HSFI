@@ -1,6 +1,5 @@
 .profileMainContainer{
     display: flex;
-    flex-wrap: wrap;
     justify-content: center;
     justify-items: center;
     align-content: center;
@@ -15,8 +14,8 @@
 }
 .profileFormInner {
     position: relative;
-    width: 50%;
-    height: 75%;
+    width: 42%;
+    height: 55%;
 
     margin-top: 2%;
 
@@ -129,4 +128,10 @@
 
 #profilePhoneInput input{
     width: 100%;
+}
+
+.profileUsersList{
+    background-color: red;
+    width: 20%;
+    height: 20%;
 }
