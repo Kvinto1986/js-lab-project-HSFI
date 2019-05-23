@@ -12,7 +12,6 @@ import {registerCall} from "../../actions/callsAction";
 
 import './callsStyles.css'
 
-import {getSerialSelect} from '../../utils/utils'
 import likeImg from "../../resourses/images/like.png";
 
 
@@ -26,7 +25,7 @@ class Calls extends Component {
 
 
     handlePhoneChange = (number) => {
-        this.setState({phone: number})
+        this.setState({ID: number})
     };
 
     handleChangeSerial = (serialSelect) => {
@@ -81,7 +80,7 @@ class Calls extends Component {
     render() {
         const {errors} = this.state;
         const {isAuthenticated, user} = this.props.auth;
-        const serialsArr = getSerialSelect(this.props.cards);
+        const serialsArr = this.props.cards;
         const {serialSelect} = this.state.serial;
 
         if (isAuthenticated) {

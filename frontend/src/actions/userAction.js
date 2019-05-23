@@ -1,5 +1,5 @@
 import axios from 'axios';
-import {GET_CURRENT_COUNTRY, GET_ERRORS, GET_USERS} from './types';
+import {GET_ERRORS, GET_USERS} from './types';
 
 export const registerUser = (user, reset, history) => dispatch => {
     axios.post('/api/users/registration', user)
@@ -58,6 +58,17 @@ export const getUsers = (role) => dispatch => {
             dispatch({
                 type: GET_USERS,
                 payload: res.data
+            });
+        });
+};
+
+export const confirmUser = (id,refreshUsers) => dispatch =>{
+    axios.post('/api/users/confirmUser', id)
+        .then(res => refreshUsers(0))
+        .catch(err => {
+            dispatch({
+                type: GET_ERRORS,
+                payload: err.response.data
             });
         });
 };

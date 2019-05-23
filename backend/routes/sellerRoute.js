@@ -59,10 +59,24 @@ router.post('/registration', function(req, res) {
     })
 });
 
-router.post('/getSellers', function(req, res) {
-    Seller.find({}, function(err, sellers) {
-        res.send(sellers);
+router.post('/getSellersLicenses', function(req, res) {
+    Seller.find({}, function(err, seller) {
+        const arr=seller.map(function (elem) {
+            const newElem={};
+            newElem.value=elem.license;
+            newElem.label=elem.license;
+            return newElem
+        });
+        res.send(arr);
     });
+});
+
+router.post('/findSeller', function(req, res) {
+    Seller.findOne({license:req.body.license})
+        .then(user => {
+            console.log(req.body);
+            res.send(user);
+        })
 });
 
 module.exports = router;

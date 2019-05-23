@@ -4,7 +4,7 @@ const validateRegisterInput = require('../validation/cardValidation');
 const Card = require('../models/CardModel');
 const Seller = require('../models/SellerModel');
 
-router.post('/registration', function(req, res) {
+router.post('/registration', function (req, res) {
 
     const {errors, isValid} = validateRegisterInput(req.body);
 
@@ -55,9 +55,17 @@ router.post('/registration', function(req, res) {
     })
 });
 
-router.post('/getCards', function(req, res) {
-    Card.find({}, function(err, cards) {
-        res.send(cards);
+router.post('/getCards', function (req, res) {
+    Card.find({}, function (err, cards) {
+
+        const arr =cards.map(function (elem) {
+                const newElem = {};
+                newElem.value = elem.cardSerial;
+                newElem.label = elem.cardSerial;
+                return newElem
+        });
+
+        res.send(arr);
     });
 });
 

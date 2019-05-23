@@ -4,10 +4,10 @@ import {Redirect} from 'react-router-dom';
 import {connect} from 'react-redux';
 import {withRouter} from 'react-router-dom';
 
-import {getSellers} from "../../actions/sellerAction";
+import {getSellersLicenses, findSeller} from "../../actions/sellerAction";
 import {registerCard} from '../../actions/cardsAction';
 
-import {getLicenseSelect, getSeller, getRandomSerial} from '../../utils/utils'
+import {getRandomSerial} from '../../utils/utils'
 
 import Select from "react-select";
 
@@ -37,13 +37,7 @@ class NewCard extends Component {
     };
 
     handleChangeLicense = (licenseSelect) => {
-        this.setState({
-            license: licenseSelect.value
-        });
-        this.setState({
-            seller: getSeller(this.props.sellers, licenseSelect.value)
-        });
-
+        this.props.findSeller({license: licenseSelect.value});
     };
 
     handleChangeCurrency = (currencySelect) => {
@@ -67,7 +61,7 @@ class NewCard extends Component {
 
         setTimeout(() => {
             rotateElem.style.transform = "rotateY(0deg)";
-        }, 5000);
+        }, 3000);
     };
 
     handleSubmit = (e) => {
@@ -75,14 +69,14 @@ class NewCard extends Component {
 
         const card = {
             operatorName: this.props.auth.user.name,
-            sellerName: this.state.seller.name,
-            sellerPhoto: this.state.seller.photo,
-            license: this.state.seller.license,
+            sellerName: this.props.seller.name,
+            sellerPhoto: this.props.seller.photo,
+            license: this.props.seller.license,
             cardsCount: this.state.cardsCount,
             cardSerial: getRandomSerial(),
             cost: this.state.cost,
             currency: this.state.currency,
-            foodGroup: this.state.seller.foodGroup
+            foodGroup: this.props.seller.foodGroup
 
         };
 
@@ -98,38 +92,38 @@ class NewCard extends Component {
     }
 
     componentDidMount() {
-        this.props.getSellers();
+        this.props.getSellersLicenses();
     }
 
     render() {
         const {isAuthenticated, user} = this.props.auth;
         const {errors} = this.state;
-        const sellersArr = getLicenseSelect(this.props.sellers);
         const {licenseSelect} = this.state.license;
 
         if (isAuthenticated) {
+
             return (
 
                 <div className="cardMainContainer">
                     <h1>Select seller license</h1>
                     <Select
-                        options={sellersArr}
+                        options={this.props.sellersLicenses}
                         value={licenseSelect}
                         onChange={this.handleChangeLicense}
                         placeholder={'Select seller license...'}
                         className={'licenseSelectInput'}
                     />
-                    {this.state.seller ? (
+                    {this.props.seller.name ? (
                         <div className='cardFormInner' id='cardFormInner'>
                             <div className="cardFormFront">
                                 <h2>Registration user card</h2>
                                 <SellerInfo
-                                    seller={this.state.seller}
+                                    seller={this.props.seller}
                                 />
 
                                 <CardForm
                                     user={user}
-                                    seller={this.state.seller}
+                                    seller={this.props.seller}
                                     errors={errors}
                                     handleSubmit={this.handleSubmit}
                                     handleInputChange={this.handleInputChange}
@@ -157,15 +151,21 @@ class NewCard extends Component {
 }
 
 NewCard.propTypes = {
-    getSellers: PropTypes.func.isRequired,
+    getSellersLicenses: PropTypes.func.isRequired,
+    findSeller: PropTypes.func.isRequired,
+    getLicenseSelect: PropTypes.func.isRequired,
     registerCard: PropTypes.func.isRequired,
     auth: PropTypes.object.isRequired,
-    sellers: PropTypes.array.isRequired,
 };
 const mapStateToProps = state => ({
     auth: state.auth,
     errors: state.errors,
-    sellers: state.sellers
+    sellersLicenses: state.sellersLicenses,
+    seller: state.seller
 });
 
-export default connect(mapStateToProps, {getSellers, registerCard})(withRouter(NewCard))
+export default connect(mapStateToProps, {
+    registerCard,
+    getSellersLicenses,
+    findSeller
+})(withRouter(NewCard))

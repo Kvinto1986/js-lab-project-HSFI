@@ -1,10 +1,10 @@
-import { GET_CURRENT_SELLERS } from '../actions/types';
+import { GET_CURRENT_SELLER } from '../actions/types';
 
-const initialState = [];
+const initialState = {};
 
 export default function(state = initialState, action ) {
     switch(action.type) {
-        case GET_CURRENT_SELLERS:
+        case GET_CURRENT_SELLER:
             return action.payload;
         default:
             return state;

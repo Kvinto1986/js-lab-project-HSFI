@@ -225,4 +225,17 @@ router.post('/getUsers', function (req, res) {
     });
 });
 
+router.post('/confirmUser', function (req, res) {
+
+    User.findById(req.body.id)
+
+        .then(user => {
+            user.confirmation=true;
+            user.save()
+        })
+        .then(user => {
+            res.json(user)
+        });
+});
+
 module.exports = router;

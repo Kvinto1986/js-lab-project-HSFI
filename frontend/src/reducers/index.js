@@ -4,13 +4,14 @@ import authReducer from './authReducer';
 import organizationsReducer from './organizationsReducer'
 import countryReduser from './countryReducer'
 import foodReduser from './foodReducer'
-import sellersReduser from './sellersReducer'
+import sellersLicensesReducer from './sellersLicensesReducer'
 import cardsReduser from './cardsReducer'
 import callsReduser from './callsReducer'
 import emptyErrorsReduser from './callsReducer'
 import inspectionReducer from './inspectionReducer'
 import inspectionQuestionsReducer from './inspectionQuestionsReducer'
 import usersReducer from './usersReduser'
+import sellerReducer from './sellerReduser'
 
 
 export default combineReducers({
@@ -19,7 +20,8 @@ export default combineReducers({
     organizations:organizationsReducer,
     countries:countryReduser,
     food:foodReduser,
-    sellers:sellersReduser,
+    sellersLicenses:sellersLicensesReducer,
+    seller:sellerReducer,
     cards:cardsReduser,
     calls:callsReduser,
     empty:emptyErrorsReduser,

@@ -8,7 +8,7 @@ import 'react-phone-input-2/dist/style.css'
 
 import {getOrganizations, registerOrganization} from '../../actions/organizationAction';
 import {getCountry} from '../../actions/countryAction';
-import {updateUser, updateUserPassword, getUsers} from '../../actions/userAction';
+import {updateUser, updateUserPassword, getUsers,confirmUser} from '../../actions/userAction';
 import {logoutUser, loginUser} from '../../actions/authenticationAction';
 
 
@@ -59,30 +59,14 @@ class Profile extends Component {
 
     handleNextUsersPage = (e) => {
         e.preventDefault();
-        console.log(this.state.page);
 
-        const confirmUsersRole = {
-            role: this.state.role,
-            page: this.state.page+=1
-        };
-
-        this.props.getUsers(confirmUsersRole);
-
+        this.refreshUsers(1);
 
     };
 
     handlePrevUsersPage = (e) => {
         e.preventDefault();
-        console.log(this.state.page)
-        const confirmUsersRole = {
-            role: this.state.role,
-            page: this.state.page-=1
-        };
-
-        this.props.getUsers(confirmUsersRole);
-
-
-
+        this.refreshUsers(-1);
     };
 
     handleDisablePasswordInput = (e) => {
@@ -101,6 +85,19 @@ class Profile extends Component {
         this.setState({
             disable: !this.state.disable
         });
+    };
+
+    refreshUsers=(num)=> {
+        const confirmUsersRole = {
+            role: this.state.role,
+            page: this.state.page+=num
+        };
+
+        this.props.getUsers(confirmUsersRole);
+    };
+
+    handleConfirmUser =  (user)=> {
+        this.props.confirmUser({id:user._id},this.refreshUsers);
     };
 
     resetForm = () => {
@@ -169,13 +166,7 @@ class Profile extends Component {
     }
 
     componentDidMount = () => {
-        const confirmUsersRole = {
-            role: this.state.role,
-            page: this.state.page
-        };
-
-        this.props.getUsers(confirmUsersRole);
-
+        this.refreshUsers(0);
         this.props.getOrganizations();
         this.props.getCountry();
 
@@ -314,18 +305,15 @@ class Profile extends Component {
                             <img src={likeImg} alt={'like'}/>
                         </div>
                     </div>
-                    <div className="profileFormInner">
                         <UsersListTable
                             users={this.props.users}
+                            handleConfirmUser={this.handleConfirmUser}
+                            hasPrevPage={this.props.users.hasPrevPage}
+                            hasNextPage={this.props.users.hasNextPage}
+                            handlePrevUsersPage={this.handlePrevUsersPage}
                             handleNextUsersPage={this.handleNextUsersPage}
+                            totalUsers={this.props.users.totalDocs}
                         />
-                        {this.props.users.hasPrevPage&&(<button onClick={this.handlePrevUsersPage}>Prev
-                        </button>)}
-                        {this.props.users.hasNextPage&&(<button onClick={this.handleNextUsersPage}>Next
-                        </button>)}
-
-
-                    </div>
                 </div>
             )
         } else return (<Redirect to={{
@@ -342,6 +330,7 @@ Profile.propTypes = {
     logoutUser: PropTypes.func.isRequired,
     loginUser: PropTypes.func.isRequired,
     getUsers: PropTypes.func.isRequired,
+    confirmUser:PropTypes.func.isRequired,
     updateUserPassword: PropTypes.func.isRequired,
     auth: PropTypes.object.isRequired,
     organizations: PropTypes.array.isRequired,
@@ -363,5 +352,6 @@ export default connect(mapStateToProps, {
     logoutUser,
     loginUser,
     updateUserPassword,
-    getUsers
+    getUsers,
+    confirmUser
 })(withRouter(Profile))

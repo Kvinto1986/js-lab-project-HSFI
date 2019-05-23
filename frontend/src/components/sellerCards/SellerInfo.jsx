@@ -2,7 +2,6 @@ import React from 'react';
 import './sellerCardsStyles.css'
 
 const SellerInfo =({seller})=> {
-
         if (seller) {
             return (
                 <div className="sellerInfo">

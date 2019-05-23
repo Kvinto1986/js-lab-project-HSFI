@@ -1,34 +1,17 @@
 import React, { Component } from 'react';
 import './inspectionStyles.css'
-import {connect} from "react-redux";
-import PropTypes from 'prop-types';
 import {Redirect, withRouter} from "react-router-dom";
-import Select from "react-select";
-import {getSellers} from "../../actions/sellerAction";
-import {getInspectionQuestions} from "../../actions/inspectionQuestionsAction";
-import {registerInspection} from "../../actions/inspectionAction";
+import {connect} from "react-redux";
+import {findSeller, getSellersLicenses} from "../../actions/sellerAction";
+import {registerCard} from "../../actions/cardsAction";
+import {getLicenseSelect} from "../../utils/utils";
 
 
-class Calls extends Component {
-    constructor() {
-        super();
-        this.state = {
-            ID: '',
-            serial: '',
-            success: false,
-            errors: {}
-        };
-    }
 
-    componentDidMount() {
-        this.props.getSellers();
-        this.props.getInspectionQuestions();
-    }
+class Inspection extends Component {
 
     render() {
         const {isAuthenticated, user} = this.props.auth;
-        const {questions} = this.props.sellers;
-        console.log(questions);
         if(isAuthenticated) {
             return (
                 <div className={'inspectionMainContainer'}>
@@ -42,15 +25,12 @@ class Calls extends Component {
         }}/>)
     }
 }
-Calls.propTypes = {
-    auth: PropTypes.object.isRequired,
-    sellers: PropTypes.array.isRequired,
-};
+
 const mapStateToProps = state => ({
     auth: state.auth,
     errors: state.errors,
-    sellers: state.sellers,
-    questions:state.questions
 });
 
-export default connect(mapStateToProps, {getSellers,getInspectionQuestions, registerInspection})(withRouter(Calls))
+
+export default connect(mapStateToProps, {
+})(withRouter(Inspection))
