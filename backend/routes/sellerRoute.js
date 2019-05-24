@@ -79,4 +79,12 @@ router.post('/findSeller', function(req, res) {
         })
 });
 
+
+router.post('/findSellers', function(req, res) {
+    Seller.find(req.body)
+        .then(users => {
+            res.send(users);
+        })
+});
+
 module.exports = router;

@@ -3,7 +3,7 @@
     flex-wrap: wrap;
     justify-content: center;
     justify-items: center;
-    align-content: center;
+    align-content: start;
     align-items: center;
 
     width: 100%;
@@ -12,4 +12,29 @@
     background-image: url('../../resourses/images/inspection.jpg');
     background-repeat: no-repeat;
     background-size: 100%, 100%, contain;
+}
+
+.inspectionSearchForm{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    justify-items: center;
+    align-content: center;
+    align-items: center;
+
+    width: 80%;
+
+    font-family: Georgia;
+    background-color: rgba(64, 64, 64, 0.8);
+    border: black 2px double;
+    border-radius: 10px;
+}
+
+.inspectionSearchForm label{
+    margin-right: 2%;
+    color: white;
+}
+
+.inspectionFormSelect{
+    width: 30%;
 }

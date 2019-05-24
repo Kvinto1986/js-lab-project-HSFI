@@ -153,7 +153,7 @@ class NewCard extends Component {
 NewCard.propTypes = {
     getSellersLicenses: PropTypes.func.isRequired,
     findSeller: PropTypes.func.isRequired,
-    getLicenseSelect: PropTypes.func.isRequired,
+    getLicenseSelect: PropTypes.func,
     registerCard: PropTypes.func.isRequired,
     auth: PropTypes.object.isRequired,
 };

@@ -12,6 +12,7 @@ import inspectionReducer from './inspectionReducer'
 import inspectionQuestionsReducer from './inspectionQuestionsReducer'
 import usersReducer from './usersReduser'
 import sellerReducer from './sellerReduser'
+import sellersReducer from './sellersReduser'
 
 
 export default combineReducers({
@@ -27,5 +28,6 @@ export default combineReducers({
     empty:emptyErrorsReduser,
     inspection:inspectionReducer,
     inspectionQuestions:inspectionQuestionsReducer,
-    users:usersReducer
+    users:usersReducer,
+    sellers:sellersReducer
 });

@@ -1,5 +1,5 @@
 import axios from 'axios';
-import {GET_ERRORS, GET_CURRENT_SELLERS_LICENSES,GET_CURRENT_SELLER} from './types';
+import {GET_ERRORS, GET_CURRENT_SELLERS_LICENSES, GET_CURRENT_SELLER, GET_CURRENT_SELLERS} from './types';
 
 export const registerSeller = (user, reset) => dispatch => {
     axios.post('/api/sellers/registration', user)
@@ -33,6 +33,16 @@ export const findSeller = (license) => dispatch =>{
         .then(res => {
             dispatch({
                 type: GET_CURRENT_SELLER,
+                payload: res.data
+            });
+        });
+};
+
+export const findSellers = (userParams) => dispatch =>{
+    axios.post('/api/sellers/findSellers',userParams)
+        .then(res => {
+            dispatch({
+                type: GET_CURRENT_SELLERS,
                 payload: res.data
             });
         });
