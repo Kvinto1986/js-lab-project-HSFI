@@ -13,6 +13,7 @@ import inspectionQuestionsReducer from './inspectionQuestionsReducer'
 import usersReducer from './usersReduser'
 import sellerReducer from './sellerReduser'
 import sellersReducer from './sellersReduser'
+import cityReducer from './cityReduser'
 
 
 export default combineReducers({
@@ -29,5 +30,6 @@ export default combineReducers({
     inspection:inspectionReducer,
     inspectionQuestions:inspectionQuestionsReducer,
     users:usersReducer,
-    sellers:sellersReducer
+    sellers:sellersReducer,
+    cities:cityReducer
 });

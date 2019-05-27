@@ -34,7 +34,7 @@ class NewSeller extends Component {
         license: "",
         photoLicense: '',
         GPS: {},
-        sity: '',
+        city: '',
         schedule: [],
         ingredientSuppliers: [],
         ingredient: '',
@@ -186,7 +186,7 @@ class NewSeller extends Component {
             license: "",
             photoLicense: '',
             GPS: {},
-            sity: '',
+            city: '',
             schedule: [],
             ingredientSuppliers: [],
             ingredient: '',
@@ -224,7 +224,7 @@ class NewSeller extends Component {
             schedule: this.state.schedule,
             ingredientSuppliers: this.state.ingredientSuppliers,
             foodGroup: this.state.foodGroup,
-            sity: this.state.sity,
+            city: this.state.city,
             photoLicense: '',
             flag: '',
             flagCount: 0,
@@ -301,16 +301,16 @@ class NewSeller extends Component {
                                     />
                                     {errors.country && (<div className="invalidFeedback">{errors.country}</div>)}
 
-                                    <label>Sity</label>
+                                    <label>City</label>
                                     <input
                                         type="text"
-                                        placeholder="Sity"
-                                        name="sity"
+                                        placeholder="City"
+                                        name="city"
                                         onChange={this.handleInputChange}
-                                        value={this.state.sity}
+                                        value={this.state.city}
                                         required
                                     />
-                                    {errors.sity && (<div className="invalidFeedback">{errors.sity}</div>)}
+                                    {errors.city && (<div className="invalidFeedback">{errors.city}</div>)}
 
                                     <label>Seller license </label>
                                     <input

@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-
+const mongoosePaginate = require('mongoose-paginate-v2');
 const Schema = mongoose.Schema;
 
 const SellerSchema = new Schema({
@@ -64,7 +64,7 @@ const SellerSchema = new Schema({
     stars: {
         type: Number,
     },
-    sity: {
+    city: {
         type: String,
         required: true
     },
@@ -74,6 +74,8 @@ const SellerSchema = new Schema({
         default: Date.now
     }
 });
+
+SellerSchema.plugin(mongoosePaginate);
 
 const Seller = mongoose.model('sellers', SellerSchema);
 

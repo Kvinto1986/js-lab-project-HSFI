@@ -3,7 +3,7 @@ const router = express.Router();
 const validateRegisterInput = require('../validation/sellerValidation');
 const Seller = require('../models/SellerModel');
 
-router.post('/registration', function(req, res) {
+router.post('/registration', function (req, res) {
 
     const {errors, isValid} = validateRegisterInput(req.body);
 
@@ -39,13 +39,13 @@ router.post('/registration', function(req, res) {
                 email: req.body.email,
                 ingredientSuppliers: req.body.ingredientSuppliers,
                 foodGroup: req.body.foodGroup,
-                flag:req.body.flag,
-                flagCount:req.body.flagCount,
-                cards:req.body.cards,
-                OSS:req.body.OSS,
-                stars:req.body.stars,
-                sity:req.body.sity,
-                GPS:req.body.GPS,
+                flag: req.body.flag,
+                flagCount: req.body.flagCount,
+                cards: req.body.cards,
+                OSS: req.body.OSS,
+                stars: req.body.stars,
+                city: req.body.city,
+                GPS: req.body.GPS,
 
             });
             newSeller
@@ -59,20 +59,20 @@ router.post('/registration', function(req, res) {
     })
 });
 
-router.post('/getSellersLicenses', function(req, res) {
-    Seller.find({}, function(err, seller) {
-        const arr=seller.map(function (elem) {
-            const newElem={};
-            newElem.value=elem.license;
-            newElem.label=elem.license;
+router.post('/getSellersLicenses', function (req, res) {
+    Seller.find({}, function (err, seller) {
+        const arr = seller.map(function (elem) {
+            const newElem = {};
+            newElem.value = elem.license;
+            newElem.label = elem.license;
             return newElem
         });
         res.send(arr);
     });
 });
 
-router.post('/findSeller', function(req, res) {
-    Seller.findOne({license:req.body.license})
+router.post('/findSeller', function (req, res) {
+    Seller.findOne({license: req.body.license})
         .then(user => {
             console.log(req.body);
             res.send(user);
@@ -80,11 +80,37 @@ router.post('/findSeller', function(req, res) {
 });
 
 
-router.post('/findSellers', function(req, res) {
-    Seller.find(req.body)
-        .then(users => {
-            res.send(users);
-        })
+router.post('/findSellers', function (req, res) {
+    const options = {
+        page: req.body.page,
+        limit: 5,
+    };
+    console.log(req.body);
+    Seller.paginate(req.body.sellers, options, function (err, result) {
+
+        res.send(result);
+    });
+});
+
+
+router.post('/getCities', function (req, res) {
+    Seller.find(req.body, function (err, sellers) {
+
+        const cityArr = sellers.map(function (elem) {
+            return elem.city
+        });
+
+        const uniqueCityArr = [...new Set(cityArr)];
+
+        const resultArr = uniqueCityArr.map(function (elem) {
+            const newElem = {};
+            newElem.value = elem;
+            newElem.label = elem;
+            return newElem
+        });
+
+        res.send(resultArr);
+    });
 });
 
 module.exports = router;

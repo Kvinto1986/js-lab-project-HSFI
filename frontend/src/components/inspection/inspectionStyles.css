@@ -17,12 +17,15 @@
 .inspectionSearchForm{
     display: flex;
     flex-wrap: wrap;
-    justify-content: center;
+    justify-content: start;
     justify-items: center;
     align-content: center;
     align-items: center;
 
-    width: 80%;
+    width: 95%;
+
+
+    margin-top: 1%;
 
     font-family: Georgia;
     background-color: rgba(64, 64, 64, 0.8);
@@ -30,11 +33,61 @@
     border-radius: 10px;
 }
 
-.inspectionSearchForm label{
-    margin-right: 2%;
+.inspectionSearchFormSection{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    justify-items: center;
+    align-content: center;
+    align-items: center;
+
+    width: 15%;
+    height: 100%;
+
+    margin: 1% 1% 1% 1%;
+
+}
+
+
+.inspectionRadioFormSection{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    justify-items: center;
+    align-content: center;
+    align-items: center;
+
+    width: 10%;
+    height: 100%;
+
+    margin: 1% 1% 1% 1%;
+
+}
+
+.inspectionRadioFormSection label{
+    width: 100%;
+    margin-bottom: 1%;
+    margin-top: 3%;
+
     color: white;
+    text-align: center;
+}
+
+.inspectionSearchFormSection label{
+    width: 100%;
+    margin-bottom: 1%;
+    margin-top: 3%;
+
+    color: white;
+    text-align: center;
 }
 
 .inspectionFormSelect{
-    width: 30%;
+    width: 100%;
+}
+
+.inspectionRadioFormSection button{
+    width: 100%;
+
+    height:4vw;
 }

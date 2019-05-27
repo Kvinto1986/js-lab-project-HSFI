@@ -13,7 +13,7 @@ module.exports = function validateRegisterInput(data) {
     data.phone = !isEmpty(data.phone) ? data.phone : '';
     data.email = !isEmpty(data.email) ? data.email : '';
     data.foodGroup = !isEmpty(data.foodGroup) ? data.foodGroup : '';
-    data.sity = !isEmpty(data.sity) ? data.sity : '';
+    data.city = !isEmpty(data.city) ? data.city : '';
     data.ingredientSuppliers = !isEmpty(data.ingredientSuppliers) ? data.ingredientSuppliers: '';
     data.schedule = !isEmpty(data.schedule) ? data.schedule : '';
 
@@ -30,8 +30,8 @@ module.exports = function validateRegisterInput(data) {
     }
 
 
-    if(Validator.isEmpty(data.sity)) {
-        errors.sity = 'sity field is required';
+    if(Validator.isEmpty(data.city)) {
+        errors.city = 'city field is required';
     }
 
     if(Validator.isEmpty(data.country)) {
