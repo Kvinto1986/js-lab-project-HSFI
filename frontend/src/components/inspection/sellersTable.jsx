@@ -1,49 +1,44 @@
-import React from "react";
+import React, {Fragment} from "react";
 
-const SellersTable = ({sellers, hasPrevPage, hasNextPage, handlePrevUsersPage, handleNextUsersPage, totalUsers}) => {
+import SellerModal from "./inspectionModal";
+import SellersMapContainer from './sellersMap'
+
+const SellersTable = ({sellers, hasPrevPage, hasNextPage, handlePrevUsersPage, handleNextUsersPage,
+                          totalUsers,modalStatus,openModal,closeModal,editSeller}) => {
     if (totalUsers > 0) {
         const userList = sellers.docs;
         const liArr = [];
 
         for (let i = 0; i < userList.length; i++) {
-            liArr.push(<tr key={i}>
-                <td key={userList[i].country}>
-                    {userList[i].country}</td>
-                <td key={userList[i].city}>
-                    {userList[i].city}</td>
-                <td key={userList[i].foodGroup}>
-                    {userList[i].foodGroup}</td>
-                <td key={userList[i].license}>
-                    {userList[i].license}</td>
-                <td key={userList[i].name}>
-                    {userList[i].name}</td>
-                <td key={userList[i].email}>
-                    {userList[i].email}</td>
-            </tr>)
+            const elem=
+            <div className={'inspectionSellerTableSection'} key={userList[i].name+'div'}>
+                <a href={'#'} onClick={(e)=>{ e.preventDefault();
+                    openModal(userList[i])}}><img src={'../../../static/'+userList[i].photo}/>
+                {userList[i].name}<br />{userList[i].license}</a>
+            </div>;
+
+            liArr.push(elem)
         }
 
-        return (
-            <div className="profileTableInner">
-                <h1>Not confirmed users</h1>
-                <table className={'userListTable'}>
-                    <tbody>
-                    <tr key={'tableHead'}>
-                        <th>Country</th>
-                        <th>City</th>
-                        <th>Food group</th>
-                        <th>License</th>
-                        <th>Name</th>
-                        <th>Email</th>
-                    </tr>
-                    {liArr}
-                    </tbody>
-                </table>
-                {hasPrevPage && (<button className={'listUserBtn'} onClick={handlePrevUsersPage}>Previous
+        return (<Fragment>
+            <div className="inspectionSellerTable">
+                <h1>Sellers</h1>
+                {liArr}
+                <div className="inspectionSellerTableButtons">
+                {hasPrevPage && (<button onClick={handlePrevUsersPage}>Previous
                 </button>)}
-                {hasNextPage && (<button className={'listUserBtn'} onClick={handleNextUsersPage}>Next
+                {hasNextPage && (<button onClick={handleNextUsersPage}>Next
                 </button>)}
+                </div>
+                <SellerModal
+                    modalStatus={modalStatus}
+                    closeModal={closeModal}
+                    editSeller={editSeller}
+                />
             </div>
-
+            <SellersMapContainer
+            />
+            </Fragment>
         )
     } else return null
 };

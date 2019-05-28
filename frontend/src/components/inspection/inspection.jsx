@@ -9,17 +9,20 @@ import {getFood} from '../../actions/foodAction';
 
 import Select from "react-select";
 import SellersTable from "./sellersTable";
+import SellersMapContainer from './sellersMap'
 
 class Inspection extends Component {
     state = {
         country: [],
         city: [],
-        status: '',
+        status: true,
         foodGroup: [],
         flag: true,
         stars: false,
         page: 1,
-        day: true
+        modalStatus:false,
+        editSeller:{}
+
     };
 
     handleChangeCountry = (country) => {
@@ -57,60 +60,36 @@ class Inspection extends Component {
     };
 
     handleScheduleChange = () => {
-        this.setState({day: !this.state.day});
+        this.setState({status: !this.state.status});
     };
 
     handleFlagChange = () => {
         this.setState({flag: !this.state.flag});
     };
 
+    openModal = (seller) => {
+        this.setState({modalStatus: true});
+        this.setState({editSeller: seller});
+    };
+
+
+    closeModal = () => {
+        this.setState({modalStatus: false});
+    };
+
     findSellers = (num) => {
 
         const sellersParams = {
-            sellers: {},
+            sellers: {
+                country:this.state.country,
+                city:this.state.city,
+                foodGroup:this.state.foodGroup,
+                stars:this.state.stars,
+                flag:this.state.flag
+            },
             page: this.state.page += num,
-
+            status:this.state.status,
         };
-
-        if (this.state.country.length > 0) {
-            const countryArr = this.state.country.map((elem) => elem.value);
-            sellersParams.sellers.country = {$in: countryArr}
-        }
-
-        if (this.state.city.length > 0) {
-            const cityArr = this.state.city.map((elem) => elem.value);
-            sellersParams.sellers.city = {$in: cityArr}
-        }
-
-        if (this.state.foodGroup.length > 0) {
-            const foodArr = this.state.foodGroup.map((elem) => elem.value);
-            sellersParams.sellers.foodGroup = {$in: foodArr}
-        }
-
-        if (this.state.stars) {
-            sellersParams.sellers.stars = this.state.stars
-        }
-
-        if (this.state.day) {
-            const todayDate = new Date();
-            const weekday = new Array(7);
-            weekday[0] = "Sunday";
-            weekday[1] = "Monday";
-            weekday[2] = "Tuesday";
-            weekday[3] = "Wednesday";
-            weekday[4] = "Thursday";
-            weekday[5] = "Friday";
-            weekday[6] = "Saturday";
-
-            const today = weekday[todayDate.getDay()];
-
-            sellersParams.today = today
-        }
-
-        if (this.state.flag) {
-            this.setState({flag: true});
-            sellersParams.sellers.flag = "red flagged"
-        }
 
         this.props.findSellers(sellersParams)
     };
@@ -118,7 +97,6 @@ class Inspection extends Component {
 
     handleSubmitSearch = (e) => {
         e.preventDefault();
-        console.log(this.state)
         this.findSellers(0)
 
     };
@@ -190,14 +168,14 @@ class Inspection extends Component {
                             <label className={'radioLabel'}>
                                 <input
                                     type="radio"
-                                    checked={this.state.day}
+                                    checked={this.state.status}
                                     onChange={this.handleScheduleChange}/>
                                 Open
                             </label>
                             <label className={'radioLabel'}>
                                 <input
                                     type="radio"
-                                    checked={!this.state.day}
+                                    checked={!this.state.status}
                                     onChange={this.handleScheduleChange}/>
                                 Close</label>
                         </div>
@@ -245,7 +223,12 @@ class Inspection extends Component {
                         handlePrevUsersPage={this.handlePrevUsersPage}
                         handleNextUsersPage={this.handleNextUsersPage}
                         totalUsers={this.props.sellers.totalDocs}
+                        modalStatus={this.state.modalStatus}
+                        openModal={this.openModal}
+                        closeModal={this.closeModal}
+                        editSeller={this.state.editSeller}
                     />
+
 
                 </div>)
         } else return (<Redirect to={{

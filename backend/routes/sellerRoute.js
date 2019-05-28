@@ -1,3 +1,4 @@
+
 const express = require('express');
 const router = express.Router();
 const validateRegisterInput = require('../validation/sellerValidation');
@@ -81,14 +82,86 @@ router.post('/findSeller', function (req, res) {
 
 
 router.post('/findSellers', function (req, res) {
+
+    const todayDate = new Date();
+    const weekday = new Array(7);
+    weekday[0] = "sunday";
+    weekday[1] = "monday";
+    weekday[2] = "tuesday";
+    weekday[3] = "wednesday";
+    weekday[4] = "thursday";
+    weekday[5] = "friday";
+    weekday[6] = "saturday";
+
+    const nowDay = weekday[todayDate.getDay()];
+
+    const sellers=req.body.sellers;
+    const findSellers={
+        sellers:{},
+        today:nowDay,
+        page: req.body.page ,
+        status:req.body.status,
+    };
+
+    if (sellers.country.length > 0) {
+        const countryArr = sellers.country.map((elem) => elem.value);
+        findSellers.sellers.country = {$in: countryArr}
+    }
+
+    if (sellers.city.length > 0) {
+        const cityArr = sellers.city.map((elem) => elem.value);
+        findSellers.sellers.city = {$in: cityArr}
+    }
+
+    if (sellers.foodGroup.length > 0) {
+        const foodArr = sellers.foodGroup.map((elem) => elem.value);
+        findSellers.sellers.foodGroup = {$in: foodArr}
+    }
+
+    if (sellers.stars) {
+        findSellers.sellers.stars = sellers.stars
+    }
+
+    if (sellers.flag) {
+        findSellers.sellers.flag = "red flagged"
+    }
+
     const options = {
         page: req.body.page,
         limit: 5,
     };
-    console.log(req.body);
-    Seller.paginate(req.body.sellers, options, function (err, result) {
 
-        res.send(result);
+    Seller.find(findSellers.sellers, function (err, result) {
+            const sellersArray = result;
+            const sellers=[];
+            for (let i = 0; i < sellersArray.length; i++) {
+                let daysArr = [];
+                for (let j = 0; j < sellersArray[i].schedule.length; j++) {
+                    daysArr = daysArr.concat(sellersArray[i].schedule[j].workingDays)
+                }
+                if (findSellers.status) {
+                    if (daysArr.includes(findSellers.today)) {
+                        sellers.push(sellersArray[i])
+                    }
+                }
+                else {
+                    if (!daysArr.includes(findSellers.today)) {
+                        sellers.push(sellersArray[i])
+                    }
+                }
+            }
+
+        const idArray=sellers.map(function (elem) {
+            return elem._id
+        });
+
+        const id={_id:idArray};
+
+        Seller.paginate(id,options, function (err, sellers) {
+            res.send(sellers);
+        })
+
+
     });
 });
 

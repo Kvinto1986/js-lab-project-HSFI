@@ -3,3 +3,4 @@ export const getRandomSerial = function () {
 
     return serial.toString();
 };
+
