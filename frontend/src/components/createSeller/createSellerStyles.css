@@ -189,7 +189,6 @@
     background-color: brown;
     width: 3.4vw;
     height: 1.2vw;
-    color: white;
 }
 
 .sellerScheduleFormSection{
@@ -278,13 +277,17 @@
 }
 .sheduleTable tr{
     text-align: center;
-
+    font-size: 0.6vw;
     background-color: white;
+}
+
+.sheduleTable th{
+    font-size: 0.7vw;
 }
 
 .sheduleTable tr button{
     background-color: brown;
-    color: white;
+
 }
 
 #sellerPhoneInput{

@@ -3,41 +3,72 @@ import React, {Fragment} from "react";
 import SellerModal from "./inspectionModal";
 import SellersMapContainer from './sellersMap'
 
-const SellersTable = ({sellers, hasPrevPage, hasNextPage, handlePrevUsersPage, handleNextUsersPage,
-                          totalUsers,modalStatus,openModal,closeModal,editSeller}) => {
+const SellersTable = ({
+                          sellers, hasPrevPage, hasNextPage, handlePrevUsersPage, handleNextUsersPage,
+                          totalUsers, modalStatus, openModal, closeModal, editSeller
+                      }) => {
     if (totalUsers > 0) {
         const userList = sellers.docs;
         const liArr = [];
+        const todayDate = new Date();
+        const weekday = new Array(7);
+        weekday[0] = "sunday";
+        weekday[1] = "monday";
+        weekday[2] = "tuesday";
+        weekday[3] = "wednesday";
+        weekday[4] = "thursday";
+        weekday[5] = "friday";
+        weekday[6] = "saturday";
+
+        const nowDay = weekday[todayDate.getDay()];
+        const location = [];
 
         for (let i = 0; i < userList.length; i++) {
-            const elem=
-            <div className={'inspectionSellerTableSection'} key={userList[i].name+'div'}>
-                <a href={'#'} onClick={(e)=>{ e.preventDefault();
-                    openModal(userList[i])}}><img src={'../../../static/'+userList[i].photo}/>
-                {userList[i].name}<br />{userList[i].license}</a>
+            for (let j = 0; j < userList[i].schedule.length; j++) {
+                if (userList[i].schedule[j].workingDays.includes(nowDay)) {
+                    location.push(userList[i].schedule[j].GPS)
+                }
+            }
+            const elem = <div className={'inspectionSellerTableSection'} key={userList[i].name + 'div'}>
+                <div><img
+                    src={'../../../static/' + userList[i].photo}/><span>{userList[i].name}<br/>{userList[i].license}</span>
+                    <button onClick={(e) => {
+                        e.preventDefault();
+                        openModal(userList[i])
+                    }}>View
+                    </button>
+                    {userList[i].flag === 'red flagged' && <button onClick={(e) => {
+                        e.preventDefault();
+                        openModal(userList[i])
+                    }}>Inspection</button>}
+                </div>
             </div>;
 
             liArr.push(elem)
         }
 
         return (<Fragment>
-            <div className="inspectionSellerTable">
-                <h1>Sellers</h1>
-                {liArr}
-                <div className="inspectionSellerTableButtons">
-                {hasPrevPage && (<button onClick={handlePrevUsersPage}>Previous
-                </button>)}
-                {hasNextPage && (<button onClick={handleNextUsersPage}>Next
-                </button>)}
+                <div className="inspectionSellerTable">
+                    <h2>Sellers</h2>
+                    {liArr}
+                    <div className="inspectionSellerTableButtons">
+                        {hasPrevPage && (<button onClick={handlePrevUsersPage}>Previous
+                        </button>)}
+                        {hasNextPage && (<button onClick={handleNextUsersPage}>Next
+                        </button>)}
+                    </div>
+                    {modalStatus && (<SellerModal
+                        modalStatus={modalStatus}
+                        closeModal={closeModal}
+                        editSeller={editSeller}
+                    />)}
+
                 </div>
-                <SellerModal
-                    modalStatus={modalStatus}
-                    closeModal={closeModal}
-                    editSeller={editSeller}
+                <SellersMapContainer
+                    sellers={userList}
+                    location={location}
+                    openModal={openModal}
                 />
-            </div>
-            <SellersMapContainer
-            />
             </Fragment>
         )
     } else return null

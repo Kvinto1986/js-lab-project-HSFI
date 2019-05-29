@@ -9,7 +9,6 @@ import {getFood} from '../../actions/foodAction';
 
 import Select from "react-select";
 import SellersTable from "./sellersTable";
-import SellersMapContainer from './sellersMap'
 
 class Inspection extends Component {
     state = {
@@ -17,7 +16,7 @@ class Inspection extends Component {
         city: [],
         status: true,
         foodGroup: [],
-        flag: true,
+        flag: [true],
         stars: false,
         page: 1,
         modalStatus:false,
@@ -119,7 +118,6 @@ class Inspection extends Component {
         const {country} = this.state.country;
         const {city} = this.state.city;
         const {foodGroup} = this.state.foodGroup;
-
         if (isAuthenticated) {
             return (
                 <div className={'inspectionMainContainer'}>

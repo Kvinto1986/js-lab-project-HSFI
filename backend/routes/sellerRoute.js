@@ -123,12 +123,16 @@ router.post('/findSellers', function (req, res) {
     }
 
     if (sellers.flag) {
-        findSellers.sellers.flag = "red flagged"
+        findSellers.sellers.flag = {$in: ["red flagged"]}
+    }
+
+    if (!sellers.flag) {
+        findSellers.sellers.flag = {$in: ["",'is flagged']}
     }
 
     const options = {
         page: req.body.page,
-        limit: 5,
+        limit: 4,
     };
 
     Seller.find(findSellers.sellers, function (err, result) {
