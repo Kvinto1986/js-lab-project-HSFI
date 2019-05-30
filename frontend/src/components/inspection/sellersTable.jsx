@@ -1,11 +1,15 @@
 import React, {Fragment} from "react";
 
-import SellerModal from "./inspectionModal";
+import SellerModal from "./inspectionEditSellerModal";
+import InspectionModal from "./inspectionFormModal";
 import SellersMapContainer from './sellersMap'
+
 
 const SellersTable = ({
                           sellers, hasPrevPage, hasNextPage, handlePrevUsersPage, handleNextUsersPage,
-                          totalUsers, modalStatus, openModal, closeModal, editSeller
+                          totalUsers, modalEditSellerStatus,modalInspectionStatus,
+                          openSellerEditModal, closeEditSellerModal,openInspectionModal,closeInspectionModal,
+                          editSeller, findSellers
                       }) => {
     if (totalUsers > 0) {
         const userList = sellers.docs;
@@ -34,12 +38,12 @@ const SellersTable = ({
                     src={'../../../static/' + userList[i].photo}/><span>{userList[i].name}<br/>{userList[i].license}</span>
                     <button onClick={(e) => {
                         e.preventDefault();
-                        openModal(userList[i])
+                        openSellerEditModal(userList[i])
                     }}>View
                     </button>
                     {userList[i].flag === 'red flagged' && <button onClick={(e) => {
                         e.preventDefault();
-                        openModal(userList[i])
+                        openInspectionModal(userList[i])
                     }}>Inspection</button>}
                 </div>
             </div>;
@@ -57,17 +61,25 @@ const SellersTable = ({
                         {hasNextPage && (<button onClick={handleNextUsersPage}>Next
                         </button>)}
                     </div>
-                    {modalStatus && (<SellerModal
-                        modalStatus={modalStatus}
-                        closeModal={closeModal}
-                        editSeller={editSeller}
-                    />)}
+                    {modalEditSellerStatus && (
+                        <SellerModal
+                            findSellers={findSellers}
+                            modalEditSellerStatus={modalEditSellerStatus}
+                            closeEditSellerModal={closeEditSellerModal}
+                            editSeller={editSeller}
+                        />)}
+                    {modalInspectionStatus && (
+                        <InspectionModal
+                            modalInspectionStatus={modalInspectionStatus}
+                            closeInspectionModal={closeInspectionModal}
+                            editSeller={editSeller}
+                        />)}
 
                 </div>
                 <SellersMapContainer
                     sellers={userList}
                     location={location}
-                    openModal={openModal}
+                    openModal={openSellerEditModal}
                 />
             </Fragment>
         )

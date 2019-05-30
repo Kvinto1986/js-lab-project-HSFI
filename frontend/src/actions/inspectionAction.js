@@ -1,5 +1,5 @@
 import axios from 'axios';
-import {GET_ERRORS, GET_CURRENT_INSPECTION} from './types';
+import {GET_ERRORS} from './types';
 
 export const registerInspection = (inspection, reset) => dispatch => {
     axios.post('/api/inspection/registration', inspection)
@@ -14,16 +14,6 @@ export const registerInspection = (inspection, reset) => dispatch => {
             dispatch({
                 type: GET_ERRORS,
                 payload: err.response.data
-            });
-        });
-};
-
-export const getInspection = () => dispatch => {
-    axios.post('/api/inspection/getInspection')
-        .then(res => {
-            dispatch({
-                type: GET_CURRENT_INSPECTION,
-                payload: res.data
             });
         });
 };

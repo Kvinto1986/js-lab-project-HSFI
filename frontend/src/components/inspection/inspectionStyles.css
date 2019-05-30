@@ -12,6 +12,7 @@
     background-image: url('../../resourses/images/inspection.jpg');
     background-repeat: no-repeat;
     background-size: 100%, 100%, contain;
+
 }
 
 .inspectionSearchForm{
@@ -131,8 +132,6 @@
 
     width: 20%;
     height: 78%;
-
-
 
     font-family: Georgia;
     background-color: rgba(64, 64, 64, 0.8);
@@ -301,4 +300,24 @@
     margin-left: 3%;
 
     margin-bottom: 1%
+}
+.inspectionFormModalRadio{
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    justify-items: center;
+    align-content: center;
+    align-items: center;
+}
+
+.inspectionFormModalRadio div{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    justify-items: center;
+    align-content: center;
+    align-items: center;
+
+    width: 100%;
 }

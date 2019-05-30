@@ -18,12 +18,15 @@ export const registerInspectionQuestion = (inspection, reset) => dispatch => {
         });
 };
 
-export const getInspectionQuestions = () => dispatch => {
+export const getInspectionQuestions = (radioStatus) => dispatch => {
     axios.post('/api/inspectionQuestions/getQuestions')
         .then(res => {
             dispatch({
                 type: GET_CURRENT_INSPECTION_QUESTIONS,
                 payload: res.data
             });
+        })
+        .then(res=>{
+            radioStatus()
         });
 };

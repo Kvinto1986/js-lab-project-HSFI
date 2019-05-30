@@ -6,7 +6,7 @@ export class SellersMapContainer extends Component {
     render() {
         const location = this.props.location;
         const sellers = this.props.sellers;
-        const openModal=this.props.openModal;
+        const openModal=this.props.openSellerEditModal;
 
         const marker = location.map((elem,i) => {
 

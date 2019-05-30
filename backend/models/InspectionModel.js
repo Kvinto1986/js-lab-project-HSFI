@@ -12,7 +12,7 @@ const InspectionSchema = new Schema({
         required: true
     },
     sellerPhoto:{
-        default:'none',
+        default:String,
         type: String,
     },
     license:{
@@ -20,16 +20,20 @@ const InspectionSchema = new Schema({
         required: true
     },
 
-    location: {
-        type: Object,
-        required: true
-    },
     foodGroup: {
         type: String,
         required: true
     },
     questions:{
         type: Array,
+        required: true
+    },
+    GPS:{
+        type: Object,
+        required: true
+    },
+    OSS:{
+        type: Number,
         required: true
     },
     date: {

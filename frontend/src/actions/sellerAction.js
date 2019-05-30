@@ -63,3 +63,21 @@ export const getCities = (country) => dispatch =>{
             });
         });
 };
+
+export const updateSeller = (seller, reset,findSellers) => dispatch => {
+    axios.post('/api/sellers/update', seller)
+        .then(res => {
+
+            dispatch({
+                type: GET_ERRORS,
+                payload: {}
+            });
+        }).then (res =>reset())
+        .then (res =>findSellers(0))
+        .catch(err => {
+            dispatch({
+                type: GET_ERRORS,
+                payload: err.response.data
+            });
+        });
+};

@@ -15,7 +15,7 @@ const countries = require('./routes/countryRoute');
 const food = require('./routes/foodGroupRoute');
 const cards = require('./routes/cardRoute');
 const calls = require('./routes/callRoute');
-const inspection = require('./routes/inspectionRoute');
+const inspections = require('./routes/inspectionRoute');
 const inspectionQuestions = require('./routes/inspectionQuestionRoute');
 
 
@@ -40,7 +40,7 @@ app.use('/api/countries', countries);
 app.use('/api/foodGroups', food);
 app.use('/api/sellerCards', cards);
 app.use('/api/calls', calls);
-app.use('/api/inspections', inspection);
+app.use('/api/inspections', inspections);
 app.use('/api/inspectionQuestions', inspectionQuestions);
 
 const PORT = process.env.PORT || 5000;

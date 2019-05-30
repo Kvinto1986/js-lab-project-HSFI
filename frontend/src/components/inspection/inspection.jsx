@@ -19,7 +19,8 @@ class Inspection extends Component {
         flag: [true],
         stars: false,
         page: 1,
-        modalStatus:false,
+        modalEditSellerStatus:false,
+        modalInspectionStatus:false,
         editSeller:{}
 
     };
@@ -66,14 +67,24 @@ class Inspection extends Component {
         this.setState({flag: !this.state.flag});
     };
 
-    openModal = (seller) => {
-        this.setState({modalStatus: true});
+    openSellerEditModal = (seller) => {
+        this.setState({modalEditSellerStatus: true});
         this.setState({editSeller: seller});
     };
 
 
-    closeModal = () => {
-        this.setState({modalStatus: false});
+    closeEditSellerModal = () => {
+        this.setState({modalEditSellerStatus: false});
+    };
+
+    openInspectionModal = (seller) => {
+        this.setState({modalInspectionStatus: true});
+        this.setState({editSeller: seller});
+    };
+
+
+    closeInspectionModal = () => {
+        this.setState({modalInspectionStatus: false});
     };
 
     findSellers = (num) => {
@@ -118,6 +129,7 @@ class Inspection extends Component {
         const {country} = this.state.country;
         const {city} = this.state.city;
         const {foodGroup} = this.state.foodGroup;
+
         if (isAuthenticated) {
             return (
                 <div className={'inspectionMainContainer'}>
@@ -167,7 +179,9 @@ class Inspection extends Component {
                                 <input
                                     type="radio"
                                     checked={this.state.status}
-                                    onChange={this.handleScheduleChange}/>
+                                    onChange={this.handleScheduleChange}
+                                />
+
                                 Open
                             </label>
                             <label className={'radioLabel'}>
@@ -221,10 +235,14 @@ class Inspection extends Component {
                         handlePrevUsersPage={this.handlePrevUsersPage}
                         handleNextUsersPage={this.handleNextUsersPage}
                         totalUsers={this.props.sellers.totalDocs}
-                        modalStatus={this.state.modalStatus}
-                        openModal={this.openModal}
-                        closeModal={this.closeModal}
+                        modalEditSellerStatus={this.state.modalEditSellerStatus}
+                        modalInspectionStatus={this.state.modalInspectionStatus}
+                        openSellerEditModal={this.openSellerEditModal}
+                        closeEditSellerModal={this.closeEditSellerModal}
+                        openInspectionModal={this.openInspectionModal}
+                        closeInspectionModal={this.closeInspectionModal}
                         editSeller={this.state.editSeller}
+                        findSellers={this.findSellers}
                     />
 
 

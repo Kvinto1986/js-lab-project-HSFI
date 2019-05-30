@@ -2,6 +2,7 @@
 const express = require('express');
 const router = express.Router();
 const validateRegisterInput = require('../validation/sellerValidation');
+const validateSellerUpdate = require('../validation/sellerUpadateValidation');
 const Seller = require('../models/SellerModel');
 
 router.post('/registration', function (req, res) {
@@ -167,6 +168,48 @@ router.post('/findSellers', function (req, res) {
 
 
     });
+});
+
+
+router.post('/update', function (req, res) {
+
+    const {errors, isValid} = validateSellerUpdate(req.body);
+
+    if (!isValid) {
+        return res.status(400).json(errors);
+    }
+    Seller.findById(req.body.id)
+        .then(seller => {
+
+            Seller.findOne({
+                email: req.body.email
+            }).then(findSeller => {
+
+                if (findSeller && seller.id !== findSeller.id) {
+                    return res.status(400).json({
+                        email: 'Email already exists'
+                    });
+                } else {
+                    seller.name= req.body.name,
+                        seller.country= req.body.country,
+                        seller.photo= req.body.photo,
+                        seller.license= req.body.license,
+                        seller.photoLicense=req.body.photoLicense,
+                        seller.location= req.body.location,
+                        seller.schedule= req.body.schedule,
+                        seller.phone= req.body.phone,
+                        seller.email= req.body.email,
+                        seller.ingredientSuppliers= req.body.ingredientSuppliers,
+                        seller.foodGroup= req.body.foodGroup,
+                        seller.city= req.body.city
+                    seller.save()
+                        .then(seller => {
+                            res.json(seller)
+                        });
+                }
+            })
+        })
+
 });
 
 
