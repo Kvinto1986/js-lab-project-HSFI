@@ -73,6 +73,7 @@ const SellersTable = ({
                             modalInspectionStatus={modalInspectionStatus}
                             closeInspectionModal={closeInspectionModal}
                             editSeller={editSeller}
+                            findSellers={findSellers}
                         />)}
 
                 </div>

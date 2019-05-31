@@ -9,7 +9,7 @@ export const registerInspectionQuestion = (inspection, reset) => dispatch => {
                 payload: {}
             });
         })
-        .then (res =>reset())
+        .then(res => reset())
         .catch(err => {
             dispatch({
                 type: GET_ERRORS,
@@ -26,7 +26,8 @@ export const getInspectionQuestions = (radioStatus) => dispatch => {
                 payload: res.data
             });
         })
-        .then(res=>{
-            radioStatus()
+        .then(res => {
+            if (radioStatus)
+                radioStatus()
         });
 };

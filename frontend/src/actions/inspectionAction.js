@@ -2,7 +2,7 @@ import axios from 'axios';
 import {GET_ERRORS} from './types';
 
 export const registerInspection = (inspection, reset) => dispatch => {
-    axios.post('/api/inspection/registration', inspection)
+    axios.post('/api/inspections/registration', inspection)
         .then(res => {
             dispatch({
                 type: GET_ERRORS,

@@ -68,6 +68,7 @@ const SellerSchema = new Schema({
         type: String,
         required: true
     },
+    archived: '',
 
     date: {
         type: Date,

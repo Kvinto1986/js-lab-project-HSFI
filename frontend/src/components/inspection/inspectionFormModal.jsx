@@ -16,28 +16,34 @@ Modal.setAppElement('#root');
 
 class InspectionModal extends Component {
     state = {
-        GPS: '',
-        OSS: 0,
-        status:{}
+        lat: '',
+        lng: '',
+        OSS: '',
+    };
+
+    getCurrentLoacation = () => {
+        navigator.geolocation.getCurrentPosition((position) => {
+            this.setState({lat: position.coords.latitude});
+            this.setState({lng: position.coords.longitude});
+        });
     };
 
     handleOSSPlus = (e) => {
-            this.setState({...this.state.status, [e.target.name]: false});
-            this.setState({OSS: this.state.OSS += 1});
-            console.log(this.state.OSS)
+        this.setState({[e.target.name]: true});
+        this.setState({OSS: this.state.OSS += 2});
     };
 
-    handleOSSMinus= (e) => {
-        this.setState({...this.state.status, [e.target.name]: true});
-        this.setState({OSS: this.state.OSS -= 1});
-        console.log(this.state.OSS)
+    handleOSSMinus = (e) => {
+        this.setState({[e.target.name]: false});
+        this.setState({OSS: this.state.OSS -= 2});
     };
 
-    radioStatus=()=>{
-        for(let i=0;i<this.props.inspectionQuestions.length;i++){
-            this.setState({...this.state.status, [this.props.inspectionQuestions[i]._id]:true});
+    radioStatus = () => {
+        for (let i = 0; i < this.props.inspectionQuestions.length; i++) {
+            this.setState({[this.props.inspectionQuestions[i]._id]: true});
         }
-        console.log(this.state)
+        this.setState({OSS: this.state.OSS = this.props.inspectionQuestions.length});
+        this.getCurrentLoacation();
     };
 
     resetForm = () => {
@@ -46,13 +52,30 @@ class InspectionModal extends Component {
         setTimeout(() => {
             rotateElem.style.transform = "rotateY(0deg)";
             this.props.closeInspectionModal()
+            this.props.findSellers(0);
         }, 3000);
     };
 
     handleSubmit = (e) => {
         e.preventDefault();
-        this.resetForm()
 
+        const inspectionQuestionsArr=this.props.inspectionQuestions.map((elem)=>elem.question);
+
+        const inspection={
+            operatorName: this.props.editSeller.operatorName,
+            sellerName: this.props.editSeller.name,
+            sellerPhoto: this.props.editSeller.photo,
+            license: this.props.editSeller.license,
+            foodGroup: this.props.editSeller.foodGroup,
+            GPS:{
+                lat: this.state.lat,
+                lng: this.state.lng,
+            },
+            questions: inspectionQuestionsArr,
+            OSS:this.state.OSS
+        };
+
+        this.props.registerInspection(inspection,this.resetForm);
     };
 
     componentWillReceiveProps(nextProps) {
@@ -71,30 +94,28 @@ class InspectionModal extends Component {
         const InspectionQuestionsList = () => {
             const questionsArr = this.props.inspectionQuestions.map((elem) => {
                 const questionsList =
-                    <div key={elem.question} >
+                    <div key={elem.question}>
                         <label>{elem.question}</label>
-                        <label className={'radioLabel'}>
-                            <input
-                                type="radio"
-                                onChange={this.handleOSSPlus}
-                                name={elem._id}
-                                checked={this.state.status[elem._id]}
-                            />
-                            Good
-                        </label>
-                        <label className={'radioLabel'}>
-                            <input
-                                type="radio"
-                                onChange={this.handleOSSMinus}
-                                name={elem._id}
-                                checked={!this.state.status[elem._id]}
-                            />
-                            Bad</label>
+                        <input
+                            type="radio"
+                            onChange={this.handleOSSPlus}
+                            name={elem._id}
+                            checked={this.state[elem._id]}
+                            required
+                        />
+                        Good
+                        <input
+                            type="radio"
+                            onChange={this.handleOSSMinus}
+                            name={elem._id}
+                            checked={!this.state[elem._id]}
+                        />
+                        Bad
                     </div>;
 
                 return questionsList
             });
-            return <div className={'inspectionFormModalRadio'}>{questionsArr}</div>
+            return <Fragment>{questionsArr}</Fragment>
         };
 
         return (
@@ -112,8 +133,8 @@ class InspectionModal extends Component {
                             <strong>X</strong>
                         </button>
                     </div>
-                    <form onSubmit={this.handleSubmit} className={'sellerForm'}>
-                        <div className='sellerformSection'>
+                    <form onSubmit={this.handleSubmit} className={'inspectionModalSellerForm'}>
+                        <div className='inspectionModalSection'>
 
                             <div className={'sellerPhoto'}>
                                 <img alt={this.props.editSeller.photo}
@@ -176,13 +197,15 @@ class InspectionModal extends Component {
                                 value={this.props.editSeller.foodGroup}
                                 disabled={true}
                             />
+                        </div>
+                        <div className='inspectionModalRadioSection'>
                             <InspectionQuestionsList
                             />
-                            <button type="submit" className="btnSellerFormSubmit">
-                                Submit
-                            </button>
-
+                            <h1>OOS: {this.state.OSS}</h1>
                         </div>
+                        <button type="submit" className="btnSellerFormSubmit">
+                            Submit
+                        </button>
                     </form>
                 </div>
 
@@ -200,7 +223,7 @@ InspectionModal.propTypes = {};
 
 const mapStateToProps = state => ({
     errors: state.errors,
-    inspectionQuestions:state.inspectionQuestions
+    inspectionQuestions: state.inspectionQuestions
 });
 
 export default connect(mapStateToProps, {registerInspection, getInspectionQuestions})(withRouter(InspectionModal))
