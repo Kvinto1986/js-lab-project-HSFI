@@ -13,9 +13,10 @@ const UsersNav = ({user, isAuthenticated}) => {
             <Link className="usersNavigationContainerLink" to="/calls">Calls</Link></li>);
         if (Array.from(user.tasks).includes('inspection')) list.push(<li key={'inspection'}>
             <Link className="usersNavigationContainerLink" to="/inspection">Inspection</Link></li>);
+        if (user.role === 'manager'||user.role === 'coordinator') list.push(<li key={'report'}>
+            <Link className="usersNavigationContainerLink" to="/report">Report</Link></li>);
         if (user.role === 'manager') list.push(<li key={'admin'}>
             <Link className="usersNavigationContainerLink" to="/admin">Admin page</Link></li>);
-
         return (
             <div className="usersNavigationContainer">
                 <ul>

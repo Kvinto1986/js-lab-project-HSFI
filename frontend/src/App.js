@@ -15,6 +15,7 @@ import NewSeller from './components/createSeller/createNewSeller';
 import Call from './components/calls/calls';
 import Inspection from './components/inspection/inspection';
 import AdminPage from './components/admin/adminPage';
+import Report from './components/report/report';
 import Profile from './components/profile/profile';
 
 if (localStorage.jwtToken) {
@@ -37,6 +38,7 @@ class App extends Component {
                         <Route exact path='/sellerCards' component={SellerCard}/>
                         <Route exact path="/calls" component={Call}/>
                         <Route exact path="/inspection" component={Inspection}/>
+                        <Route exact path="/report" component={Report}/>
                         <Route exact path="/admin" component={AdminPage}/>
                         <Route exact path="/registration" component={UserRegistration}/>
                         <Route exact path="/login" component={Login}/>

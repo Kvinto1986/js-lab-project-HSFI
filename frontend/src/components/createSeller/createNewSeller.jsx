@@ -455,7 +455,7 @@ class NewSeller extends Component {
                                             onSelect={this.onSelectLocation}
                                             GPS={this.state.GPS}
                                             handleMapVisibility={this.handleMapVisibility}
-                                            mapContainerClass={'sellerMapContainer'}
+                                            mapContainerClass={'sellerCreateMapContainer'}
                                             mapClass={'sellerMap'}
                                             btnMapClass={'btnSellerCheckMap'}
                                         />

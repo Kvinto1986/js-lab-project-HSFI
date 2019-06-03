@@ -80,7 +80,7 @@ const SellersTable = ({
                 <SellersMapContainer
                     sellers={userList}
                     location={location}
-                    openModal={openSellerEditModal}
+                    openModal={openInspectionModal}
                 />
             </Fragment>
         )

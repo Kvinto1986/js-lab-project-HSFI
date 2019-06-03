@@ -17,6 +17,7 @@ const cards = require('./routes/cardRoute');
 const calls = require('./routes/callRoute');
 const inspections = require('./routes/inspectionRoute');
 const inspectionQuestions = require('./routes/inspectionQuestionRoute');
+const reports = require('./routes/reportRoute');
 
 
 mongoose.connect(config.DB, { useNewUrlParser: true }).then(
@@ -42,6 +43,7 @@ app.use('/api/sellerCards', cards);
 app.use('/api/calls', calls);
 app.use('/api/inspections', inspections);
 app.use('/api/inspectionQuestions', inspectionQuestions);
+app.use('/api/reports', reports);
 
 const PORT = process.env.PORT || 5000;
 

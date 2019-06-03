@@ -11,7 +11,6 @@ import {getFood, registerFood} from "../../actions/foodAction";
 import {getInspectionQuestions, registerInspectionQuestion} from "../../actions/inspectionQuestionsAction";
 import countriesArr from "../../resourses/countries";
 import './adminStyles.css'
-import ModalWindow from './modalAdmin'
 import {geocodeByAddress, getLatLng} from "react-places-autocomplete";
 import MapAutocomplete from "../map/mapAutocomplete";
 

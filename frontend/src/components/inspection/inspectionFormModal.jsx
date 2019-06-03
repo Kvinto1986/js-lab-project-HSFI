@@ -51,7 +51,7 @@ class InspectionModal extends Component {
         rotateElem.style.transform = "rotateY(180deg)";
         setTimeout(() => {
             rotateElem.style.transform = "rotateY(0deg)";
-            this.props.closeInspectionModal()
+            this.props.closeInspectionModal();
             this.props.findSellers(0);
         }, 3000);
     };
