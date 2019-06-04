@@ -10,6 +10,8 @@ import {getReport} from '../../actions/reportActions';
 
 import Select from "react-select";
 
+import ReportTable from "./reportTable";
+
 import './reportStyles.css'
 
 
@@ -17,16 +19,18 @@ class Report extends Component {
     state = {
         country: [],
         city: [],
-        foodGroup: '',
+        foodGroup: [],
         startDate: '',
         endDate: '',
         regSellers: true,
         OSSaverage: true,
-        flag:true,
-        stars:true,
-        calls:true,
-        cards:true,
-        total:true
+        flag: true,
+        stars: true,
+        calls: true,
+        cards: true,
+        total: true,
+        errors: {},
+        reportTable: false
     };
 
     handleInputChange = (e) => {
@@ -53,27 +57,32 @@ class Report extends Component {
     };
 
     handleChangeFood = (foodGroup) => {
-        this.setState({foodGroup: foodGroup});
+        this.setState({foodGroup});
     };
+
 
 
     handleSubmitSearch = (e) => {
         e.preventDefault();
 
-        const report={
-            startDate:this.state.startDate,
-            endDate:this.state.endDate,
-            country:this.state.country,
-            city:this.state.city,
-            foodGroup:this.state.foodGroup,
+        const report = {
+            startDate: this.state.startDate,
+            endDate: this.state.endDate,
+            country: this.state.country,
+            city: this.state.city,
+            foodGroup: this.state.foodGroup,
             regSellers: this.state.regSellers,
             OSSaverage: this.state.OSSaverage,
-            flag:this.state.flag,
-            stars:this.state.stars,
-            calls:this.state.calls,
-            cards:this.state.cards,
-            total:this.state.total
+            flag: this.state.flag,
+            stars: this.state.stars,
+            calls: this.state.calls,
+            cards: this.state.cards,
+            total: this.state.total
         };
+
+        this.setState({
+            reportTable: true
+        });
 
         this.props.getReport(report);
     };
@@ -96,27 +105,33 @@ class Report extends Component {
         const {country} = this.state.country;
         const {city} = this.state.city;
         const {foodGroup} = this.state.foodGroup;
+        const {errors} = this.state;
 
         if (isAuthenticated) {
             return (
                 <div className={'reportMainContainer'}>
                     <form className={'reportSearchForm'} onSubmit={this.handleSubmitSearch}>
+                        <h1>Search options</h1>
                         <div className={'reportSearchFormSection'}>
-                                <label>From</label>
-                                <input
-                                    type={'date'}
-                                    onChange={this.handleInputChange}
-                                    value={this.state.startDate}
-                                    name={'startDate'}
-                                />
-                                <label>To</label>
-                                <input
-                                    type={'date'}
-                                    onChange={this.handleInputChange}
-                                    value={this.state.endDate}
-                                    name={'endDate'}
-                                />
-                            </div>
+                            <label>From</label>
+                            <input
+                                type={'date'}
+                                onChange={this.handleInputChange}
+                                value={this.state.startDate}
+                                name={'startDate'}
+                            />
+                            <label>To</label>
+                            <input
+                                type={'date'}
+                                onChange={this.handleInputChange}
+                                value={this.state.endDate}
+                                name={'endDate'}
+                            />
+                        </div>
+                        {errors.startDate && (
+                            <div className="invalidFeedback">{errors.startDate}</div>)}
+                        {errors.endDate && (
+                            <div className="invalidFeedback">{errors.endDate}</div>)}
 
                         <div className={'reportSearchFormSection'}>
                             <label>Select countries</label>
@@ -147,6 +162,8 @@ class Report extends Component {
                         <div className={'reportSearchFormSection'}>
                             <label>Select food group</label>
                             <Select
+                                isMulti
+                                joinValues
                                 options={this.props.food}
                                 placeholder={'Select food group...'}
                                 value={foodGroup}
@@ -156,42 +173,42 @@ class Report extends Component {
                         </div>
 
                         <div className={'reportSearchFormSection'}>
-                                <label>Registered sellers</label>
-                                <input
-                                    type="radio"
-                                    checked={this.state.regSellers}
-                                    onChange={this.handleRadioChange}
-                                    name={'regSellers'}
-                                />
-                                Yes
+                            <label>Registered sellers</label>
+                            <input
+                                type="radio"
+                                checked={this.state.regSellers}
+                                onChange={this.handleRadioChange}
+                                name={'regSellers'}
+                            />
+                            Yes
 
-                                <input
-                                    type="radio"
-                                    checked={!this.state.regSellers}
-                                    onChange={this.handleRadioChange}
-                                    name={'regSellers'}
-                                />
-                                No
-                            </div>
+                            <input
+                                type="radio"
+                                checked={!this.state.regSellers}
+                                onChange={this.handleRadioChange}
+                                name={'regSellers'}
+                            />
+                            No
+                        </div>
 
 
                         <div className={'reportSearchFormSection'}>
-                                <label>OSS average value</label>
-                                <input
-                                    type="radio"
-                                    checked={this.state.OSSaverage}
-                                    onChange={this.handleRadioChange}
-                                    name={'OSSaverage'}
-                                />
-                                Yes
+                            <label>OSS average value</label>
+                            <input
+                                type="radio"
+                                checked={this.state.OSSaverage}
+                                onChange={this.handleRadioChange}
+                                name={'OSSaverage'}
+                            />
+                            Yes
 
-                                <input
-                                    type="radio"
-                                    checked={!this.state.OSSaverage}
-                                    onChange={this.handleRadioChange}
-                                    name={'OSSaverage'}
-                                />
-                                No
+                            <input
+                                type="radio"
+                                checked={!this.state.OSSaverage}
+                                onChange={this.handleRadioChange}
+                                name={'OSSaverage'}
+                            />
+                            No
 
                         </div>
 
@@ -294,7 +311,13 @@ class Report extends Component {
                         <button type='submit'>Search</button>
                     </form>
 
-                </div>)
+                    <ReportTable
+                        reportTable={this.state.reportTable}
+                        report={this.props.report}
+                    />
+                </div>
+
+            )
         } else return (<Redirect to={{
             pathname: '/login',
         }}/>)
@@ -305,10 +328,9 @@ const mapStateToProps = state => ({
     auth: state.auth,
     errors: state.errors,
     countries: state.countries,
-    users: state.users,
-    sellers: state.sellers,
     cities: state.cities,
-    food: state.food
+    report: state.report,
+    food:state.food
 });
 
 
