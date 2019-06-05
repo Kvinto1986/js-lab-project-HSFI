@@ -135,7 +135,7 @@ class InspectionModal extends Component {
 
                 <div className="inspectionModalFormFront">
                     <div className="inspectionModalH">
-                        <h1>Edit seller details </h1>
+                        <h1>Seller inspection</h1>
                         <button className={'closeModalButton'} onClick={this.props.closeInspectionModal}>
                             <strong>X</strong>
                         </button>

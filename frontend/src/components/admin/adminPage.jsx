@@ -13,7 +13,6 @@ import countriesArr from "../../resourses/countries";
 import './adminStyles.css'
 import {geocodeByAddress, getLatLng} from "react-places-autocomplete";
 import MapAutocomplete from "../map/mapAutocomplete";
-import currencyList from "../../resourses/currency";
 
 
 Modal.setAppElement('#root');
@@ -75,7 +74,7 @@ class Admin extends Component {
         const country = {
             country: this.state.country
         };
-            console.log(this.state.country);
+            console.log(this.state.country)
         this.props.registerCountry(country, this.resetForm)
     };
 
@@ -199,7 +198,7 @@ class Admin extends Component {
                             contentLabel="Modal"
                             className={'modal'}
                         >
-                            <button name={"countryModal"} onClick={this.closeModal}>close</button>
+                            <button name={"countryModal"} className={"closeModalBtn"} onClick={this.closeModal}>X</button>
                             <h2>Select a country from the list</h2>
                             <Select
                                 options={countriesArr}
@@ -209,7 +208,7 @@ class Admin extends Component {
                                 className={'countrySelect'}
                             />
                             {errors.country && (<div className="invalidFeedback">{errors.country}</div>)}
-                            <button onClick={this.handleSubmitCountry}>Send</button>
+                            <button onClick={this.handleSubmitCountry} className={"submitModalBtn"}>Send</button>
                         </Modal>
 
                         <Modal
@@ -218,7 +217,7 @@ class Admin extends Component {
                             contentLabel="Modal"
                             className={'modal'}
                         >
-                            <button name={"foodModal"} onClick={this.closeModal}>close</button>
+                            <button name={"foodModal"} className={"closeModalBtn"} onClick={this.closeModal}>X</button>
                             <h2>Enter food group </h2>
                             <input
                                 type="text"
@@ -229,7 +228,7 @@ class Admin extends Component {
                                 className={'registerFormInput'}
                             />
                             {errors.food && (<div className="invalidFeedback">{errors.food}</div>)}
-                            <button onClick={this.handleSubmitFood}>Send</button>
+                            <button onClick={this.handleSubmitFood} className={"submitModalBtn"}>Send</button>
                         </Modal>
 
                         <Modal
@@ -238,7 +237,7 @@ class Admin extends Component {
                             contentLabel="Modal"
                             className={'modal'}
                         >
-                            <button name={"questionModal"} onClick={this.closeModal}>close</button>
+                            <button name={"questionModal"} className={"closeModalBtn"} onClick={this.closeModal}>X</button>
                             <h2>Enter question</h2>
                             <input
                                 type="text"
@@ -249,7 +248,7 @@ class Admin extends Component {
                                 className={'registerFormInput'}
                             />
                             {errors.question && (<div className="invalidFeedback">{errors.question}</div>)}
-                            <button onClick={this.handleSubmitQuestion}>Send</button>
+                            <button onClick={this.handleSubmitQuestion} className={"submitModalBtn"}>Send</button>
                         </Modal>
 
 
@@ -258,11 +257,11 @@ class Admin extends Component {
                             isOpen={this.state.organizationModal}
                             onRequestClose={this.closeModal}
                             contentLabel="Modal"
-                            className={'modal'}
+                            className={'modalMap'}
                         >
-                            <button name={"organizationModal"} onClick={this.closeModal}>close</button>
+                            <button name={"organizationModal"} className={"closeModalBtn"} onClick={this.closeModal}>X</button>
                             <h2>Enter organization</h2>
-
+                            <label>Organization</label>
                             <input
                                 type="text"
                                 placeholder="Organization"
@@ -281,17 +280,17 @@ class Admin extends Component {
                                 onSelect={this.handleOrganizationLocation}
                                 GPS={this.state.newOrganizationGPS}
                                 handleMapVisibility={this.handleMapVisibility}
+                                mapClass={'userMap'}
+                                mapContainerClass={'adminMap'}
+                                btnMapClass={'adminMapBtn'}
+
                             />
 
-                            <button onClick={this.handleSubmitOrganization}>Send</button>
+                            <button onClick={this.handleSubmitOrganization} className={"submitModalBtn"}>Send</button>
                         </Modal>
 
 
                     </div>
-                    <Select
-                        placeholder={'Select operator name'}
-                        className={'cardFormSelect'}
-                    />
                     <SendSuccess
                     />
                 </div>

@@ -34,8 +34,6 @@
     border-radius: 10px;
 }
 
-
-
 .inspectionSearchFormSection{
     display: flex;
     flex-wrap: wrap;
@@ -50,7 +48,6 @@
     margin: 1% 1% 1% 1%;
 
 }
-
 
 .inspectionRadioFormSection{
     display: flex;
