@@ -57,7 +57,7 @@ router.post('/getReport', function (req, res) {
             const sellersOOS = sellers.reduce((sum, current) => {
                 return sum + current.OSS;
             }, 0);
-            reportResult.OSSaverage = sellersOOS / sellers.length
+            reportResult.OSSaverage = (sellersOOS / sellers.length).toFixed(2)
         }
 
         if (reportReq.flag) {
@@ -71,7 +71,7 @@ router.post('/getReport', function (req, res) {
             const sellersStars = sellers.reduce((sum, current) => {
                 return sum + current.stars;
             }, 0);
-            reportResult.stars = sellersStars / sellers.length
+            reportResult.stars = (sellersStars / sellers.length).toFixed(2)
         }
 
     }).then(() => {

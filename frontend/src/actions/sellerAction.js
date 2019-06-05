@@ -24,8 +24,8 @@ export const registerSeller = (user, reset) => dispatch => {
         });
 };
 
-export const getSellersLicenses = () => dispatch =>{
-    axios.post('/api/sellers/getSellersLicenses')
+export const getSellersLicenses = (country) => dispatch =>{
+    axios.post('/api/sellers/getSellersLicenses',country)
         .then(res => {
             dispatch({
                 type: GET_CURRENT_SELLERS_LICENSES,

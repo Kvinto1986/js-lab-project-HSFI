@@ -95,6 +95,10 @@ router.post('/login', (req, res) => {
                 errors.email = 'User not found'
                 return res.status(404).json(errors);
             }
+            if (user.confirmation===false) {
+                errors.confirmation = 'Need confirmation (contact your supervisor)';
+                return res.status(404).json(errors);
+            }
             bcrypt.compare(password, user.password)
                 .then(isMatch => {
                     if (isMatch) {
@@ -211,15 +215,28 @@ router.post('/getUsers', function (req, res) {
         limit: 4,
     };
 
-    let userRole='';
+    const confirmUsers={
+        confirmation: false
+    };
+
+    if(req.body.country){
+        confirmUsers.country=req.body.country
+    }
+
 
     if (req.body.role === 'manager') {
-        userRole = 'coordinator'
+        confirmUsers.role = 'coordinator'
     }
     if (req.body.role === 'coordinator') {
-        userRole = 'operator'
+        confirmUsers.role = 'operator'
     }
-    User.paginate({role: userRole, confirmation: false}, options, function (err, result) {
+
+    if (req.body.role === 'operator') {
+        confirmUsers.role = ''
+    }
+
+    User.paginate(confirmUsers, options, function (err, result) {
+        console.log(confirmUsers);
         res.send(result);
     });
 });

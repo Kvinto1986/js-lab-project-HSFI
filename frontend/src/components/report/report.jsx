@@ -61,14 +61,13 @@ class Report extends Component {
     };
 
 
-
     handleSubmitSearch = (e) => {
         e.preventDefault();
 
         const report = {
             startDate: this.state.startDate,
             endDate: this.state.endDate,
-            country: this.state.country,
+            country: [],
             city: this.state.city,
             foodGroup: this.state.foodGroup,
             regSellers: this.state.regSellers,
@@ -79,6 +78,12 @@ class Report extends Component {
             cards: this.state.cards,
             total: this.state.total
         };
+
+        if (this.props.auth.user.role !== 'manager') {
+            report.country[0] = {value: this.props.auth.user.country}
+        } else {
+            report.country = this.state.country
+        }
 
         this.setState({
             reportTable: true
@@ -96,6 +101,12 @@ class Report extends Component {
     }
 
     componentDidMount = () => {
+        if (this.props.auth.user.role === 'manager') {
+            this.props.getCountry();
+        } else {
+            const countryObj = {country: this.props.auth.user.country};
+            this.props.getCities(countryObj);
+        }
         this.props.getCountry();
         this.props.getFood();
     };
@@ -107,7 +118,7 @@ class Report extends Component {
         const {foodGroup} = this.state.foodGroup;
         const {errors} = this.state;
 
-        if (isAuthenticated) {
+        if (isAuthenticated && user.role !== 'operator') {
             return (
                 <div className={'reportMainContainer'}>
                     <form className={'reportSearchForm'} onSubmit={this.handleSubmitSearch}>
@@ -135,7 +146,13 @@ class Report extends Component {
 
                         <div className={'reportSearchFormSection'}>
                             <label>Select countries</label>
-                            <Select
+                            {user.role !== 'manager' ? (<Select
+                                options={this.props.countries}
+                                placeholder={user.country}
+                                value={user.country}
+                                isDisabled={true}
+                                className={'reportSelect'}
+                            />) : <Select
                                 isMulti
                                 joinValues
                                 options={this.props.countries}
@@ -144,6 +161,7 @@ class Report extends Component {
                                 onChange={this.handleChangeCountry}
                                 className={'reportSelect'}
                             />
+                            }
                         </div>
 
                         <div className={'reportSearchFormSection'}>
@@ -289,7 +307,7 @@ class Report extends Component {
                         </div>
 
                         <div className={'reportSearchFormSection'}>
-                            <label>Total income</label>
+                            <label>Total profit on cards</label>
                             <input
                                 type="radio"
                                 checked={this.state.total}
@@ -330,7 +348,7 @@ const mapStateToProps = state => ({
     countries: state.countries,
     cities: state.cities,
     report: state.report,
-    food:state.food
+    food: state.food
 });
 
 

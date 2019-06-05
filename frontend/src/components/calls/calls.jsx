@@ -83,7 +83,7 @@ class Calls extends Component {
         const serialsArr = this.props.cards;
         const {serialSelect} = this.state.serial;
 
-        if (isAuthenticated) {
+        if (isAuthenticated && user.tasks.includes('getCall')) {
             return (
                 <div className={'callsMainContainer'}>
                     <div className='callsFormInner' id='callsFormInner'>

@@ -215,7 +215,6 @@ class NewSeller extends Component {
 
         const seller = {
             operatorName: this.props.auth.user.name,
-            country: this.state.country,
             name: this.state.name,
             photo: '',
             phone: this.state.phone,
@@ -238,6 +237,13 @@ class NewSeller extends Component {
         }
         if (this.state.photoLicense.name) {
             seller.photoLicense = this.state.email + '-' + this.state.photoLicense.name
+        }
+        if(this.props.auth.user.role!=='manager'){
+            seller.country=this.props.auth.user.country
+        }
+
+        if(this.props.auth.user.role==='manager'){
+            seller.country=this.state.country
         }
 
         this.props.registerSeller(seller, this.resetForm);
@@ -264,7 +270,7 @@ class NewSeller extends Component {
         const {countrySelect} = this.state.country;
         const {foodSelect} = this.state.foodGroup;
 
-        if (isAuthenticated) {
+        if (isAuthenticated && user.tasks.includes('createNewSeller')) {
             return (
                 <div className="sellerMainContainer">
                     <div className='sellerFormInner' id='sellerFormInner'>
@@ -292,13 +298,19 @@ class NewSeller extends Component {
                                     {errors.name && (<div className="invalidFeedback">{errors.name}</div>)}
 
                                     <label>Country</label>
-                                    <Select
+                                    {user.role!=='manager'?(
+                                        <Select
+                                        placeholder={user.country}
+                                        value={user.country}
+                                        className={'sellerFormSelect'}
+                                        isDisabled={true}
+                                    />):<Select
                                         options={this.props.countries}
                                         placeholder={'Select country...'}
                                         value={countrySelect}
                                         onChange={this.handleChangeCountry}
                                         className={'sellerFormSelect'}
-                                    />
+                                    />}
                                     {errors.country && (<div className="invalidFeedback">{errors.country}</div>)}
 
                                     <label>City</label>

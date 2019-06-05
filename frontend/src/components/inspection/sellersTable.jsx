@@ -30,6 +30,7 @@ const SellersTable = ({
         for (let i = 0; i < userList.length; i++) {
             for (let j = 0; j < userList[i].schedule.length; j++) {
                 if (userList[i].schedule[j].workingDays.includes(nowDay)) {
+
                     location.push(userList[i].schedule[j].GPS)
                 }
             }
@@ -74,6 +75,7 @@ const SellersTable = ({
                             closeInspectionModal={closeInspectionModal}
                             editSeller={editSeller}
                             findSellers={findSellers}
+                            day={nowDay}
                         />)}
 
                 </div>

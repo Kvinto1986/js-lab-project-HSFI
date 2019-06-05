@@ -62,7 +62,7 @@ class InspectionModal extends Component {
         const inspectionQuestionsArr=this.props.inspectionQuestions.map((elem)=>elem.question);
 
         const inspection={
-            operatorName: this.props.editSeller.operatorName,
+            operatorName: this.props.auth.user.name,
             sellerName: this.props.editSeller.name,
             sellerPhoto: this.props.editSeller.photo,
             license: this.props.editSeller.license,
@@ -74,6 +74,12 @@ class InspectionModal extends Component {
             questions: inspectionQuestionsArr,
             OSS:this.state.OSS
         };
+
+        for(let i=0;i<this.props.editSeller.schedule.length;i++){
+            if(this.props.editSeller.schedule[i].workingDays.includes(this.props.day)){
+                inspection.sellerGPS=this.props.editSeller.schedule[i].GPS
+            }
+        }
 
         this.props.registerInspection(inspection,this.resetForm);
     };
@@ -88,6 +94,7 @@ class InspectionModal extends Component {
 
     componentDidMount() {
         this.props.getInspectionQuestions(this.radioStatus);
+        console.log(this.props)
     }
 
     render() {
@@ -222,6 +229,7 @@ class InspectionModal extends Component {
 InspectionModal.propTypes = {};
 
 const mapStateToProps = state => ({
+    auth: state.auth,
     errors: state.errors,
     inspectionQuestions: state.inspectionQuestions
 });

@@ -13,6 +13,7 @@ import countriesArr from "../../resourses/countries";
 import './adminStyles.css'
 import {geocodeByAddress, getLatLng} from "react-places-autocomplete";
 import MapAutocomplete from "../map/mapAutocomplete";
+import currencyList from "../../resourses/currency";
 
 
 Modal.setAppElement('#root');
@@ -74,7 +75,7 @@ class Admin extends Component {
         const country = {
             country: this.state.country
         };
-            console.log(this.state.country)
+            console.log(this.state.country);
         this.props.registerCountry(country, this.resetForm)
     };
 
@@ -287,6 +288,10 @@ class Admin extends Component {
 
 
                     </div>
+                    <Select
+                        placeholder={'Select operator name'}
+                        className={'cardFormSelect'}
+                    />
                     <SendSuccess
                     />
                 </div>

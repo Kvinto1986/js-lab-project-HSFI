@@ -23,6 +23,7 @@ router.post('/registration', function(req, res) {
                 license: req.body.license,
                 foodGroup: req.body.foodGroup,
                 GPS:req.body.GPS,
+                sellerGPS:req.body.sellerGPS,
                 questions: req.body.questions,
                 OSS:req.body.OSS
             });

@@ -80,7 +80,7 @@ class Login extends Component {
                     required
                     />
                     {errors.password && (<div className="invalidFeedback">{errors.password}</div>)}
-
+                    {errors.confirmation && (<div className="invalidFeedback">{errors.confirmation}</div>)}
                     <button type="submit" className="btnLoginFormSubmit">
                         Login
                     </button>

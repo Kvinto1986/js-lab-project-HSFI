@@ -5,9 +5,11 @@ import Select from 'react-select'
 
 import currencyList from '../../resourses/currency';
 
+import { Document, Page } from 'react-pdf';
+
 const CardForm = ({
                       user, seller, errors, handleSubmit,
-                      handleInputChange, cardsCount, cost, handleChangeCurrency, currency
+                      handleInputChange, cardsCount, cost, handleChangeCurrency, currency,total,onDocumentLoad
                   }) => {
     if (seller) {
         return (
@@ -48,12 +50,12 @@ const CardForm = ({
                 <Select
                     options={currencyList}
                     placeholder={'Select currency...'}
-                    value={currency}
                     onChange={handleChangeCurrency}
                     className={'cardFormSelect'}
                 />
 
                 {errors.currency && (<div className="invalidFeedback">{errors.currency}</div>)}
+                <h2>Total cost: {total} {currency}</h2>
                 <button type="submit" className={'btnSubmit'} onClick={handleSubmit}>
                     Submit
                 </button>

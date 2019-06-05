@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const InspectionSchema = new Schema({
-    operatorName:{
+    operatorName: {
         type: String,
         required: true
     },
@@ -11,11 +11,11 @@ const InspectionSchema = new Schema({
         type: String,
         required: true
     },
-    sellerPhoto:{
-        default:String,
+    sellerPhoto: {
+        default: String,
         type: String,
     },
-    license:{
+    license: {
         type: String,
         required: true
     },
@@ -24,16 +24,20 @@ const InspectionSchema = new Schema({
         type: String,
         required: true
     },
-    questions:{
+    questions: {
         type: Array,
         required: true
     },
-    GPS:{
+    GPS: {
         type: Object,
         required: true
     },
-    OSS:{
+    OSS: {
         type: Number,
+        required: true
+    },
+    sellerGPS: {
+        type: Object,
         required: true
     },
     date: {

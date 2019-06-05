@@ -61,7 +61,8 @@ router.post('/registration', function (req, res) {
 });
 
 router.post('/getSellersLicenses', function (req, res) {
-    Seller.find({}, function (err, seller) {
+    console.log(req.body)
+    Seller.find(req.body, function (err, seller) {
         const arr = seller.map(function (elem) {
             const newElem = {};
             newElem.value = elem.license;

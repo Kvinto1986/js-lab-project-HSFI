@@ -22,18 +22,30 @@ class NewCard extends Component {
     state = {
         license: "",
         seller: null,
-        cardsCount: '',
+        cardsCount: 0,
         cardSerial: '',
-        cost: '',
-        currency: '',
-        errors: {}
+        cost: 0,
+        currency: "",
+        errors: {},
+        total:0
     };
 
     handleInputChange = (e) => {
-        this.setState({
-            [e.target.name]: e.target.value
+        if(e.target.name==='cardsCount'){
+            this.setState({
+                total: this.state.cost*e.target.value
+            });
+        }
 
-        })
+        if(e.target.name==='cost'){
+            this.setState({
+                total: this.state.cardsCount*e.target.value
+            });
+        }
+
+            this.setState({
+                [e.target.name]: e.target.value
+            });
     };
 
     handleChangeLicense = (licenseSelect) => {
@@ -44,7 +56,6 @@ class NewCard extends Component {
         this.setState({
             currency: currencySelect.value
         });
-
     };
 
     resetForm = () => {
@@ -92,7 +103,14 @@ class NewCard extends Component {
     }
 
     componentDidMount() {
-        this.props.getSellersLicenses();
+        if (this.props.auth.user.role !== 'manager') {
+            const country={
+                country:this.props.auth.user.country
+            }
+            this.props.getSellersLicenses(country);
+        } else {
+            this.props.getSellersLicenses();
+        }
     }
 
     render() {
@@ -100,7 +118,7 @@ class NewCard extends Component {
         const {errors} = this.state;
         const {licenseSelect} = this.state.license;
 
-        if (isAuthenticated) {
+        if (isAuthenticated && user.tasks.includes('createSellerCard')) {
 
             return (
 
@@ -131,6 +149,7 @@ class NewCard extends Component {
                                     cost={this.state.cost}
                                     handleChangeCurrency={this.handleChangeCurrency}
                                     currency={this.state.currency}
+                                    total={this.state.total}
                                 />
 
                             </div>

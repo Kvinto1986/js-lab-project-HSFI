@@ -91,7 +91,7 @@ class Inspection extends Component {
 
         const sellersParams = {
             sellers: {
-                country:this.state.country,
+                country:[],
                 city:this.state.city,
                 foodGroup:this.state.foodGroup,
                 stars:this.state.stars,
@@ -101,7 +101,15 @@ class Inspection extends Component {
             status:this.state.status,
         };
 
-        this.props.findSellers(sellersParams)
+        if(this.props.auth.user.role!=='manager'){
+            sellersParams.sellers.country[0]={value:this.props.auth.user.country}
+        }
+        else {
+            sellersParams.sellers.country=this.state.country
+        }
+
+        this.props.findSellers(sellersParams);
+        console.log(sellersParams)
     };
 
 
@@ -120,7 +128,13 @@ class Inspection extends Component {
     }
 
     componentDidMount = () => {
-        this.props.getCountry();
+        if(this.props.auth.user.role==='manager'){
+            this.props.getCountry();
+        }
+        else {
+            const countryObj = {country: this.props.auth.user.country};
+            this.props.getCities(countryObj);
+        }
         this.props.getFood();
     };
 
@@ -130,13 +144,19 @@ class Inspection extends Component {
         const {city} = this.state.city;
         const {foodGroup} = this.state.foodGroup;
 
-        if (isAuthenticated) {
+        if (isAuthenticated && user.tasks.includes('inspection')) {
             return (
                 <div className={'inspectionMainContainer'}>
                     <form className={'inspectionSearchForm'} onSubmit={this.handleSubmitSearch}>
                         <div className={'inspectionSearchFormSection'}>
                             <label>Select countries</label>
-                            <Select
+                            {user.role!=='manager'?(<Select
+                                options={this.props.countries}
+                                placeholder={user.country}
+                                value={user.country}
+                                isDisabled={true}
+                                className={'inspectionFormSelect'}
+                            />): <Select
                                 isMulti
                                 joinValues
                                 options={this.props.countries}
@@ -144,7 +164,7 @@ class Inspection extends Component {
                                 value={country}
                                 onChange={this.handleChangeCountry}
                                 className={'inspectionFormSelect'}
-                            />
+                            />}
                         </div>
 
                         <div className={'inspectionSearchFormSection'}>

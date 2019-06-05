@@ -93,7 +93,12 @@ class Profile extends Component {
             page: this.state.page+=num
         };
 
+        if(this.props.auth.user.role==='coordinator'){
+            confirmUsersRole.country=this.props.auth.user.country
+        }
+
         this.props.getUsers(confirmUsersRole);
+        console.log(confirmUsersRole)
     };
 
     handleConfirmUser =  (user)=> {
