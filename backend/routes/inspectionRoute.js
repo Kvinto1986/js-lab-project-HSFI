@@ -13,6 +13,9 @@ router.post('/registration', function(req, res) {
             seller.flagCount=0;
             seller.archived="red flagged";
         }
+        if(req.body.OSS<0){
+            seller.stars-=1;
+        }
          seller.OSS=seller.OSS+req.body.OSS;
          seller.save()
     });
@@ -33,4 +36,38 @@ router.post('/registration', function(req, res) {
                     res.json(inspection)
                 });
 });
+
+router.post('/getInspectionsOperators', function(req, res) {
+    Inspection.find({}, function(err, inspections) {
+        const inspectionsArr = inspections.map(function (elem) {
+            return elem.operatorName
+        });
+
+        const uniqueOperatorNameArr = [...new Set(inspectionsArr)];
+        console.log(uniqueOperatorNameArr)
+
+        const arr=uniqueOperatorNameArr.map(function (elem) {
+            const newElem={};
+            newElem.value=elem;
+            newElem.label=elem;
+            return newElem
+        });
+        res.send(arr);
+    });
+});
+
+router.post('/getInspections', function(req, res) {
+    Inspection.find(req.body, function(err, inspections) {
+
+        const arr=inspections.map(function (elem) {
+            const newElem={};
+            newElem.sellerName=elem.sellerName;
+            newElem.sellerGPS=elem.sellerGPS;
+            newElem.GPS=elem.GPS;
+            return newElem
+        });
+        res.send(arr);
+    });
+});
+
 module.exports = router;

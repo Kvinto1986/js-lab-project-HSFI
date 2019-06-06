@@ -1,5 +1,5 @@
 import axios from 'axios';
-import {GET_ERRORS} from './types';
+import {GET_CURRENT_INSPECTION_GPS, GET_CURRENT_INSPECTION_OPERATORS, GET_ERRORS} from './types';
 
 export const registerInspection = (inspection, reset) => dispatch => {
     axios.post('/api/inspections/registration', inspection)
@@ -14,6 +14,26 @@ export const registerInspection = (inspection, reset) => dispatch => {
             dispatch({
                 type: GET_ERRORS,
                 payload: err.response.data
+            });
+        });
+};
+
+export const getInspectionsOperators = () => dispatch => {
+    axios.post('/api/inspections/getInspectionsOperators')
+        .then(res => {
+            dispatch({
+                type: GET_CURRENT_INSPECTION_OPERATORS,
+                payload: res.data
+            });
+        });
+};
+
+export const getInspectionsGPS = (operator) => dispatch => {
+    axios.post('/api/inspections/getInspections', operator)
+        .then(res => {
+            dispatch({
+                type: GET_CURRENT_INSPECTION_GPS,
+                payload: res.data
             });
         });
 };

@@ -222,6 +222,7 @@ router.post('/getCities', function (req, res) {
 
         const uniqueCityArr = [...new Set(cityArr)];
 
+
         const resultArr = uniqueCityArr.map(function (elem) {
             const newElem = {};
             newElem.value = elem;

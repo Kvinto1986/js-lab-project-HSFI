@@ -4,13 +4,39 @@ import PropTypes from "prop-types";
 import Select from 'react-select'
 
 import currencyList from '../../resourses/currency';
-
-import { Document, Page } from 'react-pdf';
+import jsPDF from 'jspdf';
 
 const CardForm = ({
                       user, seller, errors, handleSubmit,
-                      handleInputChange, cardsCount, cost, handleChangeCurrency, currency,total,onDocumentLoad
+                      handleInputChange, cardsCount, cost, handleChangeCurrency, currency,total
                   }) => {
+
+
+
+    const pdfCreate=(e)=>{
+        e.preventDefault()
+
+        const doc = new jsPDF
+        doc.text(
+               `
+               *************************************************************************
+       
+                                        Seller name: ${seller.name}
+                                 
+                                        Cars count: ${cardsCount}
+                                        
+                                        Cards cost: ${cost} ${currency}
+                                        
+                                        Cards total cost: ${total} ${currency}
+                                    
+                *************************************************************************
+                
+                `
+            ,1,1);
+
+        doc.save('cardInfo.pdf')
+    };
+
     if (seller) {
         return (
             <form onSubmit={handleSubmit} className="cardFormContainer">
@@ -56,9 +82,13 @@ const CardForm = ({
 
                 {errors.currency && (<div className="invalidFeedback">{errors.currency}</div>)}
                 <h2>Total cost: {total} {currency}</h2>
+                <button type="submit" className={'btnSubmit'} onClick={pdfCreate}>
+                    Create PDF
+                </button>
                 <button type="submit" className={'btnSubmit'} onClick={handleSubmit}>
                     Submit
                 </button>
+
             </form>
         )
     } else return null

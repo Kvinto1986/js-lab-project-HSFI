@@ -15,6 +15,9 @@ import sellerReducer from './sellerReduser'
 import sellersReducer from './sellersReduser'
 import cityReducer from './cityReduser'
 import reportReducer from './reportReduser'
+import inspectionOperatorReducer from './inspectionOperators'
+import inspectionsGPSReducer from './inspectionGPS'
+
 
 
 export default combineReducers({
@@ -33,5 +36,7 @@ export default combineReducers({
     users:usersReducer,
     sellers:sellersReducer,
     cities:cityReducer,
-    report:reportReducer
+    report:reportReducer,
+    inspectionsOperators:inspectionOperatorReducer,
+    inspectionsGPS:inspectionsGPSReducer
 });

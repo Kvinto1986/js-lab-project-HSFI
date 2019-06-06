@@ -1,7 +1,7 @@
 .adminMainContainer {
     display: flex;
     flex-wrap: wrap;
-    justify-content: start;
+    justify-content: center;
     justify-items: center;
     align-content: start;
     align-items: center;
@@ -14,6 +14,49 @@
     background-size: 100%, 100%, contain;
 }
 
+.adminMainContainer h1{
+    width: 100%;
+
+    text-align: center;
+}
+
+.adminAddDataContainer{
+    display: flex;
+    justify-content: center;
+    justify-items: center;
+    align-content: center;
+    align-items: center;
+
+    width: 90%;
+}
+
+.adminAddDataContainer ul{
+    width: 100%;
+}
+
+.adminAddDataContainer ul li{
+    display: inline;
+    list-style-type: none;
+}
+.adminSuccessContainer{
+    display: flex;
+    justify-content: center;
+    justify-items: center;
+    align-content: center;
+    align-items: center;
+
+    width: 40%;
+
+    background-color: #01bc9d;
+}
+.adminSuccessContainer h1{
+    width: 70%;
+    text-align: center;
+}
+.adminSuccessContainer img{
+
+    width: 8%;
+}
 .modal {
     display: flex;
     flex-wrap: wrap;
@@ -126,10 +169,10 @@
 }
 
 .modalButton {
-    width: 100%;
-
-    margin-top: 10%;
-
+    width: 20%;
+    height: 2vw;
+    margin-right: 2%;
+    margin-left: 2%;
     font-size: 0.9vw;
     border-radius: 5px;
     background-color: aquamarine;
@@ -162,21 +205,6 @@
     font-size: 0.7vw;
     color: brown;
 }
-
-.adminAddDataContainer {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: start;
-    justify-items: center;
-    align-content: center;
-    align-items: center;
-
-    width: 20%;
-
-    margin-left: 3%;
-
-
-}
 .adminMap{
     width: 42vw;
     height: 6vw;
@@ -187,7 +215,7 @@
     margin-bottom: 1%
 }
 
-.adminAddDataContainer ul li {
-    list-style-type: none
+.inspectionMapContainer{
+    width: 80vw;
+    height: 25vw;
 }
-

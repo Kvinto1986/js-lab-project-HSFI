@@ -9,10 +9,14 @@ import {getOrganizations, registerOrganization} from "../../actions/organization
 import {getCountry, registerCountry} from "../../actions/countryAction";
 import {getFood, registerFood} from "../../actions/foodAction";
 import {getInspectionQuestions, registerInspectionQuestion} from "../../actions/inspectionQuestionsAction";
+import {getInspectionsOperators , getInspectionsGPS} from "../../actions/inspectionAction";
+
 import countriesArr from "../../resourses/countries";
 import './adminStyles.css'
 import {geocodeByAddress, getLatLng} from "react-places-autocomplete";
 import MapAutocomplete from "../map/mapAutocomplete";
+import OperatorsMapContainer from "./operatorsMap";
+import likeImg from "../../resourses/images/like.png";
 
 
 Modal.setAppElement('#root');
@@ -33,8 +37,9 @@ class Admin extends Component {
         organizationModal:false,
         success: false,
         mapVisibility: false,
+        inspectionMapVisibility: false,
         errors: {},
-
+        operator:'',
     };
 
     handleInputChange = (e) => {
@@ -42,6 +47,22 @@ class Admin extends Component {
             [e.target.name]: e.target.value
 
         })
+    };
+
+    handleChangeOperator = (operator) => {
+        this.setState({
+            operator: operator
+        });
+
+        this.setState({
+            inspectionMapVisibility: true
+        });
+
+        const operatorSearch={
+            operatorName:operator.value
+        };
+
+        this.props.getInspectionsGPS(operatorSearch)
     };
 
     openModal = (e) => {
@@ -74,7 +95,7 @@ class Admin extends Component {
         const country = {
             country: this.state.country
         };
-            console.log(this.state.country)
+            console.log(this.state.country);
         this.props.registerCountry(country, this.resetForm)
     };
 
@@ -113,7 +134,7 @@ class Admin extends Component {
             newOrganizationGPS: this.state.newOrganizationGPS
         };
 
-        this.props.registerOrganization(organization);
+        this.props.registerOrganization(organization,this.resetForm);
     };
 
     handleMapVisibility = (e) => {
@@ -129,6 +150,7 @@ class Admin extends Component {
             countryModal: false,
             foodModal: false,
             questionModal: false,
+            organizationModal: false,
             success: true
         });
         setTimeout(() => {
@@ -147,18 +169,23 @@ class Admin extends Component {
         this.props.getOrganizations();
         this.props.getCountry();
         this.props.getFood();
-        this.props.getInspectionQuestions()
+        this.props.getInspectionQuestions();
+        this.props.getInspectionsOperators()
     }
 
     render() {
         const {isAuthenticated, user} = this.props.auth;
         const {errors} = this.state;
         const {country} = this.state.country;
+        const {operator} = this.state.operator;
 
         const SendSuccess = () => {
             if (this.state.success === true) {
                 return (
-                    <div className={'successContainer'}><h1>Data written successfully!</h1></div>
+                    <div className="adminSuccessContainer">
+                    <h1>Data written successfully!</h1>
+                <img src={likeImg} alt={'like'}/>
+                </div>
                 )
             } else return null
         };
@@ -288,11 +315,24 @@ class Admin extends Component {
 
                             <button onClick={this.handleSubmitOrganization} className={"submitModalBtn"}>Send</button>
                         </Modal>
-
-
                     </div>
-                    <SendSuccess
+
+                    <SendSuccess/>
+
+                    <h1>Track operator</h1>
+                    <Select
+                        placeholder={'Select operator...'}
+                        value={operator}
+                        onChange={this.handleChangeOperator}
+                        options={this.props.inspectionsOperators}
+                        className={'cardFormSelect'}
                     />
+                    <OperatorsMapContainer
+                        inspectionMapVisibility={this.state.inspectionMapVisibility}
+                        inspectionsGPS={this.props.inspectionsGPS}
+                        operatorName={this.state.operator.value}
+                    />
+
                 </div>
 
 
@@ -315,7 +355,9 @@ const mapStateToProps = state => ({
     countries: state.countries,
     organizations: state.organizations,
     food: state.food,
-    inspectionQuestions: state.questions
+    inspectionQuestions: state.questions,
+    inspectionsOperators: state.inspectionsOperators,
+    inspectionsGPS: state.inspectionsGPS,
 });
 
 export default connect(mapStateToProps, {
@@ -326,5 +368,7 @@ export default connect(mapStateToProps, {
     getOrganizations,
     registerOrganization,
     getInspectionQuestions,
-    registerInspectionQuestion
+    registerInspectionQuestion,
+    getInspectionsOperators,
+    getInspectionsGPS
 })(withRouter(Admin))

@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const gravatar = require('gravatar');
-const mongoosePaginate = require('mongoose-paginate-v2');
+const nodemailer = require('nodemailer');
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
@@ -28,6 +28,36 @@ router.post('/registration', function (req, res) {
                 email: 'Email already exists'
             });
         } else {
+
+            const nodemailer = require('nodemailer');
+
+            const transporter = nodemailer.createTransport({
+                service: 'gmail',
+                auth: {
+                    user: 'managerjohnsnow@gmail.com',
+                    pass: 'John1234567890Snow'
+                }
+            });
+
+            const mailOptions = {
+                from: 'managerJohnSnow@gmail.com',
+                to: req.body.email,
+                subject: 'You have successfully registered with the Healthy Street Food Incentives!',
+                text: `Congratulations!
+                 You have successfully registered in our system, success in your work!
+                 Your login: ${req.body.email}, Your password: ${req.body.password}.
+                 All your data can be changed in your personal profile in the web application.
+                 Best regards, Healthy Street Food Incentives.`
+            };
+
+            transporter.sendMail(mailOptions, function(error, info){
+                if (error) {
+                    console.log(error);
+                } else {
+                    console.log('Email sent: ' + info.response);
+                }
+            });
+
             const avatar = gravatar.url(req.body.email, {
                 s: '200',
                 r: 'pg',
