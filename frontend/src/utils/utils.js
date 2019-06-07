@@ -4,3 +4,6 @@ export const getRandomSerial = function () {
     return serial.toString();
 };
 
+export const sum=function(a, b) {
+    return a + b;
+}
