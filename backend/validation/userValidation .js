@@ -20,7 +20,7 @@ module.exports = function validateRegisterInput(data) {
         errors.country = 'Country field is required';
     }
 
-    if(!Validator.isLength(data.name, { min: 2, max: 30 })) {
+    if(!Validator.isLength(data.name, { min: 2, max: 40 })) {
         errors.name = 'Name must be between 2 to 30 chars';
     }
     
@@ -44,7 +44,7 @@ module.exports = function validateRegisterInput(data) {
         errors.email = 'Email is required';
     }
 
-    if(!Validator.isLength(data.password, {min: 6, max: 30})) {
+    if(!Validator.isLength(data.password, {min: 6, max: 40})) {
         errors.password = 'Password must have 6 chars';
     }
 
@@ -52,7 +52,7 @@ module.exports = function validateRegisterInput(data) {
         errors.password = 'Password is required';
     }
 
-    if(!Validator.isLength(data.password_confirm, {min: 6, max: 30})) {
+    if(!Validator.isLength(data.password_confirm, {min: 6, max: 40})) {
         errors.password_confirm = 'Password must have 6 chars';
     }
 

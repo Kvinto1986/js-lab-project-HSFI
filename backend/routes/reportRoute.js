@@ -7,7 +7,6 @@ const Card = require('../models/CardModel');
 
 router.post('/getReport', function (req, res) {
 
-    console.log(req.body)
     const {errors, isValid} = validateReport(req.body);
 
     if (!isValid) {

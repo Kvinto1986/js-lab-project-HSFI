@@ -9,7 +9,7 @@ export const registerInspection = (inspection, reset) => dispatch => {
                 payload: {}
             });
         })
-        .then (res =>reset())
+        .then(res => reset())
         .catch(err => {
             dispatch({
                 type: GET_ERRORS,
@@ -28,12 +28,19 @@ export const getInspectionsOperators = () => dispatch => {
         });
 };
 
-export const getInspectionsGPS = (operator) => dispatch => {
+export const getInspectionsGPS = (operator, mapVisibility) => dispatch => {
     axios.post('/api/inspections/getInspections', operator)
         .then(res => {
             dispatch({
                 type: GET_CURRENT_INSPECTION_GPS,
                 payload: res.data
             });
+            mapVisibility();
+        })
+        .catch(err => {
+        dispatch({
+            type: GET_ERRORS,
+            payload: err.response.data
         });
+    });
 };

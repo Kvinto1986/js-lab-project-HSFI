@@ -29,8 +29,6 @@ router.post('/registration', function (req, res) {
             });
         } else {
 
-            const nodemailer = require('nodemailer');
-
             const transporter = nodemailer.createTransport({
                 service: 'gmail',
                 auth: {
@@ -276,6 +274,31 @@ router.post('/confirmUser', function (req, res) {
     User.findById(req.body.id)
 
         .then(user => {
+            const transporter = nodemailer.createTransport({
+                service: 'gmail',
+                auth: {
+                    user: 'managerjohnsnow@gmail.com',
+                    pass: 'John1234567890Snow'
+                }
+            });
+
+            const mailOptions = {
+                from: 'managerJohnSnow@gmail.com',
+                to: user.email,
+                subject: 'Your email is confirmed!',
+                text: `Congratulations!
+                 Your email is confirmed!
+                 This means you have access to work with the application.`
+            };
+
+            transporter.sendMail(mailOptions, function(error, info){
+                if (error) {
+                    console.log(error);
+                } else {
+                    console.log('Email sent: ' + info.response);
+                }
+            });
+
             user.confirmation=true;
             user.save()
         })

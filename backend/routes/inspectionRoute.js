@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const Inspection = require('../models/InspectionModel');
 const Seller = require('../models/SellerModel');
+const validateInspection = require('../validation/inspecrionValidation');
 
 router.post('/registration', function(req, res) {
     Seller.findOne({
@@ -57,7 +58,20 @@ router.post('/getInspectionsOperators', function(req, res) {
 });
 
 router.post('/getInspections', function(req, res) {
-    Inspection.find(req.body, function(err, inspections) {
+    const {errors, isValid} = validateInspection(req.body);
+
+    if (!isValid) {
+        return res.status(400).json(errors);
+    }
+
+    const inspectionSearch={
+        date: {$gte: new Date(req.body.startDate), $lt: new Date(req.body.endDate)},
+        operatorName:req.body.operatorName
+    };
+
+    Inspection.find(inspectionSearch, function(err, inspections) {
+
+        console.log(inspectionSearch);
 
         const arr=inspections.map(function (elem) {
             const newElem={};

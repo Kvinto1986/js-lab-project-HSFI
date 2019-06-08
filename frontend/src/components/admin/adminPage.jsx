@@ -9,7 +9,7 @@ import {getOrganizations, registerOrganization} from "../../actions/organization
 import {getCountry, registerCountry} from "../../actions/countryAction";
 import {getFood, registerFood} from "../../actions/foodAction";
 import {getInspectionQuestions, registerInspectionQuestion} from "../../actions/inspectionQuestionsAction";
-import {getInspectionsOperators , getInspectionsGPS} from "../../actions/inspectionAction";
+import {getInspectionsOperators, getInspectionsGPS} from "../../actions/inspectionAction";
 
 import countriesArr from "../../resourses/countries";
 import './adminStyles.css'
@@ -28,18 +28,20 @@ class Admin extends Component {
         country: '',
         food: '',
         question: '',
-        newOrganizationName:'',
-        newOrganizationAddress:'',
-        newOrganizationGPS:{},
+        newOrganizationName: '',
+        newOrganizationAddress: '',
+        newOrganizationGPS: {},
         countryModal: false,
         foodModal: false,
         questionModal: false,
-        organizationModal:false,
+        organizationModal: false,
         success: false,
         mapVisibility: false,
         inspectionMapVisibility: false,
         errors: {},
-        operator:'',
+        operator: '',
+        startDate:'',
+        endDate:''
     };
 
     handleInputChange = (e) => {
@@ -51,18 +53,25 @@ class Admin extends Component {
 
     handleChangeOperator = (operator) => {
         this.setState({
-            operator: operator
+            operator: operator.value
         });
+    };
 
+    handleInspectionMapVisibility=()=>{
         this.setState({
             inspectionMapVisibility: true
-        });
 
-        const operatorSearch={
-            operatorName:operator.value
+        })
+    };
+
+    handleSendInspection=()=>{
+        const operatorSearch = {
+            startDate: this.state.startDate,
+            endDate:this.state.endDate,
+            operatorName: this.state.operator
         };
 
-        this.props.getInspectionsGPS(operatorSearch)
+        this.props.getInspectionsGPS(operatorSearch,this.handleInspectionMapVisibility)
     };
 
     openModal = (e) => {
@@ -95,7 +104,7 @@ class Admin extends Component {
         const country = {
             country: this.state.country
         };
-            console.log(this.state.country);
+        console.log(this.state.country);
         this.props.registerCountry(country, this.resetForm)
     };
 
@@ -109,7 +118,7 @@ class Admin extends Component {
     };
 
     handleOrganizationLocation = (location) => {
-        this.setState({newOrganizationAddress:location});
+        this.setState({newOrganizationAddress: location});
         geocodeByAddress(location)
             .then(results => {
                 return getLatLng(results[0])
@@ -121,7 +130,7 @@ class Admin extends Component {
     };
 
     handleOrganizationAddress = (address) => {
-        this.setState({newOrganizationAddress:address});
+        this.setState({newOrganizationAddress: address});
         this.setState({mapVisibility: false})
     };
 
@@ -134,7 +143,7 @@ class Admin extends Component {
             newOrganizationGPS: this.state.newOrganizationGPS
         };
 
-        this.props.registerOrganization(organization,this.resetForm);
+        this.props.registerOrganization(organization, this.resetForm);
     };
 
     handleMapVisibility = (e) => {
@@ -158,12 +167,13 @@ class Admin extends Component {
         }, 5000);
     };
 
-    static getDerivedStateFromProps(nextProps, prevState) {
-        if (nextProps.errors !== prevState.errors) {
-            return {errors: nextProps.errors};
-        } else return null;
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.errors) {
+            this.setState({
+                errors: nextProps.errors
+            });
+        }
     }
-
 
     componentDidMount() {
         this.props.getOrganizations();
@@ -183,9 +193,9 @@ class Admin extends Component {
             if (this.state.success === true) {
                 return (
                     <div className="adminSuccessContainer">
-                    <h1>Data written successfully!</h1>
-                <img src={likeImg} alt={'like'}/>
-                </div>
+                        <h1>Data written successfully!</h1>
+                        <img src={likeImg} alt={'like'}/>
+                    </div>
                 )
             } else return null
         };
@@ -213,7 +223,8 @@ class Admin extends Component {
                                 </button>
                             </li>
                             <li>
-                                <button name={"organizationModal"} onClick={this.openModal} className={'modalButton'}>Add
+                                <button name={"organizationModal"} onClick={this.openModal}
+                                        className={'modalButton'}>Add
                                     organization
                                 </button>
                             </li>
@@ -225,7 +236,8 @@ class Admin extends Component {
                             contentLabel="Modal"
                             className={'modal'}
                         >
-                            <button name={"countryModal"} className={"closeModalBtn"} onClick={this.closeModal}>X</button>
+                            <button name={"countryModal"} className={"closeModalBtn"} onClick={this.closeModal}>X
+                            </button>
                             <h2>Select a country from the list</h2>
                             <Select
                                 options={countriesArr}
@@ -264,7 +276,8 @@ class Admin extends Component {
                             contentLabel="Modal"
                             className={'modal'}
                         >
-                            <button name={"questionModal"} className={"closeModalBtn"} onClick={this.closeModal}>X</button>
+                            <button name={"questionModal"} className={"closeModalBtn"} onClick={this.closeModal}>X
+                            </button>
                             <h2>Enter question</h2>
                             <input
                                 type="text"
@@ -278,15 +291,14 @@ class Admin extends Component {
                             <button onClick={this.handleSubmitQuestion} className={"submitModalBtn"}>Send</button>
                         </Modal>
 
-
-
                         <Modal
                             isOpen={this.state.organizationModal}
                             onRequestClose={this.closeModal}
                             contentLabel="Modal"
                             className={'modalMap'}
                         >
-                            <button name={"organizationModal"} className={"closeModalBtn"} onClick={this.closeModal}>X</button>
+                            <button name={"organizationModal"} className={"closeModalBtn"} onClick={this.closeModal}>X
+                            </button>
                             <h2>Enter organization</h2>
                             <label>Organization</label>
                             <input
@@ -297,7 +309,8 @@ class Admin extends Component {
                                 value={this.state.newOrganizationName}
                                 className={'formInput'}
                             />
-                            {errors.newOrganizationName && (<div className="invalidFeedback">{errors.newOrganizationName}</div>)}
+                            {errors.newOrganizationName && (
+                                <div className="invalidFeedback">{errors.newOrganizationName}</div>)}
 
                             <MapAutocomplete
                                 errors={errors}
@@ -318,15 +331,43 @@ class Admin extends Component {
                     </div>
 
                     <SendSuccess/>
-
+                    <div className={'searchInspectionsForm'}>
                     <h1>Track operator</h1>
+                        <div className={'searchInspectionsFormSection'}>
+                            <label>From</label>
+                            <input
+                                type={'date'}
+                                onChange={this.handleInputChange}
+                                value={this.state.startDate}
+                                name={'startDate'}
+                            />
+                            {errors.startDate && (<div className="invalidFeedback">{errors.startDate}</div>)}
+                        </div>
+
+                        <div className={'searchInspectionsFormSection'}>
+                        <label>To</label>
+                            <input
+                                type={'date'}
+                                onChange={this.handleInputChange}
+                                value={this.state.endDate}
+                                name={'endDate'}
+                            />
+                            {errors.endDate && (<div className="invalidFeedback">{errors.endDate}</div>)}
+                        </div>
+
+                        <div className={'searchInspectionsFormSection'}>
                     <Select
                         placeholder={'Select operator...'}
                         value={operator}
                         onChange={this.handleChangeOperator}
                         options={this.props.inspectionsOperators}
-                        className={'cardFormSelect'}
+                        className={'searchInspectionSelect'}
                     />
+                            {errors.operatorName && (<div className="invalidFeedback">{errors.operatorName}</div>)}
+                        </div>
+
+                        <button onClick={this.handleSendInspection}>Search...</button>
+                    </div>
                     <OperatorsMapContainer
                         inspectionMapVisibility={this.state.inspectionMapVisibility}
                         inspectionsGPS={this.props.inspectionsGPS}
@@ -334,7 +375,6 @@ class Admin extends Component {
                     />
 
                 </div>
-
 
             )
         } else return (<Redirect to={{

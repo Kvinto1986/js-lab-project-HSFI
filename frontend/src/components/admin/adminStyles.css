@@ -181,7 +181,7 @@
 .adminMapBtn {
     width: 40%;
 
-    margin-top: 10%;
+    margin-top: 2%;
     margin-left: 30%;
 
     font-size: 0.9vw;
@@ -218,4 +218,62 @@
 .inspectionMapContainer{
     width: 80vw;
     height: 25vw;
+}
+.searchInspectionsForm{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    justify-items: center;
+    align-content: center;
+    align-items: center;
+
+    width: 50%;
+
+    font-family: Georgia;
+    background-color: rgba(64, 64, 64, 0.8);
+    border: black 2px double;
+    border-radius: 10px;
+}
+
+.searchInspectionsFormSection{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    justify-items: center;
+    align-content: center;
+    align-items: center;
+
+    width: 30%;
+}
+
+.searchInspectionsFormSection label{
+    color: white;
+    margin-right: 5%;
+}
+
+.searchInspectionsFormSection input{
+    padding: 1% 1%;
+
+    font-size: 0.7vw;
+    border-radius: 5px;
+}
+
+
+.searchInspectionsForm h1{
+     color: white;
+ }
+
+.searchInspectionSelect{
+    width: 100%;
+}
+
+.searchInspectionsForm button{
+    width: 40%;
+    margin-top: 2%;
+    margin-bottom: 2%;
+
+    height: 2vw;
+    font-size: 0.9vw;
+    border-radius: 5px;
+    background-color: aquamarine;
 }
