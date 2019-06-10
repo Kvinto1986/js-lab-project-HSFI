@@ -86,22 +86,20 @@ class UserRegistration extends Component {
     };
 
     handleOrganizationLocation = (location) => {
-        this.setState({newOrganizationAddress: location});
-        geocodeByAddress(location)
+        this.setState({
+            newOrganizationAddress: location.description
+        });
+        this.setState({mapVisibility: false});
+        this.setState({organization: this.state.newOrganizationName});
+
+        geocodeByAddress(location.description)
             .then(results => {
                 return getLatLng(results[0])
             })
             .then(latLng => {
-                this.setState({newOrganizationGPS: latLng})
+                this.setState({newOrganizationGPS: latLng});
+                this.setState({mapVisibility: true})
             })
-            .catch(error => console.error('Error', error));
-    };
-
-    handleOrganizationAddress = (address) => {
-        this.setState({newOrganizationAddress: address});
-        this.setState({mapVisibility: false});
-        this.setState({organization: this.state.newOrganizationName});
-
     };
 
     handleMapVisibility = (e) => {

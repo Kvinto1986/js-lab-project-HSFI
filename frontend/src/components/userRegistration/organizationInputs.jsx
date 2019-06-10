@@ -6,7 +6,7 @@ import MapAutocomplete from "../map/mapAutocomplete";
 const NewOrganizationInputs = ({
                                    organizationInputVisibility, errors, mapVisibility, handleInputChange,
                                    newOrganizationName, newOrganizationAddress, newOrganizationGPS,
-                                   onChangeLocation, onSelectLocation, handleMapVisibility
+                                   onChangeLocation, onSelectLocation
                                }) => {
     if (!organizationInputVisibility) {
         return (
@@ -26,11 +26,8 @@ const NewOrganizationInputs = ({
 
                     <MapAutocomplete
                         mapVisibility={mapVisibility}
-                        value={newOrganizationAddress}
-                        onChange={onChangeLocation}
-                        onSelect={onSelectLocation}
+                        onSelectLocation={onSelectLocation}
                         GPS={newOrganizationGPS}
-                        handleMapVisibility={handleMapVisibility}
                         mapContainerClass={'userMapContainer'}
                         mapClass={'userMap'}
                         btnMapClass={'btnCheckMap'}

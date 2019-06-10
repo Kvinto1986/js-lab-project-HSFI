@@ -447,7 +447,6 @@ class NewSeller extends Component {
                                         />
 
                                         <MapContainer
-                                            error={errors.foodGroup}
                                             onSelectLocation={this.onSelectLocation}
                                             GPS={this.state.GPS}
                                             mapVisibility={this.state.mapVisibility}
