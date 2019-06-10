@@ -13,7 +13,7 @@ import {getCountry} from '../../actions/countryAction';
 import {uploadImage} from '../../actions/uploadAction';
 import {getFood} from '../../actions/foodAction';
 
-import MapAutocomplete from "../map/mapAutocomplete";
+import MapContainer from "../map/mapAutocomplete";
 import SupplersTable from "./supplersTable";
 import SheduleListTable from './scheduleTable'
 
@@ -45,7 +45,7 @@ class NewSeller extends Component {
         beginningWork: '',
         endWork: '',
         address: '',
-        mapVisibility: false,
+        mapVisibility: true,
         errors: {},
     };
 
@@ -95,35 +95,22 @@ class NewSeller extends Component {
         });
     };
 
-    onChangeLocation = (location) => {
-        this.setState({address: location});
+    onSelectLocation = (location) => {
+        this.setState({
+            address: location.description
+        });
         this.setState({mapVisibility: false});
 
-        geocodeByAddress(location)
-            .then(results => {
-                return getLatLng(results[0])
-            })
-            .then(latLng => {
-                this.setState({GPS: latLng})
-            })
-            .catch(error => console.error('Error', error));
+            geocodeByAddress(location.description)
+                .then(results => {
+                    return getLatLng(results[0])
+                })
+                .then(latLng => {
+                    this.setState({GPS: latLng});
+                    this.setState({mapVisibility: true})
+                })
 
     };
-
-    onSelectLocation = (address) => {
-        this.setState({address: address});
-    };
-
-    handleChangeLocation = (location) => {
-        this.setState({location});
-        this.setState({map: false})
-    };
-
-    handleMapVisibility = (e) => {
-        e.preventDefault();
-        this.setState({mapVisibility: true})
-    };
-
 
     handleChangeSchedule = (workingDays) => {
         this.setState({workingDays});
@@ -459,14 +446,11 @@ class NewSeller extends Component {
 
                                         />
 
-                                        <MapAutocomplete
+                                        <MapContainer
                                             error={errors.foodGroup}
-                                            mapVisibility={this.state.mapVisibility}
-                                            value={this.state.address}
-                                            onChange={this.onChangeLocation}
-                                            onSelect={this.onSelectLocation}
+                                            onSelectLocation={this.onSelectLocation}
                                             GPS={this.state.GPS}
-                                            handleMapVisibility={this.handleMapVisibility}
+                                            mapVisibility={this.state.mapVisibility}
                                             mapContainerClass={'sellerCreateMapContainer'}
                                             mapClass={'sellerMap'}
                                             btnMapClass={'btnSellerCheckMap'}

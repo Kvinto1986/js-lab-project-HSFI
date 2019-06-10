@@ -12,7 +12,7 @@ export class OperatorsMapContainer extends Component {
         const sellerMarker = [];
         const operatorMarker = [];
 
-        if(this.props.inspectionsGPS.length>0) {
+
             function pinSymbol(color) {
                 return {
                     path: 'M 0,0 C -2,-20 -10,-22 -10,-30 A 10,10 0 1,1 10,-30 C 10,-22 2,-20 0,0 z M -2,-30 a 2,2 0 1,1 4,0 2,2 0 1,1 -4,0',
@@ -51,7 +51,7 @@ export class OperatorsMapContainer extends Component {
                 sellerMarker.push(sMarker);
                 operatorMarker.push(oMarker);
             });
-        }
+
 
         if (mapVisibility) {
             return (

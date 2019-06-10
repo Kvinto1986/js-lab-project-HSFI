@@ -117,16 +117,21 @@ class Admin extends Component {
         this.props.registerInspectionQuestion(question, this.resetForm)
     };
 
-    handleOrganizationLocation = (location) => {
-        this.setState({newOrganizationAddress: location});
-        geocodeByAddress(location)
+    handleOrganizationLocation= (location) => {
+        this.setState({
+            newOrganizationAddress: location.description
+        });
+        this.setState({mapVisibility: false});
+
+        geocodeByAddress(location.description)
             .then(results => {
                 return getLatLng(results[0])
             })
             .then(latLng => {
-                this.setState({newOrganizationGPS: latLng})
+                this.setState({newOrganizationGPS: latLng});
+                this.setState({mapVisibility: true})
             })
-            .catch(error => console.error('Error', error));
+
     };
 
     handleOrganizationAddress = (address) => {
@@ -299,8 +304,8 @@ class Admin extends Component {
                         >
                             <button name={"organizationModal"} className={"closeModalBtn"} onClick={this.closeModal}>X
                             </button>
+
                             <h2>Enter organization</h2>
-                            <label>Organization</label>
                             <input
                                 type="text"
                                 placeholder="Organization"
@@ -313,17 +318,13 @@ class Admin extends Component {
                                 <div className="invalidFeedback">{errors.newOrganizationName}</div>)}
 
                             <MapAutocomplete
-                                errors={errors}
+                                error={this.state.errors.newOrganizationAddress}
                                 mapVisibility={this.state.mapVisibility}
-                                value={this.state.newOrganizationAddress}
                                 onChange={this.handleOrganizationAddress}
-                                onSelect={this.handleOrganizationLocation}
+                                onSelectLocation={this.handleOrganizationLocation}
                                 GPS={this.state.newOrganizationGPS}
-                                handleMapVisibility={this.handleMapVisibility}
                                 mapClass={'userMap'}
                                 mapContainerClass={'adminMap'}
-                                btnMapClass={'adminMapBtn'}
-
                             />
 
                             <button onClick={this.handleSubmitOrganization} className={"submitModalBtn"}>Send</button>
