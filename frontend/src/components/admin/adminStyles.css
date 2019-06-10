@@ -125,8 +125,6 @@
     align-items: center;
 
     width: 50%;
-    height: 50%;
-
 
     margin-left: 30%;
     margin-top: 7%;
@@ -191,7 +189,7 @@
 
 .submitModalBtn {
     width: 40%;
-    margin-top: 1%;
+    margin-top: 3%;
 
     font-size: 0.9vw;
     border-radius: 5px;
@@ -206,6 +204,12 @@
     color: brown;
 }
 .adminMap{
+    display: flex;
+    justify-content: center;
+    justify-items: center;
+    align-content: center;
+    align-items: center;
+
     width: 42vw;
     height: 6vw;
 
