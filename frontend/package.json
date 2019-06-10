@@ -1,17 +1,23 @@
 {
-  "value": "frontend",
+  "name": "frontend",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
     "axios": "^0.18.0",
-    "bootstrap": "^4.1.2",
-    "classnames": "^2.2.6",
+    "google-maps-react": "^2.0.2",
+    "jspdf": "^1.5.3",
     "jwt-decode": "^2.2.0",
-    "react": "^16.4.1",
-    "react-dom": "^16.4.1",
+    "prop-types": "^15.7.2",
+    "react": "^16.8.6",
+    "react-dom": "^16.8.6",
+    "react-google-autocomplete": "^1.1.0",
+    "react-google-places-autocomplete": "^1.4.1",
+    "react-modal": "^3.8.1",
+    "react-phone-input-2": "^2.9.3",
+    "react-places-autocomplete": "^7.2.1",
     "react-redux": "^5.0.7",
     "react-router-dom": "^4.3.1",
-    "react-scripts": "1.1.4",
+    "react-scripts": "3.0.1",
     "react-select": "^2.4.2",
     "redux": "^4.0.0",
     "redux-thunk": "^2.3.0"
@@ -19,8 +25,22 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test --env=jsdom",
+    "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
-  "proxy": "http://localhost:5000"
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
 }

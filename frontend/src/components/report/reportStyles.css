@@ -1,0 +1,172 @@
+.reportMainContainer {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: start;
+    justify-items: center;
+    align-content: start;
+    align-items: center;
+
+    width: 100%;
+    height: 88%;
+
+    background-image: url('../../resourses/images/report.jpg');
+    background-repeat: no-repeat;
+    background-size: 100%, 100%, contain;
+}
+
+.reportSearchForm {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: start;
+    justify-items: center;
+    align-content: center;
+    align-items: center;
+
+    width: 30%;
+
+    margin-top: 2%;
+    margin-left: 3%;
+
+    font-family: Georgia;
+    background-color: rgba(64, 64, 64, 0.8);
+    border: aquamarine 2px double;
+    border-radius: 10px;
+}
+
+.reportSearchForm h1{
+    width: 100%;
+    color: white;
+    text-align: center;
+}
+
+.reportSearchForm button{
+    margin-left: 6%;
+    margin-top: 5%;
+    margin-bottom: 5%;
+    width: 86%;
+    height: 2vw;
+
+    background-color: aquamarine;
+}
+
+.reportSearchFormSection{
+    display: flex;
+    justify-content: start;
+    justify-items: center;
+    align-content: center;
+    align-items: center;
+
+    width: 100%;
+    padding:  2% 2% 2% 2%;
+}
+
+.reportSearchFormSection label {
+    width: 25%;
+    margin-left: 5%;
+    margin-right: 5%;
+
+    color: white;
+}
+
+.reportSearchFormSection:nth-child(2) label {
+    width: 7.6%;
+    margin-left: 5%;
+    margin-right: 5%;
+
+    color: white;
+}
+
+.reportSearchFormSection input {
+
+    margin-top: 0.5%;
+    margin-bottom: 0.5%;
+
+
+    padding: 1% 1%;
+
+    font-size: 0.7vw;
+    border-radius: 5px;
+}
+
+.reportSelect {
+    width: 57%;
+}
+
+.reportResultContainer {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: start;
+    justify-items: center;
+    align-content: center;
+    align-items: center;
+
+    width: 60%;
+
+    margin-top: 2%;
+    margin-left: 3%;
+
+    font-family: Georgia;
+    background-color: rgba(64, 64, 64, 0.8);
+    border: aquamarine 2px double;
+    border-radius: 10px;
+}
+
+.reportResultContainer h1,h2{
+     width: 100%;
+     color: white;
+     text-align: center;
+ }
+
+.reportResultContainer button{
+    margin-top: 3%;
+    margin-bottom: 2%;
+    margin-left: 5%;
+    width: 90%;
+    height: 2vw;
+    text-align: center;
+    background-color: aquamarine;
+}
+
+.reportResultContainer table {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: start;
+    justify-items: center;
+    align-content: center;
+    align-items: center;
+
+    width: 90%;
+    margin-left: 4.5%;
+    color: white;
+
+}
+
+.reportResultContainer table tr{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: start;
+    justify-items: center;
+    align-content: center;
+    align-items: center;
+
+}
+
+.reportResultContainer table th{
+    display: flex;
+    justify-content: start;
+    justify-items: center;
+    align-content: start;
+    align-items: center;
+}
+
+
+.reportResultContainer ul{
+    width: 100%;
+}
+
+.reportResultContainer ul li{
+    margin-left: 5%;
+    margin-right: 5%;
+    display: inline;
+    list-style-type:none;
+}
