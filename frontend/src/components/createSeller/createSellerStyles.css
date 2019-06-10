@@ -1,0 +1,302 @@
+.sellerMainContainer{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    justify-items: center;
+    align-content: center;
+    align-items: center;
+
+    width: 100%;
+    height: 88%;
+
+    background: url("../../resourses/images/vendor.jpg");
+    background-repeat: repeat;
+    background-size: 100%, 100%, contain;
+    color: white;
+}
+
+.sellerForm{
+    display: flex;
+    justify-content: center;
+    justify-items: center;
+    align-content: center;
+    align-items: center;
+}
+
+.sellerFormInner {
+    position: relative;
+    width: 90%;
+    height: 98%;
+
+    font-family: Georgia;
+    background-color: rgba(64, 64, 64, 0.8);
+    border: black 2px double;
+    border-radius: 10px;
+
+    text-align: center;
+    transition: transform 0.8s;
+    transform-style: preserve-3d;
+}
+
+.sellerFormFront, .sellerFormBack {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    justify-items: center;
+    align-content: center;
+    align-items: center;
+
+    position: absolute;
+
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+}
+
+.sellerFormBack {
+    background-color: #01bc9d;
+    border: black 2px double;
+    border-radius: 10px;
+    color: black;
+    transform: rotateY(180deg);
+}
+
+.sellerFormBack h1{
+    width: 100%;
+
+    font-size: 3vw;
+    text-align: center;
+}
+.sellerFormBack img{
+    width: 30%;
+}
+
+.sellerformSection{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: start;
+    justify-items: start;
+    align-content: start;
+    align-items: center;
+
+    width: 50%;
+}
+
+.sellerformSection input {
+    width: 67.5%;
+
+    margin-top: 0.5%;
+    margin-bottom: 0.5%;
+
+
+    padding: 1% 1%;
+
+    font-size: 0.7vw;
+    border-radius: 5px;
+}
+
+.sellerformSection label{
+    width: 20%;
+
+    text-align: left;
+    font-size: 0.8vw;
+    margin-left: 2%;
+}
+
+.sellerFormSelect {
+    width: 70%;
+
+    margin-top: 0.5%;
+    margin-bottom: 0.5%;
+
+
+    font-size: 0.8vw;
+    color:black;
+}
+
+.btnSellerFormSubmit {
+    width: 90%;
+
+    margin-left: 2%;
+    margin-top: 1%;
+
+    padding: 0.5% 0.5%;
+
+    font-size: 1vw;
+    border-radius: 5px;
+    background-color: aquamarine;
+}
+
+.sellerIngredientFormSection{
+    width: 100%;
+
+    margin-bottom: 2%;
+    margin-right: 2%;
+
+    border: 1px solid aquamarine;
+}
+
+.sellerIngredientFormSection label{
+    width: 20%;
+}
+
+.sellerIngredientFormSection input{
+    width: 52%;
+
+    margin-left: 3%;
+}
+
+.sellerIngredientFormSection button{
+    width: 13.5%;
+
+    margin-left: 2%;
+    padding: 0.5% 0.5%;
+
+    font-size: 0.7vw;
+    border-radius: 5px;
+    background-color: aquamarine;
+
+}
+
+.sellerIngredientFormSection ul{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: start;
+    justify-items: start;
+    align-content: center;
+    align-items: center;
+
+    width: 100%;
+}
+
+.sellerIngredientFormSection ul li{
+    display: flex;
+    justify-content: center;
+    justify-items: center;
+    align-content: center;
+    align-items: center;
+
+    padding: 0.5% 0.5%;
+
+    list-style-type: none;
+
+    color: black;
+    background-color: white;
+    border: 1px solid black;
+}
+
+.sellerIngredientFormSection ul li button{
+    background-color: brown;
+    width: 3.4vw;
+    height: 1.2vw;
+}
+
+.sellerScheduleFormSection{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: start;
+    justify-items: start;
+    align-content: center;
+    align-items: center;
+
+    width: 100%;
+
+    margin-right: 2%;
+
+    border: 1px solid aquamarine;
+}
+
+.sellerScheduleFormSection h3{
+    width: 100%;
+
+    text-align: center;
+}
+
+.sellerScheduleFormSection label{
+    width: 20%;
+    margin-left: 3%;
+}
+
+.sellerScheduleFormSection input{
+    width: 68%;
+
+    margin-left: 3%;
+}
+
+.sellerScheduleFormSection .sellerFormSelect{
+    width: 70.5%;
+
+    margin-left: 3%;
+
+}
+
+.sellerCreateMapContainer{
+    width: 40.7vw;
+    height: 8vw;
+
+    margin-left: 3%;
+    margin-top: 1%;
+    margin-bottom: 2%;
+
+}
+
+.sellerMap{
+    border: 3px aquamarine solid;
+    position: relative !important;
+
+    width: 100% ;
+    height: 100% ;
+}
+
+.btnSellerCheckMap{
+    width: 93.7%;
+
+    margin-top: 1%;
+    margin-bottom: 1%;
+
+    padding: 1% 1%;
+
+    font-size: 0.7vw;
+    border-radius: 5px;
+    margin-left: 3%;
+    background-color: aquamarine;
+}
+
+
+.sheduleTable{
+    display: flex;
+    justify-content: center;
+    justify-items: center;
+    align-content: center;
+    align-items: center;
+
+    width: 100%;
+
+    color: black;
+
+}
+.sheduleTable tr{
+    text-align: center;
+    font-size: 0.6vw;
+    background-color: white;
+}
+
+.sheduleTable th{
+    font-size: 0.7vw;
+}
+
+.sheduleTable tr button{
+    background-color: brown;
+
+}
+
+#sellerPhoneInput{
+    width: 70%;
+
+    color: black;
+
+}
+
+#sellerPhoneInput input{
+    width: 100%;
+}
