@@ -33,6 +33,8 @@ class SellerModal extends Component {
         country: this.props.editSeller.country,
         name: this.props.editSeller.name,
         photo: this.props.editSeller.photo,
+        photoURL: this.props.editSeller.photoURL,
+        photoLicenseURL: this.props.editSeller.photoLicenseURL,
         phone: this.props.editSeller.phone,
         email: this.props.editSeller.email,
         license: this.props.editSeller.license,
@@ -126,10 +128,6 @@ class SellerModal extends Component {
         this.setState({address: address});
     };
 
-    handleChangeLocation = (location) => {
-        this.setState({location});
-        this.setState({map: false})
-    };
 
     handleMapVisibility = (e) => {
         e.preventDefault();
@@ -187,10 +185,13 @@ class SellerModal extends Component {
     resetForm = () => {
 
         this.setState({
+            id: this.props.editSeller._id,
             operatorName: this.props.editSeller.operatorName,
             country: this.props.editSeller.country,
             name: this.props.editSeller.name,
             photo: this.props.editSeller.photo,
+            photoURL: this.props.editSeller.photoURL,
+            photoLicenseURL: this.props.editSeller.photoLicenseURL,
             phone: this.props.editSeller.phone,
             email: this.props.editSeller.email,
             license: this.props.editSeller.license,
@@ -222,9 +223,10 @@ class SellerModal extends Component {
     handleSubmit = (e) => {
         e.preventDefault();
 
-        const images = new FormData();
-        images.append('file', this.state.photo);
-        images.append('file', this.state.photoLicense);
+        const imagePhoto = new FormData();
+        const imagePhotoLicense = new FormData();
+        imagePhoto.append('file', this.state.photo);
+        imagePhotoLicense.append('file', this.state.photoLicense);
 
         const seller = {
             id: this.state.id,
@@ -256,6 +258,10 @@ class SellerModal extends Component {
         }
 
         this.props.updateSeller(seller, this.resetForm, this.props.findSellers);
+        const imdTypePhoto='imagePhoto';
+        const imdTypePhotoLicense='imagePhotoLicense';
+        this.props.uploadImage(imagePhoto, this.state.email,imdTypePhoto);
+        this.props.uploadImage(imagePhotoLicense, this.state.email,imdTypePhotoLicense);
     };
 
     componentWillReceiveProps(nextProps) {
@@ -316,9 +322,9 @@ class SellerModal extends Component {
                                         </Fragment>) :
                                     <Fragment>
                                         <div className={'sellerPhoto'}>
-                                            <img alt={this.state.photo} src={'../../../static/' + this.state.photo}/>
-                                            <img alt={this.state.photoLicense}
-                                                 src={'../../../static/' + this.state.photoLicense}/>
+                                            <img alt={this.state.photoURL} src={this.state.photoURL}/>
+                                            <img alt={this.state.photoLicenseURL}
+                                                 src={this.state.photoLicenseURL}/>
                                         </div>
                                     </Fragment>
                                 }

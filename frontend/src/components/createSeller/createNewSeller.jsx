@@ -196,9 +196,10 @@ class NewSeller extends Component {
     handleSubmit = (e) => {
         e.preventDefault();
 
-        const images = new FormData();
-        images.append('file', this.state.photo);
-        images.append('file', this.state.photoLicense);
+        const imagePhoto = new FormData();
+        const imagePhotoLicense = new FormData();
+        imagePhoto.append('file', this.state.photo);
+        imagePhotoLicense.append('file', this.state.photoLicense);
 
         const seller = {
             operatorName: this.props.auth.user.name,
@@ -234,7 +235,10 @@ class NewSeller extends Component {
         }
 
         this.props.registerSeller(seller, this.resetForm);
-        this.props.uploadImage(images, this.state.email);
+        const imdTypePhoto='imagePhoto';
+        const imdTypePhotoLicense='imagePhotoLicense';
+        this.props.uploadImage(imagePhoto, this.state.email,imdTypePhoto);
+        this.props.uploadImage(imagePhotoLicense, this.state.email,imdTypePhotoLicense);
     };
 
     componentWillReceiveProps(nextProps) {

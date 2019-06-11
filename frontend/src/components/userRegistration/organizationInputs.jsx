@@ -26,11 +26,8 @@ const NewOrganizationInputs = ({
 
                     <MapAutocomplete
                         mapVisibility={mapVisibility}
-                        value={newOrganizationAddress}
-                        onChange={onChangeLocation}
-                        onSelect={onSelectLocation}
+                        onSelectLocation={onSelectLocation}
                         GPS={newOrganizationGPS}
-                        handleMapVisibility={handleMapVisibility}
                         mapContainerClass={'userMapContainer'}
                         mapClass={'userMap'}
                         btnMapClass={'btnCheckMap'}
@@ -50,7 +47,6 @@ NewOrganizationInputs.propTypes = {
     handleInputChange: PropTypes.func.isRequired,
     newOrganizationName: PropTypes.string.isRequired,
     newOrganizationGPS: PropTypes.object.isRequired,
-    onChangeLocation: PropTypes.func.isRequired,
     onSelectLocation: PropTypes.func.isRequired,
     handleMapVisibility: PropTypes.func.isRequired
 };

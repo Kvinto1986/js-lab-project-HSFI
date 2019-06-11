@@ -151,11 +151,6 @@ class Admin extends Component {
         this.props.registerOrganization(organization, this.resetForm);
     };
 
-    handleMapVisibility = (e) => {
-        e.preventDefault();
-        this.setState({mapVisibility: true})
-    };
-
     resetForm = () => {
         this.setState({
             country: '',
@@ -369,6 +364,7 @@ class Admin extends Component {
 
                         <button onClick={this.handleSendInspection}>Search...</button>
                     </div>
+
                     <OperatorsMapContainer
                         inspectionMapVisibility={this.state.inspectionMapVisibility}
                         inspectionsGPS={this.props.inspectionsGPS}

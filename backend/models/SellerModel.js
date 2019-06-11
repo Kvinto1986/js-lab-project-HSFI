@@ -69,7 +69,12 @@ const SellerSchema = new Schema({
         required: true
     },
     archived: '',
-
+    photoURL:{
+        type: String
+    },
+    photoLicenseURL:{
+        type: String
+    },
     date: {
         type: Date,
         default: Date.now

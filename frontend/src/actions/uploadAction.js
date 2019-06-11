@@ -1,10 +1,11 @@
 import axios from 'axios';
 import {GET_ERRORS} from './types';
 
-export const uploadImage = (image, email) => dispatch => {
+export const uploadImage = (image, email,imageType) => dispatch => {
     axios.post("/api/uploads/upload", image, {
         headers: {
-            'email': email
+            'email': email,
+            'emailuser': imageType,
         }
     })
         .then(res => res)
@@ -14,4 +15,4 @@ export const uploadImage = (image, email) => dispatch => {
                 payload: err.response.data
             });
         });
-}
+};
