@@ -5,8 +5,8 @@ import MapAutocomplete from "../map/mapAutocomplete";
 
 const NewOrganizationInputs = ({
                                    organizationInputVisibility, errors, mapVisibility, handleInputChange,
-                                   newOrganizationName, newOrganizationAddress, newOrganizationGPS,
-                                   onChangeLocation, onSelectLocation
+                                   newOrganizationName,newOrganizationGPS,
+                                    onSelectLocation
                                }) => {
     if (!organizationInputVisibility) {
         return (
@@ -47,7 +47,6 @@ NewOrganizationInputs.propTypes = {
     handleInputChange: PropTypes.func.isRequired,
     newOrganizationName: PropTypes.string.isRequired,
     newOrganizationGPS: PropTypes.object.isRequired,
-    onChangeLocation: PropTypes.func.isRequired,
     onSelectLocation: PropTypes.func.isRequired,
     handleMapVisibility: PropTypes.func.isRequired
 };

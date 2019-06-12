@@ -11,7 +11,7 @@ export const setCurrentUser = decoded => {
 };
 
 export const loginUser = (user) => dispatch => {
-    axios.post('/api/users/login', user)
+    axios.post('https://hsfi-back.herokuapp.com/api/users/login', user)
         .then(res => {
             const { token } = res.data;
             localStorage.setItem('jwtToken', token);

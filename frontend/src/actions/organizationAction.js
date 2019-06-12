@@ -2,15 +2,15 @@ import axios from 'axios';
 import {GET_ERRORS,GET_CURRENT_ORGANIZATIONS,} from './types';
 
 
-export const registerOrganization = (organization) => dispatch => {
-    axios.post('/api/organizations/registration', organization)
+export const registerOrganization = (organization,reset) => dispatch => {
+    axios.post('https://hsfi-back.herokuapp.com/api/organizations/registration', organization)
         .then(() => {
-
             dispatch({
                 type: GET_ERRORS,
                 payload: {}
             });
         })
+        .then(() =>reset())
         .catch(err => {
             dispatch({
                 type: GET_ERRORS,
@@ -20,7 +20,7 @@ export const registerOrganization = (organization) => dispatch => {
 };
 
 export const getOrganizations = () => dispatch => {
-    axios.post('/api/organizations/getOrganizations')
+    axios.post('https://hsfi-back.herokuapp.com/api/organizations/getOrganizations')
         .then(res => {
             dispatch({
                 type: GET_CURRENT_ORGANIZATIONS,

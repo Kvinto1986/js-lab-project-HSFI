@@ -151,11 +151,6 @@ class Admin extends Component {
         this.props.registerOrganization(organization, this.resetForm);
     };
 
-    handleMapVisibility = (e) => {
-        e.preventDefault();
-        this.setState({mapVisibility: true})
-    };
-
     resetForm = () => {
         this.setState({
             country: '',
@@ -314,8 +309,8 @@ class Admin extends Component {
                                 value={this.state.newOrganizationName}
                                 className={'formInput'}
                             />
-                            {errors.newOrganizationName && (
-                                <div className="invalidFeedback">{errors.newOrganizationName}</div>)}
+                            {errors.organization && (
+                                <div className="invalidFeedback">{errors.organization}</div>)}
 
                             <MapAutocomplete
                                 error={this.state.errors.newOrganizationAddress}

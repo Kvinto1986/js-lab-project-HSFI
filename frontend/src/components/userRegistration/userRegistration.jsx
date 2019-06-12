@@ -150,15 +150,11 @@ class UserRegistration extends Component {
                 newOrganizationGPS: this.state.newOrganizationGPS
             };
 
-            this.props.registerUser(user, this.resetForm, this.props.history);
             this.props.registerOrganization(organization);
 
         }
 
-        else {
-
             this.props.registerUser(user, this.resetForm, this.props.history);
-        }
 
     };
 

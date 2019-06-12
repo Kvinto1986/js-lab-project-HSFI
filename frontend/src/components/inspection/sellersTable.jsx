@@ -36,7 +36,7 @@ const SellersTable = ({
             }
             const elem = <div className={'inspectionSellerTableSection'} key={userList[i].name + 'div'}>
                 <div><img
-                    src={'../../../static/' + userList[i].photo}/><span>{userList[i].name}<br/>{userList[i].license}</span>
+                    src={userList[i].photo}/><span>{userList[i].name}<br/>{userList[i].license}</span>
                     <button onClick={(e) => {
                         e.preventDefault();
                         openSellerEditModal(userList[i])

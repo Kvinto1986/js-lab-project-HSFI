@@ -2,7 +2,7 @@ import axios from 'axios';
 import {GET_ERRORS, GET_USERS} from './types';
 
 export const registerUser = (user, reset, history) => dispatch => {
-    axios.post('/api/users/registration', user)
+    axios.post('https://hsfi-back.herokuapp.com/api/users/registration', user)
         .then(res => {
             dispatch({
                 type: GET_ERRORS,
@@ -20,7 +20,7 @@ export const registerUser = (user, reset, history) => dispatch => {
 };
 
 export const updateUser = (user, reset) => dispatch => {
-    axios.post('/api/users/update', user)
+    axios.post('https://hsfi-back.herokuapp.com/api/users/update', user)
         .then(res => {
             dispatch({
                 type: GET_ERRORS,
@@ -36,7 +36,7 @@ export const updateUser = (user, reset) => dispatch => {
 };
 
 export const updateUserPassword = (newPassword, updatePassword) => dispatch => {
-    axios.post('/api/users/changePassword', newPassword)
+    axios.post('https://hsfi-back.herokuapp.com/api/users/changePassword', newPassword)
         .then(res => {
             dispatch({
                 type: GET_ERRORS,
@@ -53,7 +53,7 @@ export const updateUserPassword = (newPassword, updatePassword) => dispatch => {
 };
 
 export const getUsers = (role) => dispatch => {
-    axios.post('/api/users/getUsers', role)
+    axios.post('https://hsfi-back.herokuapp.com/api/users/getUsers', role)
         .then(res => {
             dispatch({
                 type: GET_USERS,
@@ -63,7 +63,7 @@ export const getUsers = (role) => dispatch => {
 };
 
 export const confirmUser = (id,refreshUsers) => dispatch =>{
-    axios.post('/api/users/confirmUser', id)
+    axios.post('https://hsfi-back.herokuapp.com/api/users/confirmUser', id)
         .then(res => refreshUsers(0))
         .catch(err => {
             dispatch({

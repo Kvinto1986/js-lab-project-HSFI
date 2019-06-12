@@ -3,7 +3,7 @@ import {GET_CURRENT_REPORT, GET_ERRORS} from './types';
 
 
 export const getReport = (report) => dispatch => {
-    axios.post('/api/reports/getReport', report)
+    axios.post('https://hsfi-back.herokuapp.com/api/reports/getReport', report)
         .then(res => {
             dispatch({
                 type: GET_CURRENT_REPORT,

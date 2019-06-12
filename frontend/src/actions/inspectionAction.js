@@ -2,7 +2,7 @@ import axios from 'axios';
 import {GET_CURRENT_INSPECTION_GPS, GET_CURRENT_INSPECTION_OPERATORS, GET_ERRORS} from './types';
 
 export const registerInspection = (inspection, reset) => dispatch => {
-    axios.post('/api/inspections/registration', inspection)
+    axios.post('https://hsfi-back.herokuapp.com/api/inspections/registration', inspection)
         .then(res => {
             dispatch({
                 type: GET_ERRORS,
@@ -19,7 +19,7 @@ export const registerInspection = (inspection, reset) => dispatch => {
 };
 
 export const getInspectionsOperators = () => dispatch => {
-    axios.post('/api/inspections/getInspectionsOperators')
+    axios.post('https://hsfi-back.herokuapp.com/api/inspections/getInspectionsOperators')
         .then(res => {
             dispatch({
                 type: GET_CURRENT_INSPECTION_OPERATORS,
@@ -29,7 +29,7 @@ export const getInspectionsOperators = () => dispatch => {
 };
 
 export const getInspectionsGPS = (operator, mapVisibility) => dispatch => {
-    axios.post('/api/inspections/getInspections', operator)
+    axios.post('https://hsfi-back.herokuapp.com/api/inspections/getInspections', operator)
         .then(res => {
             dispatch({
                 type: GET_CURRENT_INSPECTION_GPS,

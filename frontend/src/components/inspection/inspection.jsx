@@ -109,7 +109,6 @@ class Inspection extends Component {
         }
 
         this.props.findSellers(sellersParams);
-        console.log(sellersParams)
     };
 
 

@@ -145,9 +145,9 @@ class InspectionModal extends Component {
 
                             <div className={'sellerPhoto'}>
                                 <img alt={this.props.editSeller.photo}
-                                     src={'../../../static/' + this.props.editSeller.photo}/>
+                                     src={this.props.editSeller.photo}/>
                                 <img alt={this.props.editSeller.photoLicense}
-                                     src={'../../../static/' + this.props.editSeller.photoLicense}/>
+                                     src={this.props.editSeller.photoLicense}/>
                             </div>
 
                             <label>Operator name</label>

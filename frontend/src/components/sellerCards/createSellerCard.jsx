@@ -22,9 +22,9 @@ class NewCard extends Component {
     state = {
         license: "",
         seller: null,
-        cardsCount: 0,
+        cardsCount: '',
         cardSerial: '',
-        cost: 0,
+        cost: '',
         currency: "",
         errors: {},
         total:0

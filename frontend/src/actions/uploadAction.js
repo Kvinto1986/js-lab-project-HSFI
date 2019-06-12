@@ -1,17 +1,11 @@
 import axios from 'axios';
 import {GET_ERRORS} from './types';
 
-export const uploadImage = (image, email) => dispatch => {
-    axios.post("/api/uploads/upload", image, {
+export const uploadImage = (image, email,imageType) => dispatch => {
+    axios.post("https://hsfi-back.herokuapp.com/api/uploads/upload", image, {
         headers: {
-            'email': email
+            'email': email,
+            'user': imageType,
         }
     })
-        .then(res => res)
-        .catch(err => {
-            dispatch({
-                type: GET_ERRORS,
-                payload: err.response.data
-            });
-        });
-}
+};

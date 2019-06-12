@@ -3,7 +3,7 @@ import {GET_ERRORS, GET_CURRENT_CARDS} from './types';
 
 
 export const registerCard = (card,reset) => dispatch => {
-    axios.post('/api/sellerCards/registration', card)
+    axios.post('https://hsfi-back.herokuapp.com/api/sellerCards/registration', card)
         .then(res => {
             dispatch({
                 type: GET_ERRORS,
@@ -20,7 +20,7 @@ export const registerCard = (card,reset) => dispatch => {
 };
 
 export const getCards = () => dispatch =>{
-    axios.post('/api/sellerCards/getCards')
+    axios.post('https://hsfi-back.herokuapp.com/api/sellerCards/getCards')
         .then(res => {
             dispatch({
                 type: GET_CURRENT_CARDS,

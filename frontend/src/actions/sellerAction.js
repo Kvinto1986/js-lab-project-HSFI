@@ -7,15 +7,10 @@ import {
     GET_CURRENT_CITY
 } from './types';
 
-export const registerSeller = (user, reset) => dispatch => {
-    axios.post('/api/sellers/registration', user)
-        .then(res => {
-            dispatch({
-                type: GET_ERRORS,
-                payload: {}
-            });
-        })
-        .then (res =>reset())
+export const registerSeller = (user, reset,uploadImage) => dispatch => {
+    axios.post('https://hsfi-back.herokuapp.com/api/sellers/registration', user)
+        .then (() =>{uploadImage()
+    reset()})
         .catch(err => {
             dispatch({
                 type: GET_ERRORS,
@@ -25,7 +20,7 @@ export const registerSeller = (user, reset) => dispatch => {
 };
 
 export const getSellersLicenses = (country) => dispatch =>{
-    axios.post('/api/sellers/getSellersLicenses',country)
+    axios.post('https://hsfi-back.herokuapp.com/api/sellers/getSellersLicenses',country)
         .then(res => {
             dispatch({
                 type: GET_CURRENT_SELLERS_LICENSES,
@@ -35,7 +30,7 @@ export const getSellersLicenses = (country) => dispatch =>{
 };
 
 export const findSeller = (license) => dispatch =>{
-    axios.post('/api/sellers/findSeller',license)
+    axios.post('https://hsfi-back.herokuapp.com/api/sellers/findSeller',license)
         .then(res => {
             dispatch({
                 type: GET_CURRENT_SELLER,
@@ -45,7 +40,7 @@ export const findSeller = (license) => dispatch =>{
 };
 
 export const findSellers = (userParams) => dispatch =>{
-    axios.post('/api/sellers/findSellers',userParams)
+    axios.post('https://hsfi-back.herokuapp.com/api/sellers/findSellers',userParams)
         .then(res => {
             dispatch({
                 type: GET_CURRENT_SELLERS,
@@ -55,7 +50,7 @@ export const findSellers = (userParams) => dispatch =>{
 };
 
 export const getCities = (country) => dispatch =>{
-    axios.post('/api/sellers/getCities',country)
+    axios.post('https://hsfi-back.herokuapp.com/api/sellers/getCities',country)
         .then(res => {
             dispatch({
                 type: GET_CURRENT_CITY,
@@ -65,15 +60,9 @@ export const getCities = (country) => dispatch =>{
 };
 
 export const updateSeller = (seller, reset,findSellers) => dispatch => {
-    axios.post('/api/sellers/update', seller)
-        .then(res => {
-
-            dispatch({
-                type: GET_ERRORS,
-                payload: {}
-            });
-        }).then (res =>reset())
-        .then (res =>findSellers(0))
+    axios.post('https://hsfi-back.herokuapp.com/api/sellers/update', seller)
+        .then (() =>{reset()})
+        .then(()=>setTimeout(()=>{findSellers(0)}, 2500))
         .catch(err => {
             dispatch({
                 type: GET_ERRORS,

@@ -101,14 +101,14 @@ class NewSeller extends Component {
         });
         this.setState({mapVisibility: false});
 
-            geocodeByAddress(location.description)
-                .then(results => {
-                    return getLatLng(results[0])
-                })
-                .then(latLng => {
-                    this.setState({GPS: latLng});
-                    this.setState({mapVisibility: true})
-                })
+        geocodeByAddress(location.description)
+            .then(results => {
+                return getLatLng(results[0])
+            })
+            .then(latLng => {
+                this.setState({GPS: latLng});
+                this.setState({mapVisibility: true})
+            })
 
     };
 
@@ -196,9 +196,10 @@ class NewSeller extends Component {
     handleSubmit = (e) => {
         e.preventDefault();
 
-        const images = new FormData();
-        images.append('file', this.state.photo);
-        images.append('file', this.state.photoLicense);
+        const imagePhoto = new FormData();
+        const imagePhotoLicense = new FormData();
+        imagePhoto.append('file', this.state.photo);
+        imagePhotoLicense.append('file', this.state.photoLicense);
 
         const seller = {
             operatorName: this.props.auth.user.name,
@@ -233,8 +234,16 @@ class NewSeller extends Component {
             seller.country=this.state.country
         }
 
-        this.props.registerSeller(seller, this.resetForm);
-        this.props.uploadImage(images, this.state.email);
+        const imdTypePhoto='imagePhoto';
+        const imdTypePhotoLicense='imagePhotoLicense';
+
+        const upload = () => {
+            this.props.uploadImage(imagePhoto, this.state.email,imdTypePhoto);
+            this.props.uploadImage(imagePhotoLicense, this.state.email,imdTypePhotoLicense);
+        };
+
+        this.props.registerSeller(seller, this.resetForm, upload);
+
     };
 
     componentWillReceiveProps(nextProps) {
@@ -287,11 +296,11 @@ class NewSeller extends Component {
                                     <label>Country</label>
                                     {user.role!=='manager'?(
                                         <Select
-                                        placeholder={user.country}
-                                        value={user.country}
-                                        className={'sellerFormSelect'}
-                                        isDisabled={true}
-                                    />):<Select
+                                            placeholder={user.country}
+                                            value={user.country}
+                                            className={'sellerFormSelect'}
+                                            isDisabled={true}
+                                        />):<Select
                                         options={this.props.countries}
                                         placeholder={'Select country...'}
                                         value={countrySelect}
@@ -408,10 +417,10 @@ class NewSeller extends Component {
 
                                         <h3>Work schedule </h3>
 
-                                            <SheduleListTable
-                                                schedule={this.state.schedule}
-                                                handleDeleteSchedule={this.handleDeleteSchedule}
-                                            />
+                                        <SheduleListTable
+                                            schedule={this.state.schedule}
+                                            handleDeleteSchedule={this.handleDeleteSchedule}
+                                        />
 
                                         <label>Working days </label>
                                         <Select
@@ -447,6 +456,7 @@ class NewSeller extends Component {
                                         />
 
                                         <MapContainer
+                                            error={errors.foodGroup}
                                             onSelectLocation={this.onSelectLocation}
                                             GPS={this.state.GPS}
                                             mapVisibility={this.state.mapVisibility}
@@ -466,10 +476,10 @@ class NewSeller extends Component {
                             </form>
                         </div>
 
-                            <div className="sellerFormBack">
-                                <h1>Seller successfully added to database!</h1>
-                                <img src={likeImg} alt={'like'}/>
-                            </div>
+                        <div className="sellerFormBack">
+                            <h1>Seller successfully added to database!</h1>
+                            <img src={likeImg} alt={'like'}/>
+                        </div>
 
                     </div>
                 </div>
