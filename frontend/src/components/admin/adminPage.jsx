@@ -5,10 +5,10 @@ import {withRouter} from 'react-router-dom';
 import PropTypes from 'prop-types';
 import Select from "react-select";
 import Modal from 'react-modal';
-import {getOrganizations, registerOrganization} from "../../actions/organizationAction";
-import {getCountry, registerCountry} from "../../actions/countryAction";
-import {getFood, registerFood} from "../../actions/foodAction";
-import {getInspectionQuestions, registerInspectionQuestion} from "../../actions/inspectionQuestionsAction";
+import {getOrganizations, registerOrganization,deleteOrganization} from "../../actions/organizationAction";
+import {getCountry, registerCountry,deleteCountry} from "../../actions/countryAction";
+import {getFood, registerFood,deleteFood} from "../../actions/foodAction";
+import {getInspectionQuestions, registerInspectionQuestion,deleteInspectionQuestion} from "../../actions/inspectionQuestionsAction";
 import {getInspectionsOperators, getInspectionsGPS} from "../../actions/inspectionAction";
 
 import countriesArr from "../../resourses/countries";
@@ -40,8 +40,12 @@ class Admin extends Component {
         inspectionMapVisibility: false,
         errors: {},
         operator: '',
-        startDate:'',
-        endDate:''
+        startDate: '',
+        endDate: '',
+        deletedCountry:'',
+        deletedFood:'',
+        deletedQuestion:'',
+        deletedOrganization:'',
     };
 
     handleInputChange = (e) => {
@@ -57,21 +61,22 @@ class Admin extends Component {
         });
     };
 
-    handleInspectionMapVisibility=()=>{
+
+    handleInspectionMapVisibility = () => {
         this.setState({
             inspectionMapVisibility: true
 
         })
     };
 
-    handleSendInspection=()=>{
+    handleSendInspection = () => {
         const operatorSearch = {
             startDate: this.state.startDate,
-            endDate:this.state.endDate,
+            endDate: this.state.endDate,
             operatorName: this.state.operator
         };
 
-        this.props.getInspectionsGPS(operatorSearch,this.handleInspectionMapVisibility)
+        this.props.getInspectionsGPS(operatorSearch, this.handleInspectionMapVisibility)
     };
 
     openModal = (e) => {
@@ -87,7 +92,51 @@ class Admin extends Component {
         this.setState({
             country: countrySelect.value
         });
+    };
 
+    handleChangeDeletedCountry = (countrySelect) => {
+        this.setState({
+            deletedCountry: countrySelect.value
+        });
+    };
+
+    handleChangeDeletedFood = (food) => {
+        this.setState({
+            deletedFood: food.value
+        });
+    };
+
+    handleChangeDeletedQuestion = (question) => {
+        this.setState({
+            deletedQuestion: question.value
+        });
+    };
+
+    handleChangeDeletedOrganization = (organization) => {
+        this.setState({
+            deletedOrganization: organization.value
+        });
+    };
+
+    resetForm = () => {
+        this.setState({
+            country: '',
+            food: '',
+            question: '',
+            countryModal: false,
+            foodModal: false,
+            questionModal: false,
+            organizationModal: false,
+            success: true
+        });
+        setTimeout(() => {
+            this.setState({success: false})
+        }, 5000);
+        this.props.getOrganizations();
+        this.props.getCountry();
+        this.props.getFood();
+        this.props.getInspectionQuestions();
+        this.props.getInspectionsOperators()
     };
 
     handleSubmitFood = (e) => {
@@ -99,13 +148,29 @@ class Admin extends Component {
         this.props.registerFood(food, this.resetForm)
     };
 
+    handleSubmitDeletedFood = (e) => {
+        e.preventDefault();
+        const food = {
+            food: this.state.deletedFood
+        };
+        this.props.deleteFood(food, this.resetForm)
+    };
+
     handleSubmitCountry = (e) => {
         e.preventDefault();
         const country = {
             country: this.state.country
         };
-        console.log(this.state.country);
+
         this.props.registerCountry(country, this.resetForm)
+    };
+
+    handleSubmitDeletedCountry = (e) => {
+        e.preventDefault();
+        const country = {
+            country: this.state.deletedCountry
+        };
+        this.props.deleteCountry(country, this.resetForm)
     };
 
     handleSubmitQuestion = (e) => {
@@ -117,7 +182,15 @@ class Admin extends Component {
         this.props.registerInspectionQuestion(question, this.resetForm)
     };
 
-    handleOrganizationLocation= (location) => {
+    handleSubmitDeletedQuestion = (e) => {
+        e.preventDefault();
+        const question = {
+            question: this.state.deletedQuestion
+        };
+        this.props.deleteInspectionQuestion(question, this.resetForm)
+    };
+
+    handleOrganizationLocation = (location) => {
         this.setState({
             newOrganizationAddress: location.description
         });
@@ -151,21 +224,14 @@ class Admin extends Component {
         this.props.registerOrganization(organization, this.resetForm);
     };
 
-    resetForm = () => {
-        this.setState({
-            country: '',
-            food: '',
-            question: '',
-            countryModal: false,
-            foodModal: false,
-            questionModal: false,
-            organizationModal: false,
-            success: true
-        });
-        setTimeout(() => {
-            this.setState({success: false})
-        }, 5000);
+    handleSubmitDeletedOrganization = (e) => {
+        e.preventDefault();
+        const organization = {
+            organization: this.state.deletedOrganization
+        };
+        this.props.deleteOrganization(organization, this.resetForm)
     };
+
 
     componentWillReceiveProps(nextProps) {
         if (nextProps.errors) {
@@ -181,12 +247,17 @@ class Admin extends Component {
         this.props.getFood();
         this.props.getInspectionQuestions();
         this.props.getInspectionsOperators()
+
     }
 
     render() {
-        const {isAuthenticated, user} = this.props.auth;
+        const {isAuthenticated} = this.props.auth;
         const {errors} = this.state;
         const {country} = this.state.country;
+        const {deletedCountry} = this.state.deletedCountry;
+        const {deletedFood} = this.state.deletedFood;
+        const {deletedQuestion} = this.state.deletedQuestion;
+        const {deletedOrganization} = this.state.deletedOrganization;
         const {operator} = this.state.operator;
 
         const SendSuccess = () => {
@@ -200,6 +271,7 @@ class Admin extends Component {
             } else return null
         };
 
+        console.log(this.props);
 
         if (isAuthenticated) {
             return (
@@ -208,24 +280,23 @@ class Admin extends Component {
                     <div className="adminAddDataContainer">
                         <ul>
                             <li>
-                                <button name={"countryModal"} onClick={this.openModal} className={'modalButton'}>Add
-                                    country
+                                <button name={"countryModal"} onClick={this.openModal} className={'modalButton'}>
+                                    Counties action
                                 </button>
                             </li>
                             <li>
-                                <button name={"foodModal"} onClick={this.openModal} className={'modalButton'}>Add food
-                                    group
+                                <button name={"foodModal"} onClick={this.openModal} className={'modalButton'}>
+                                    Food group action
                                 </button>
                             </li>
                             <li>
-                                <button name={"questionModal"} onClick={this.openModal} className={'modalButton'}>Add
-                                    inspection question
+                                <button name={"questionModal"} onClick={this.openModal} className={'modalButton'}>
+                                    Inspection questions action
                                 </button>
                             </li>
                             <li>
                                 <button name={"organizationModal"} onClick={this.openModal}
-                                        className={'modalButton'}>Add
-                                    organization
+                                        className={'modalButton'}>Organizations action
                                 </button>
                             </li>
                         </ul>
@@ -238,7 +309,7 @@ class Admin extends Component {
                         >
                             <button name={"countryModal"} className={"closeModalBtn"} onClick={this.closeModal}>X
                             </button>
-                            <h2>Select a country from the list</h2>
+                            <h2>Add a country from the list</h2>
                             <Select
                                 options={countriesArr}
                                 placeholder={'Select country...'}
@@ -247,7 +318,17 @@ class Admin extends Component {
                                 className={'countrySelect'}
                             />
                             {errors.country && (<div className="invalidFeedback">{errors.country}</div>)}
-                            <button onClick={this.handleSubmitCountry} className={"submitModalBtn"}>Send</button>
+                            <button onClick={this.handleSubmitCountry} className={"submitModalBtn"}>Add country</button>
+
+                            <h2>Delete a country from the list</h2>
+                            <Select
+                                options={this.props.countries}
+                                placeholder={'Select country...'}
+                                value={deletedCountry}
+                                onChange={this.handleChangeDeletedCountry}
+                                className={'countrySelect'}
+                            />
+                            <button onClick={this.handleSubmitDeletedCountry} className={"submitModalBtn"}>Delete country</button>
                         </Modal>
 
                         <Modal
@@ -257,7 +338,7 @@ class Admin extends Component {
                             className={'modal'}
                         >
                             <button name={"foodModal"} className={"closeModalBtn"} onClick={this.closeModal}>X</button>
-                            <h2>Enter food group </h2>
+                            <h2>Add food group </h2>
                             <input
                                 type="text"
                                 placeholder="Food group"
@@ -267,7 +348,16 @@ class Admin extends Component {
                                 className={'registerFormInput'}
                             />
                             {errors.food && (<div className="invalidFeedback">{errors.food}</div>)}
-                            <button onClick={this.handleSubmitFood} className={"submitModalBtn"}>Send</button>
+                            <button onClick={this.handleSubmitFood} className={"submitModalBtn"}>Add food group</button>
+                            <h2>Delete a food group from the list</h2>
+                            <Select
+                                options={this.props.food}
+                                placeholder={'Select food group...'}
+                                value={deletedFood}
+                                onChange={this.handleChangeDeletedFood}
+                                className={'countrySelect'}
+                            />
+                            <button onClick={this.handleSubmitDeletedFood} className={"submitModalBtn"}>Delete food group</button>
                         </Modal>
 
                         <Modal
@@ -278,7 +368,7 @@ class Admin extends Component {
                         >
                             <button name={"questionModal"} className={"closeModalBtn"} onClick={this.closeModal}>X
                             </button>
-                            <h2>Enter question</h2>
+                            <h2>Add inspection question</h2>
                             <input
                                 type="text"
                                 placeholder="Question"
@@ -288,7 +378,17 @@ class Admin extends Component {
                                 className={'registerFormInput'}
                             />
                             {errors.question && (<div className="invalidFeedback">{errors.question}</div>)}
-                            <button onClick={this.handleSubmitQuestion} className={"submitModalBtn"}>Send</button>
+                            <button onClick={this.handleSubmitQuestion} className={"submitModalBtn"}>Add question</button>
+
+                            <h2>Delete inspection question</h2>
+                            <Select
+                                options={this.props.inspectionQuestions}
+                                placeholder={'Select question...'}
+                                value={deletedQuestion}
+                                onChange={this.handleChangeDeletedQuestion}
+                                className={'countrySelect'}
+                            />
+                            <button onClick={this.handleSubmitDeletedQuestion} className={"submitModalBtn"}>Delete question</button>
                         </Modal>
 
                         <Modal
@@ -300,7 +400,7 @@ class Admin extends Component {
                             <button name={"organizationModal"} className={"closeModalBtn"} onClick={this.closeModal}>X
                             </button>
 
-                            <h2>Enter organization</h2>
+                            <h2>Add new organization</h2>
                             <input
                                 type="text"
                                 placeholder="Organization"
@@ -322,13 +422,23 @@ class Admin extends Component {
                                 mapContainerClass={'adminMap'}
                             />
 
-                            <button onClick={this.handleSubmitOrganization} className={"submitModalBtn"}>Send</button>
+                            <button onClick={this.handleSubmitOrganization} className={"submitModalBtn"}>Add organization</button>
+
+                            <h2>Delete organization</h2>
+                            <Select
+                                options={this.props.organizations}
+                                placeholder={'Select organization...'}
+                                value={deletedOrganization}
+                                onChange={this.handleChangeDeletedOrganization}
+                                className={'countrySelect'}
+                            />
+                            <button onClick={this.handleSubmitDeletedOrganization} className={"submitModalBtn"}>Delete organization</button>
                         </Modal>
                     </div>
 
                     <SendSuccess/>
                     <div className={'searchInspectionsForm'}>
-                    <h1>Track operator</h1>
+                        <h1>Track operator</h1>
                         <div className={'searchInspectionsFormSection'}>
                             <label>From</label>
                             <input
@@ -341,7 +451,7 @@ class Admin extends Component {
                         </div>
 
                         <div className={'searchInspectionsFormSection'}>
-                        <label>To</label>
+                            <label>To</label>
                             <input
                                 type={'date'}
                                 onChange={this.handleInputChange}
@@ -352,13 +462,13 @@ class Admin extends Component {
                         </div>
 
                         <div className={'searchInspectionsFormSection'}>
-                    <Select
-                        placeholder={'Select operator...'}
-                        value={operator}
-                        onChange={this.handleChangeOperator}
-                        options={this.props.inspectionsOperators}
-                        className={'searchInspectionSelect'}
-                    />
+                            <Select
+                                placeholder={'Select operator...'}
+                                value={operator}
+                                onChange={this.handleChangeOperator}
+                                options={this.props.inspectionsOperators}
+                                className={'searchInspectionSelect'}
+                            />
                             {errors.operatorName && (<div className="invalidFeedback">{errors.operatorName}</div>)}
                         </div>
 
@@ -391,7 +501,7 @@ const mapStateToProps = state => ({
     countries: state.countries,
     organizations: state.organizations,
     food: state.food,
-    inspectionQuestions: state.questions,
+    inspectionQuestions: state.inspectionQuestions,
     inspectionsOperators: state.inspectionsOperators,
     inspectionsGPS: state.inspectionsGPS,
 });
@@ -406,5 +516,9 @@ export default connect(mapStateToProps, {
     getInspectionQuestions,
     registerInspectionQuestion,
     getInspectionsOperators,
-    getInspectionsGPS
+    getInspectionsGPS,
+    deleteOrganization,
+    deleteCountry,
+    deleteFood,
+    deleteInspectionQuestion
 })(withRouter(Admin))

@@ -30,19 +30,21 @@ class InspectionModal extends Component {
 
     handleOSSPlus = (e) => {
         this.setState({[e.target.name]: true});
-        this.setState({OSS: this.state.OSS += 2});
+        const OSS=this.state.OSS+2;
+        this.setState({OSS: OSS});
     };
 
     handleOSSMinus = (e) => {
         this.setState({[e.target.name]: false});
-        this.setState({OSS: this.state.OSS -= 2});
+        const OSS=this.state.OSS-2;
+        this.setState({OSS: OSS});
     };
 
     radioStatus = () => {
         for (let i = 0; i < this.props.inspectionQuestions.length; i++) {
             this.setState({[this.props.inspectionQuestions[i]._id]: true});
         }
-        this.setState({OSS: this.state.OSS = this.props.inspectionQuestions.length});
+        this.setState({OSS: this.props.inspectionQuestions.length});
         this.getCurrentLoacation();
     };
 
@@ -94,7 +96,6 @@ class InspectionModal extends Component {
 
     componentDidMount() {
         this.props.getInspectionQuestions(this.radioStatus);
-        console.log(this.props)
     }
 
     render() {

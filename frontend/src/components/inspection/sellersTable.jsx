@@ -34,8 +34,8 @@ const SellersTable = ({
                     location.push(userList[i].schedule[j].GPS)
                 }
             }
-            const elem = <div className={'inspectionSellerTableSection'} key={userList[i].name + 'div'}>
-                <div><img
+            const elem = <div className={'inspectionSellerTableSection'} key={userList[i].name + userList[i].license}>
+                <div><img alt={userList[i].name}
                     src={userList[i].photo}/><span>{userList[i].name}<br/>{userList[i].license}</span>
                     <button onClick={(e) => {
                         e.preventDefault();

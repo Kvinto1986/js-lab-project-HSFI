@@ -20,6 +20,7 @@ router.post('/registration', function (req, res) {
     if (!isValid) {
         return res.status(400).json(errors);
     }
+
     User.findOne({
         email: req.body.email
     }).then(user => {
@@ -102,6 +103,7 @@ router.post('/registration', function (req, res) {
                     });
                 }
             });
+            res.json(user)
         }
     });
 });

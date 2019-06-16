@@ -6,7 +6,7 @@ const SellerInfo =({seller})=> {
         return (
             <div className="sellerInfo">
                 <h3>Seller info</h3>
-                <img src={seller.photo}/>
+                <img alt={seller.name} src={seller.photo}/>
                 <ul>
                     <li><span><strong>Name: </strong></span><span>{seller.name}</span></li>
                     <li><span><strong>License: </strong></span><span>{seller.license}</span></li>

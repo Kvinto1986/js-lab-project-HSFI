@@ -46,4 +46,10 @@ router.post('/getOrganizations', function(req, res) {
     });
 });
 
+router.post('/deleteOrganization', function(req, res) {
+    Organization.remove(req.body, function(err, organization) {
+        res.send(organization);
+    });
+});
+
 module.exports = router;

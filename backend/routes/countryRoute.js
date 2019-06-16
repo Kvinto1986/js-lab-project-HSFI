@@ -43,4 +43,11 @@ router.post('/getCountry', function(req, res) {
     });
 });
 
+router.post('/deleteCountry', function(req, res) {
+    Country.remove(req.body, function(err, country) {
+        res.send(country);
+    });
+});
+
+
 module.exports = router;

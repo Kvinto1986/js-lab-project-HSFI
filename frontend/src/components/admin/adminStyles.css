@@ -3,7 +3,7 @@
     flex-wrap: wrap;
     justify-content: center;
     justify-items: center;
-    align-content: start;
+    align-content: flex-start;
     align-items: center;
 
     width: 100%;
@@ -14,13 +14,13 @@
     background-size: 100%, 100%, contain;
 }
 
-.adminMainContainer h1{
+.adminMainContainer h1 {
     width: 100%;
 
     text-align: center;
 }
 
-.adminAddDataContainer{
+.adminAddDataContainer {
     display: flex;
     justify-content: center;
     justify-items: center;
@@ -30,15 +30,16 @@
     width: 90%;
 }
 
-.adminAddDataContainer ul{
+.adminAddDataContainer ul {
     width: 100%;
 }
 
-.adminAddDataContainer ul li{
+.adminAddDataContainer ul li {
     display: inline;
     list-style-type: none;
 }
-.adminSuccessContainer{
+
+.adminSuccessContainer {
     display: flex;
     justify-content: center;
     justify-items: center;
@@ -51,14 +52,17 @@
 
     background-color: #01bc9d;
 }
-.adminSuccessContainer h1{
+
+.adminSuccessContainer h1 {
     width: 70%;
     text-align: center;
 }
-.adminSuccessContainer img{
+
+.adminSuccessContainer img {
 
     width: 8%;
 }
+
 .modal {
     display: flex;
     flex-wrap: wrap;
@@ -69,7 +73,6 @@
 
     width: 40%;
     height: 50%;
-
 
     margin-left: 30%;
     margin-top: 7%;
@@ -102,7 +105,6 @@
     color: white;
 }
 
-
 .closeModalBtn {
     width: 2vw;
     height: 2vw;
@@ -118,7 +120,7 @@
     color: white;
 }
 
-.modalMap{
+.modalMap {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
@@ -137,13 +139,13 @@
     border-radius: 10px;
 }
 
-.modalMap h2{
+.modalMap h2 {
     width: 100%;
     text-align: center;
     color: white;
 }
 
-.modalMap input{
+.modalMap input {
     width: 67.5%;
 
     margin-top: 0.5%;
@@ -155,7 +157,7 @@
     border-radius: 5px;
 }
 
-.modalMap label{
+.modalMap label {
     width: 30%;
 
     color: white;
@@ -205,7 +207,8 @@
     font-size: 0.7vw;
     color: brown;
 }
-.adminMap{
+
+.adminMap {
     display: flex;
     justify-content: center;
     justify-items: center;
@@ -221,11 +224,12 @@
     margin-bottom: 1%
 }
 
-.inspectionMapContainer{
+.inspectionMapContainer {
     width: 80vw;
     height: 25vw;
 }
-.searchInspectionsForm{
+
+.searchInspectionsForm {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
@@ -241,7 +245,7 @@
     border-radius: 10px;
 }
 
-.searchInspectionsFormSection{
+.searchInspectionsFormSection {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
@@ -252,28 +256,27 @@
     width: 30%;
 }
 
-.searchInspectionsFormSection label{
+.searchInspectionsFormSection label {
     color: white;
     margin-right: 5%;
 }
 
-.searchInspectionsFormSection input{
+.searchInspectionsFormSection input {
     padding: 1% 1%;
 
     font-size: 0.7vw;
     border-radius: 5px;
 }
 
+.searchInspectionsForm h1 {
+    color: white;
+}
 
-.searchInspectionsForm h1{
-     color: white;
- }
-
-.searchInspectionSelect{
+.searchInspectionSelect {
     width: 100%;
 }
 
-.searchInspectionsForm button{
+.searchInspectionsForm button {
     width: 40%;
     margin-top: 2%;
     margin-bottom: 2%;

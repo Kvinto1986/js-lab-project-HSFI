@@ -89,7 +89,7 @@ class NewSeller extends Component {
         e.preventDefault();
         const index = this.state.ingredientSuppliers.indexOf(e.target.name);
         this.state.ingredientSuppliers.splice(index, 1);
-        console.log(this.state.ingredientSuppliers);
+
         this.setState({
             ingredientSuppliers: this.state.ingredientSuppliers
         });
@@ -122,9 +122,13 @@ class NewSeller extends Component {
             && this.state.beginningWork !== '' && this.state.endWork !== '') {
             const schedule = {};
 
-            for (let i = 0; i < this.state.workingDays.length; i++) {
-                this.state.workingDays[i] = this.state.workingDays[i].value
+            const workingDaysArr = this.state.workingDays;
+
+            for (let i = 0; i < workingDaysArr.length; i++) {
+                workingDaysArr[i] = workingDaysArr[i].value
             }
+
+            this.setState({workingDaysArr: workingDaysArr});
 
             schedule.address = this.state.address;
             schedule.GPS = this.state.GPS;
@@ -148,10 +152,10 @@ class NewSeller extends Component {
     handleDeleteSchedule = (e) => {
         e.preventDefault();
         const index = this.state.schedule.indexOf(e.target.name);
-        console.log(this.state.schedule[index]);
+
 
         this.state.schedule.splice(index, 1);
-        console.log(this.state.schedule);
+
         this.setState({
             schedule: this.state.schedule
         });
@@ -160,7 +164,7 @@ class NewSeller extends Component {
     };
 
     resetForm = () => {
-        const rotateElem=document.getElementById("sellerFormInner");
+        const rotateElem = document.getElementById("sellerFormInner");
         rotateElem.style.transform = "rotateY(180deg)";
 
         this.setState({
@@ -226,20 +230,20 @@ class NewSeller extends Component {
         if (this.state.photoLicense.name) {
             seller.photoLicense = this.state.email + '-' + this.state.photoLicense.name
         }
-        if(this.props.auth.user.role!=='manager'){
-            seller.country=this.props.auth.user.country
+        if (this.props.auth.user.role !== 'manager') {
+            seller.country = this.props.auth.user.country
         }
 
-        if(this.props.auth.user.role==='manager'){
-            seller.country=this.state.country
+        if (this.props.auth.user.role === 'manager') {
+            seller.country = this.state.country
         }
 
-        const imdTypePhoto='imagePhoto';
-        const imdTypePhotoLicense='imagePhotoLicense';
+        const imdTypePhoto = 'imagePhoto';
+        const imdTypePhotoLicense = 'imagePhotoLicense';
 
         const upload = () => {
-            this.props.uploadImage(imagePhoto, this.state.email,imdTypePhoto);
-            this.props.uploadImage(imagePhotoLicense, this.state.email,imdTypePhotoLicense);
+            this.props.uploadImage(imagePhoto, this.state.email, imdTypePhoto);
+            this.props.uploadImage(imagePhotoLicense, this.state.email, imdTypePhotoLicense);
         };
 
         this.props.registerSeller(seller, this.resetForm, upload);
@@ -294,13 +298,13 @@ class NewSeller extends Component {
                                     {errors.name && (<div className="invalidFeedback">{errors.name}</div>)}
 
                                     <label>Country</label>
-                                    {user.role!=='manager'?(
+                                    {user.role !== 'manager' ? (
                                         <Select
                                             placeholder={user.country}
                                             value={user.country}
                                             className={'sellerFormSelect'}
                                             isDisabled={true}
-                                        />):<Select
+                                        />) : <Select
                                         options={this.props.countries}
                                         placeholder={'Select country...'}
                                         value={countrySelect}

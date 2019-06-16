@@ -4,7 +4,7 @@ import {Provider} from 'react-redux';
 import store from './store';
 import jwt_decode from 'jwt-decode';
 import setAuthToken from './setAuthToken';
-import {setCurrentUser, logoutUser} from './actions/authenticationAction';
+import {setCurrentUser} from './actions/authenticationAction';
 
 import Navbar from './components/navigation/navbar';
 import UserRegistration from './components/userRegistration/userRegistration';
@@ -24,7 +24,7 @@ if (localStorage.jwtToken) {
     store.dispatch(setCurrentUser(decoded));
 }
 
-class App extends Component {
+    class App extends Component {
 
     render() {
         return (

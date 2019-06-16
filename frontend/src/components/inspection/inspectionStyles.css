@@ -3,7 +3,7 @@
     flex-wrap: wrap;
     justify-content: center;
     justify-items: center;
-    align-content: start;
+    align-content: flex-start;
     align-items: center;
 
     width: 100%;
@@ -18,7 +18,7 @@
 .inspectionSearchForm{
     display: flex;
     flex-wrap: wrap;
-    justify-content: start;
+    justify-content: flex-start;
     justify-items: center;
     align-content: center;
     align-items: center;
@@ -94,9 +94,9 @@
 
 .inspectionModalH{
     display: flex;
-    justify-content: start;
+    justify-content: flex-start;
     justify-items: center;
-    align-content: start;
+    align-content: flex-start;
     align-items: center;
 
     width: 100%;
@@ -290,9 +290,9 @@
 .inspectionModalSection{
     display: flex;
     flex-wrap: wrap;
-    justify-content: start;
-    justify-items: start;
-    align-content: start;
+    justify-content: flex-start;
+    justify-items: flex-start;
+    align-content: flex-start;
     align-items: center;
 
     width: 60%;
@@ -326,9 +326,9 @@
 .inspectionModalRadioSection{
     display: flex;
     flex-wrap: wrap;
-    justify-content: start;
-    justify-items: start;
-    align-content: start;
+    justify-content: flex-start;
+    justify-items: flex-start;
+    align-content: flex-start;
     align-items: center;
 
     width: 40%;

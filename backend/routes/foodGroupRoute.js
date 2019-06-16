@@ -43,4 +43,10 @@ router.post('/getFood', function(req, res) {
     });
 });
 
+router.post('/deleteFood', function(req, res) {
+    Food.remove(req.body, function(err, food) {
+        res.send(food);
+    });
+});
+
 module.exports = router;

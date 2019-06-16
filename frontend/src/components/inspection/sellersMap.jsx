@@ -1,5 +1,4 @@
-import React, {Component, Fragment} from 'react';
-import PropTypes from 'prop-types';
+import React, {Component} from 'react';
 import {Map, GoogleApiWrapper, Marker} from 'google-maps-react';
 
 export class SellersMapContainer extends Component {
@@ -40,7 +39,6 @@ export class SellersMapContainer extends Component {
         );
     }
 }
-
 
 export default GoogleApiWrapper({
     apiKey: 'AIzaSyCCqDJQC4lVsw4pDBHE9D7NbPnlLtqO4yE'

@@ -6,7 +6,7 @@ const SheduleListTable = ({schedule, handleDeleteSchedule}) => {
         const liArr = [];
 
         for (let i = 0; i < schedule.length; i++) {
-            liArr.push(<tr key={i}>
+            liArr.push(<tr key={schedule[i].beginningWork+schedule[i].endWork}>
                 <td key={schedule[i].address}>
                     {schedule[i].address}</td>
 

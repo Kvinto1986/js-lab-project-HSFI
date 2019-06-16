@@ -3,7 +3,7 @@
     flex-wrap: wrap;
     justify-content: center;
     justify-items: center;
-    align-content: start;
+    align-content: flex-start;
     align-items: center;
 
     width: 100%;

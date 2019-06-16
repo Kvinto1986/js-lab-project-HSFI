@@ -1,9 +1,9 @@
 import axios from 'axios';
 import {GET_CURRENT_REPORT, GET_ERRORS} from './types';
-
+import server from '../utils/serverConfig'
 
 export const getReport = (report) => dispatch => {
-    axios.post('https://hsfi-back.herokuapp.com/api/reports/getReport', report)
+    axios.post(`${server}api/reports/getReport`, report)
         .then(res => {
             dispatch({
                 type: GET_CURRENT_REPORT,

@@ -192,9 +192,7 @@ router.post('/update', function (req, res) {
                 } else {
                     seller.name= req.body.name,
                         seller.country= req.body.country,
-                        seller.photo= req.body.photo,
                         seller.license= req.body.license,
-                        seller.photoLicense=req.body.photoLicense,
                         seller.location= req.body.location,
                         seller.schedule= req.body.schedule,
                         seller.phone= req.body.phone,

@@ -2,6 +2,7 @@ import axios from 'axios';
 import {GET_ERRORS, GET_CURRENT_USER} from './types';
 import jwt_decode from 'jwt-decode';
 import setAuthToken from '../setAuthToken'
+import server from '../utils/serverConfig'
 
 export const setCurrentUser = decoded => {
     return {
@@ -11,19 +12,27 @@ export const setCurrentUser = decoded => {
 };
 
 export const loginUser = (user) => dispatch => {
-    axios.post('https://hsfi-back.herokuapp.com/api/users/login', user)
+    axios.post(`${server}api/users/login`, user)
         .then(res => {
-            const { token } = res.data;
+            const {token} = res.data;
             localStorage.setItem('jwtToken', token);
             setAuthToken(token);
             const decoded = jwt_decode(token);
             dispatch(setCurrentUser(decoded));
         })
-        .catch(err => {
+        .then(res => {
             dispatch({
                 type: GET_ERRORS,
-                payload: err.response.data
+                payload: {}
             });
+        })
+        .catch(err => {
+            if (err.response) {
+                dispatch({
+                    type: GET_ERRORS,
+                    payload: err.response.data
+                });
+            }
         });
 };
 

@@ -8,7 +8,7 @@ import 'react-phone-input-2/dist/style.css'
 
 import {getOrganizations, registerOrganization} from '../../actions/organizationAction';
 import {getCountry} from '../../actions/countryAction';
-import {updateUser, updateUserPassword, getUsers,confirmUser} from '../../actions/userAction';
+import {updateUser, updateUserPassword, getUsers, confirmUser} from '../../actions/userAction';
 import {logoutUser, loginUser} from '../../actions/authenticationAction';
 
 
@@ -87,22 +87,29 @@ class Profile extends Component {
         });
     };
 
-    refreshUsers=(num)=> {
+    refreshUsers = (num) => {
+        const currPage = this.state.page + num;
+
+
         const confirmUsersRole = {
             role: this.state.role,
-            page: this.state.page+=num
+            page: currPage
         };
 
-        if(this.props.auth.user.role==='coordinator'){
-            confirmUsersRole.country=this.props.auth.user.country
+        this.setState({
+            page: currPage
+        });
+
+        if (this.props.auth.user.role === 'coordinator') {
+            confirmUsersRole.country = this.props.auth.user.country
         }
 
         this.props.getUsers(confirmUsersRole);
-        console.log(confirmUsersRole)
+
     };
 
-    handleConfirmUser =  (user)=> {
-        this.props.confirmUser({id:user._id},this.refreshUsers);
+    handleConfirmUser = (user) => {
+        this.props.confirmUser({id: user._id}, this.refreshUsers);
     };
 
     resetForm = () => {
@@ -310,15 +317,15 @@ class Profile extends Component {
                             <img src={likeImg} alt={'like'}/>
                         </div>
                     </div>
-                        <UsersListTable
-                            users={this.props.users}
-                            handleConfirmUser={this.handleConfirmUser}
-                            hasPrevPage={this.props.users.hasPrevPage}
-                            hasNextPage={this.props.users.hasNextPage}
-                            handlePrevUsersPage={this.handlePrevUsersPage}
-                            handleNextUsersPage={this.handleNextUsersPage}
-                            totalUsers={this.props.users.totalDocs}
-                        />
+                    <UsersListTable
+                        users={this.props.users}
+                        handleConfirmUser={this.handleConfirmUser}
+                        hasPrevPage={this.props.users.hasPrevPage}
+                        hasNextPage={this.props.users.hasNextPage}
+                        handlePrevUsersPage={this.handlePrevUsersPage}
+                        handleNextUsersPage={this.handleNextUsersPage}
+                        totalUsers={this.props.users.totalDocs}
+                    />
                 </div>
             )
         } else return (<Redirect to={{
@@ -335,7 +342,7 @@ Profile.propTypes = {
     logoutUser: PropTypes.func.isRequired,
     loginUser: PropTypes.func.isRequired,
     getUsers: PropTypes.func.isRequired,
-    confirmUser:PropTypes.func.isRequired,
+    confirmUser: PropTypes.func.isRequired,
     updateUserPassword: PropTypes.func.isRequired,
     auth: PropTypes.object.isRequired,
     organizations: PropTypes.array.isRequired,

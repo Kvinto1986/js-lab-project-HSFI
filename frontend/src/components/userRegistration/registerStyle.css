@@ -31,9 +31,9 @@
 .userformSection{
     display: flex;
     flex-wrap: wrap;
-    justify-content: start;
-    justify-items: start;
-    align-content: start;
+    justify-content: flex-start;
+    justify-items: flex-start;
+    align-content: flex-start;
     align-items: center;
 
     width: 40vw;
@@ -87,9 +87,9 @@
 .searchLocationContainer{
     display: flex;
     flex-wrap: wrap;
-    justify-content: start;
-    justify-items: start;
-    align-content: start;
+    justify-content: flex-start;
+    justify-items: flex-start;
+    align-content: flex-start;
     align-items: center;
 
     width: 100%;

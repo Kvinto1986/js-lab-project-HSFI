@@ -31,9 +31,9 @@
 .loginFormSection{
     display: flex;
     flex-wrap: wrap;
-    justify-content: start;
-    justify-items: start;
-    align-content: start;
+    justify-content: flex-start;
+    justify-items: flex-start;
+    align-content: flex-start;
     align-items: center;
 
     width: 30vw;

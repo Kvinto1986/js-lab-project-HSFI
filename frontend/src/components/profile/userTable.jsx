@@ -1,5 +1,4 @@
 import React from "react";
-import PropTypes from "prop-types";
 
 const UsersListTable = ({users, handleConfirmUser,hasPrevPage,hasNextPage,handlePrevUsersPage,handleNextUsersPage,totalUsers}) => {
     if (totalUsers>0) {
@@ -7,7 +6,7 @@ const UsersListTable = ({users, handleConfirmUser,hasPrevPage,hasNextPage,handle
         const liArr = [];
 
         for (let i = 0; i < userList.length; i++) {
-            liArr.push(<tr key={i}>
+            liArr.push(<tr key={userList[i].country+userList[i].name}>
                 <td key={userList[i].country}>
                     {userList[i].country}</td>
                 <td key={userList[i].name}>
@@ -17,7 +16,7 @@ const UsersListTable = ({users, handleConfirmUser,hasPrevPage,hasNextPage,handle
                 <td key={userList[i].organization}>
                     {userList[i].organization}</td>
                 <td key={userList[i].id}>
-                    <button key={userList[i].id} className={'confirmUserBtn'} onClick={(e)=>{ e.preventDefault();
+                    <button key={userList[i].id+userList[i].organization} className={'confirmUserBtn'} onClick={(e)=>{ e.preventDefault();
                     handleConfirmUser(userList[i])}}>Confirm</button></td>
             </tr>)
         }
@@ -45,9 +44,6 @@ const UsersListTable = ({users, handleConfirmUser,hasPrevPage,hasNextPage,handle
 
         )
     } else return null
-};
-
-UsersListTable.propTypes = {
 };
 
 export default UsersListTable

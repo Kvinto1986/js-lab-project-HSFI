@@ -6,4 +6,4 @@ export const getRandomSerial = function () {
 
 export const sum=function(a, b) {
     return a + b;
-}
+};

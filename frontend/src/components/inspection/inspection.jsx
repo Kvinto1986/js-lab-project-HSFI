@@ -88,6 +88,9 @@ class Inspection extends Component {
     };
 
     findSellers = (num) => {
+        const currPage=this.state.page+num ;
+
+        this.setState({page: currPage});
 
         const sellersParams = {
             sellers: {
@@ -97,7 +100,7 @@ class Inspection extends Component {
                 stars:this.state.stars,
                 flag:this.state.flag
             },
-            page: this.state.page += num,
+            page: currPage,
             status:this.state.status,
         };
 

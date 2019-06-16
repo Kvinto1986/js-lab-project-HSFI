@@ -130,6 +130,8 @@ class UserRegistration extends Component {
     handleSubmit = (e) => {
         e.preventDefault();
 
+        const organization = {};
+
         const user = {
             role: this.state.role,
             country: this.state.country,
@@ -144,17 +146,13 @@ class UserRegistration extends Component {
 
         if (this.state.organizationInputVisibility === false && this.state.role !== 'operator') {
 
-            const organization = {
-                newOrganizationName: this.state.newOrganizationName,
-                newOrganizationAddress: this.state.newOrganizationAddress,
-                newOrganizationGPS: this.state.newOrganizationGPS
-            };
-
-            this.props.registerOrganization(organization);
+                organization.newOrganizationName=this.state.newOrganizationName;
+                organization.newOrganizationAddress=this.state.newOrganizationAddress;
+                organization.newOrganizationGPS=this.state.newOrganizationGPS;
 
         }
 
-            this.props.registerUser(user, this.resetForm, this.props.history);
+            this.props.registerUser(user, this.resetForm, this.props.history,this.props.registerOrganization,organization);
 
     };
 

@@ -74,9 +74,9 @@
 .sellerformSection{
     display: flex;
     flex-wrap: wrap;
-    justify-content: start;
-    justify-items: start;
-    align-content: start;
+    justify-content: flex-start;
+    justify-items: flex-start;
+    align-content: flex-start;
     align-items: center;
 
     width: 50%;
@@ -161,8 +161,8 @@
 .sellerIngredientFormSection ul{
     display: flex;
     flex-wrap: wrap;
-    justify-content: start;
-    justify-items: start;
+    justify-content: flex-start;
+    justify-items: flex-start;
     align-content: center;
     align-items: center;
 
@@ -194,8 +194,8 @@
 .sellerScheduleFormSection{
     display: flex;
     flex-wrap: wrap;
-    justify-content: start;
-    justify-items: start;
+    justify-content: flex-start;
+    justify-items: flex-start;
     align-content: center;
     align-items: center;
 

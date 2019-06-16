@@ -1,10 +1,11 @@
 {
-  "value": "backend",
+  "name": "backend",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node app.js"
   },
   "keywords": [],
   "author": "",
@@ -15,6 +16,7 @@
     "cors": "^2.8.5",
     "express": "^4.16.3",
     "express-fileupload": "^1.1.4",
+    "cloudinary": "^1.14.0",
     "file-system": "^2.2.2",
     "gravatar": "^1.6.0",
     "jsonwebtoken": "^8.3.0",
@@ -26,5 +28,8 @@
     "passport-jwt": "^4.0.0",
     "select": "^1.1.2",
     "validator": "^10.4.0"
+  },
+  "devDependencies": {
+    "nodemon": "^1.19.1"
   }
 }

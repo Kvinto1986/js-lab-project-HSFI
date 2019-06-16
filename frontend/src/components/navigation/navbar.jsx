@@ -24,7 +24,7 @@ class Navbar extends Component {
 
         const authLinks = (
             <div className="authContainer">
-                <Link className="authContainerLink" to="/profile">Profile</Link>
+                <Link className="authContainerLink" to="/profile">{user.name} <br/>Profile</Link>
                 <Link className="authContainerLink" to="" onClick={this.onLogout.bind(this)}>
                     <img src={user.avatar} alt={user.name} title={user.name}/>
                     Logout

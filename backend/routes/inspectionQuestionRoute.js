@@ -32,8 +32,20 @@ router.post('/registration', function(req, res) {
 });
 
 router.post('/getQuestions', function(req, res) {
-    InspectionQuestion.find({}, function(err, country) {
-        res.send(country);
+    InspectionQuestion.find({}, function(err, questions) {
+        const arr=questions.map(function (elem) {
+            const newElem={};
+            newElem.value=elem.question;
+            newElem.label=elem.question;
+            return newElem
+        });
+        res.send(arr);
+    });
+});
+
+router.post('/deleteQuestion', function(req, res) {
+    InspectionQuestion.remove(req.body, function(err, question) {
+        res.send(question);
     });
 });
 

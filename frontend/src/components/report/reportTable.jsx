@@ -5,9 +5,9 @@ const ReportTable = ({report}) => {
 
 
     const pdfCreate=(e)=>{
-        e.preventDefault()
+        e.preventDefault();
 
-        const doc = new jsPDF
+        const doc = new jsPDF();
         doc.text(
             `
                     ************************************************************************

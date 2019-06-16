@@ -1,5 +1,4 @@
 import React, {Component, Fragment} from 'react';
-import {Redirect} from 'react-router-dom';
 import {connect} from 'react-redux';
 import {withRouter} from 'react-router-dom';
 import PropTypes from 'prop-types';
@@ -101,7 +100,6 @@ class SellerModal extends Component {
         e.preventDefault();
         const index = this.state.ingredientSuppliers.indexOf(e.target.name);
         this.state.ingredientSuppliers.splice(index, 1);
-        console.log(this.state.ingredientSuppliers);
         this.setState({
             ingredientSuppliers: this.state.ingredientSuppliers
         });
@@ -143,9 +141,13 @@ class SellerModal extends Component {
             && this.state.beginningWork !== '' && this.state.endWork !== '') {
             const schedule = {};
 
-            for (let i = 0; i < this.state.workingDays.length; i++) {
-                this.state.workingDays[i] = this.state.workingDays[i].value
+            const workingDaysArr = this.state.workingDays;
+
+            for (let i = 0; i < workingDaysArr.length; i++) {
+                workingDaysArr[i] = workingDaysArr[i].value
             }
+
+            this.setState({workingDaysArr: workingDaysArr});
 
             schedule.address = this.state.address;
             schedule.GPS = this.state.GPS;
@@ -169,10 +171,9 @@ class SellerModal extends Component {
     handleDeleteSchedule = (e) => {
         e.preventDefault();
         const index = this.state.schedule.indexOf(e.target.name);
-        console.log(this.state.schedule[index]);
 
         this.state.schedule.splice(index, 1);
-        console.log(this.state.schedule);
+
         this.setState({
             schedule: this.state.schedule
         });

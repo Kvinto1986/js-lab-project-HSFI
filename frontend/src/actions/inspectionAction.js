@@ -1,8 +1,9 @@
 import axios from 'axios';
 import {GET_CURRENT_INSPECTION_GPS, GET_CURRENT_INSPECTION_OPERATORS, GET_ERRORS} from './types';
+import server from '../utils/serverConfig'
 
 export const registerInspection = (inspection, reset) => dispatch => {
-    axios.post('https://hsfi-back.herokuapp.com/api/inspections/registration', inspection)
+    axios.post(`${server}api/inspections/registration`, inspection)
         .then(res => {
             dispatch({
                 type: GET_ERRORS,
@@ -11,15 +12,17 @@ export const registerInspection = (inspection, reset) => dispatch => {
         })
         .then(res => reset())
         .catch(err => {
-            dispatch({
-                type: GET_ERRORS,
-                payload: err.response.data
-            });
+            if (err.response) {
+                dispatch({
+                    type: GET_ERRORS,
+                    payload: err.response.data
+                });
+            }
         });
 };
 
 export const getInspectionsOperators = () => dispatch => {
-    axios.post('https://hsfi-back.herokuapp.com/api/inspections/getInspectionsOperators')
+    axios.post(`${server}api/inspections/getInspectionsOperators`)
         .then(res => {
             dispatch({
                 type: GET_CURRENT_INSPECTION_OPERATORS,
@@ -29,7 +32,7 @@ export const getInspectionsOperators = () => dispatch => {
 };
 
 export const getInspectionsGPS = (operator, mapVisibility) => dispatch => {
-    axios.post('https://hsfi-back.herokuapp.com/api/inspections/getInspections', operator)
+    axios.post(`${server}api/inspections/getInspections`, operator)
         .then(res => {
             dispatch({
                 type: GET_CURRENT_INSPECTION_GPS,
@@ -38,9 +41,11 @@ export const getInspectionsGPS = (operator, mapVisibility) => dispatch => {
             mapVisibility();
         })
         .catch(err => {
-        dispatch({
-            type: GET_ERRORS,
-            payload: err.response.data
+            if (err.response) {
+                dispatch({
+                    type: GET_ERRORS,
+                    payload: err.response.data
+                });
+            }
         });
-    });
 };

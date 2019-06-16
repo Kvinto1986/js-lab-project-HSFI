@@ -1,9 +1,9 @@
 .reportMainContainer {
     display: flex;
     flex-wrap: wrap;
-    justify-content: start;
+    justify-content: flex-start;
     justify-items: center;
-    align-content: start;
+    align-content: flex-start;
     align-items: center;
 
     width: 100%;
@@ -17,7 +17,7 @@
 .reportSearchForm {
     display: flex;
     flex-wrap: wrap;
-    justify-content: start;
+    justify-content: flex-start;
     justify-items: center;
     align-content: center;
     align-items: center;
@@ -51,7 +51,7 @@
 
 .reportSearchFormSection{
     display: flex;
-    justify-content: start;
+    justify-content: flex-start;
     justify-items: center;
     align-content: center;
     align-items: center;
@@ -95,7 +95,7 @@
 .reportResultContainer {
     display: flex;
     flex-wrap: wrap;
-    justify-content: start;
+    justify-content: flex-start;
     justify-items: center;
     align-content: center;
     align-items: center;
@@ -130,7 +130,7 @@
 .reportResultContainer table {
     display: flex;
     flex-wrap: wrap;
-    justify-content: start;
+    justify-content: flex-start;
     justify-items: center;
     align-content: center;
     align-items: center;
@@ -144,7 +144,7 @@
 .reportResultContainer table tr{
     display: flex;
     flex-wrap: wrap;
-    justify-content: start;
+    justify-content: flex-start;
     justify-items: center;
     align-content: center;
     align-items: center;
@@ -153,9 +153,9 @@
 
 .reportResultContainer table th{
     display: flex;
-    justify-content: start;
+    justify-content: flex-start;
     justify-items: center;
-    align-content: start;
+    align-content: flex-start;
     align-items: center;
 }
 

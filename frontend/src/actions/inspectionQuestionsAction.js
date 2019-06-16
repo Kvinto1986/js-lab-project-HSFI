@@ -1,8 +1,9 @@
 import axios from 'axios';
 import {GET_ERRORS, GET_CURRENT_INSPECTION_QUESTIONS} from './types';
+import server from '../utils/serverConfig'
 
 export const registerInspectionQuestion = (inspection, reset) => dispatch => {
-    axios.post('https://hsfi-back.herokuapp.com/api/inspectionQuestions/registration', inspection)
+    axios.post(`${server}api/inspectionQuestions/registration`, inspection)
         .then(res => {
             dispatch({
                 type: GET_ERRORS,
@@ -11,15 +12,17 @@ export const registerInspectionQuestion = (inspection, reset) => dispatch => {
         })
         .then(res => reset())
         .catch(err => {
-            dispatch({
-                type: GET_ERRORS,
-                payload: err.response.data
-            });
+            if (err.response) {
+                dispatch({
+                    type: GET_ERRORS,
+                    payload: err.response.data
+                });
+            }
         });
 };
 
 export const getInspectionQuestions = (radioStatus) => dispatch => {
-    axios.post('https://hsfi-back.herokuapp.com/api/inspectionQuestions/getQuestions')
+    axios.post(`${server}api/inspectionQuestions/getQuestions`)
         .then(res => {
             dispatch({
                 type: GET_CURRENT_INSPECTION_QUESTIONS,
@@ -30,4 +33,16 @@ export const getInspectionQuestions = (radioStatus) => dispatch => {
             if (radioStatus)
                 radioStatus()
         });
+};
+
+export const deleteInspectionQuestion = (question,reset) => dispatch => {
+    axios.post(`${server}api/inspectionQuestions/deleteQuestion`,question)
+        .then(res => {
+            dispatch({
+                type: GET_ERRORS,
+                payload: {}
+            });
+        })
+        .then(res => reset())
+
 };
